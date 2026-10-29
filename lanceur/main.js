@@ -9,7 +9,7 @@ const UPDATE_BASE = process.env.PANTINS_UPDATE_BASE || 'https://raw.githubuserco
 const LAUNCHER_VERSION = app.getVersion();
 
 app.setName('Pantins');
-if (process.platform === 'win32') app.setAppUserModelId('fr.toka120.pantins');
+if (process.platform === 'win32') app.setAppUserModelId('fr.toka120.pantins');   // même identifiant que les raccourcis
 app.commandLine.appendSwitch('ignore-gpu-blocklist');
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 // une adresse fixe pour le jeu : ses sauvegardes survivent à toutes les mises à jour
@@ -70,6 +70,27 @@ async function update(win){
   return { installed: LATEST.version };
 }
 
+/* Raccourcis Windows : Bureau (créé une seule fois) et menu Démarrer (toujours tenu à jour).
+   Un raccourci lance Pantins.exe dans son dossier complet, là où sont ses fichiers. */
+const APP_ID = 'fr.toka120.pantins';
+const inZip = exe => /\\Temp\\[^\\]*\.zip\\|\\Temp\\Temp\d+_|\\Temp\\7z[A-Za-z0-9]+\\/i.test(exe);
+function ensureShortcuts(o){
+  const exe = process.execPath, dir = path.dirname(exe);
+  if (process.platform !== 'win32' || !app.isPackaged || inZip(exe)) return;
+  const link = { target: exe, cwd: dir, description: 'Pantins, un jeu de réflexes au théâtre', icon: path.join(__dirname, 'icone.ico'), iconIndex: 0, appUserModelId: APP_ID };
+  const put = file => {
+    let cur = null; try { cur = shell.readShortcutLink(file); } catch (e) {}
+    if (cur && path.resolve(cur.target).toLowerCase() === exe.toLowerCase()) return true;
+    try { fs.mkdirSync(path.dirname(file), { recursive: true }); return shell.writeShortcutLink(file, cur ? 'replace' : 'create', link); } catch (e) { return false; }
+  };
+  const start = path.join(app.getPath('appData'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Pantins.lnk');
+  const desk = path.join(app.getPath('desktop'), 'Pantins.lnk');
+  put(start);
+  // le raccourci du Bureau : créé au premier lancement ; ensuite seulement réparé s'il existe (si le joueur l'a supprimé, on le laisse)
+  if (!o.deskDone) { if (put(desk)) saveOptions({ deskDone: true }); }
+  else if (fs.existsSync(desk)) put(desk);
+}
+
 let launcher = null, game = null;
 function createLauncher(){
   launcher = new BrowserWindow({ width: 980, height: 600, minWidth: 760, minHeight: 520, frame: false, resizable: true,
@@ -109,7 +130,7 @@ app.whenReady().then(() => {
       return new Response(fs.readFileSync(installed().file), { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } });
     return new Response('', { status: 404 });
   });
-  ipcMain.handle('state', () => ({ options: options(), launcher: LAUNCHER_VERSION, installed: installed().version, notes: installed().notes }));
+  ipcMain.handle('state', () => ({ inZip: process.platform === 'win32' && inZip(process.execPath), options: options(), launcher: LAUNCHER_VERSION, installed: installed().version, notes: installed().notes }));
   ipcMain.handle('check', () => check());
   ipcMain.handle('update', e => update(BrowserWindow.fromWebContents(e.sender)));
   ipcMain.handle('reinstall', async () => { try { fs.rmSync(GAME_DIR, { recursive: true, force: true }); } catch (e) {} return check(); });
@@ -118,6 +139,7 @@ app.whenReady().then(() => {
   ipcMain.on('minimize', () => launcher && launcher.minimize());
   ipcMain.on('close', () => app.quit());
   ipcMain.on('gfx', e => { e.returnValue = options().gfx; });
+  try { ensureShortcuts(options()); } catch (e) {}
   createLauncher();
 });
 app.on('window-all-closed', () => app.quit());

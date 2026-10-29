@@ -194,6 +194,7 @@ async function refresh(){
   dot.className='dot off'; st1.textContent='Vérification des mises à jour…';
   S=await L.state(); setGfx(S.options.gfx,false); $('#opt-fs').checked=!!S.options.fullscreen; $('#opt-auto').checked=!!S.options.auto;
   info=await L.check(); show();
+  if(S.inZip){ dot.className='dot warn'; st1.textContent='Dézippe d\'abord le dossier Pantins'; st2.textContent='Tu lances le jeu depuis le zip : extrais tout le dossier, puis ouvre Pantins.exe.'; }
   if(info.available && S.options.auto) doUpdate();
 }
 async function doUpdate(){
