@@ -2,6 +2,18 @@
 
 Un jeu de réflexes au théâtre.
 
+## Télécharger le jeu (Windows)
+
+### [⬇ Télécharger Pantins](https://github.com/Toka120/Pantins/releases/latest)
+
+1. Télécharge **Pantins-Windows.zip** depuis la page ci-dessus.
+2. Dézippe le dossier où tu veux.
+3. Lance **Pantins.exe**.
+
+Le lanceur installe tout seul les mises à jour du jeu. Au premier lancement, si Windows affiche « Windows a protégé votre ordinateur », clique sur **Informations complémentaires** puis **Exécuter quand même**.
+
+---
+
 Ce dépôt sert à distribuer les mises à jour du jeu au lanceur Windows (`Pantins.exe`) :
 
 - `latest.json` : la dernière version publiée, son empreinte SHA-256 et les notes de mise à jour ;
