@@ -1,10 +1,20 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "date": "2026-10-29",
   "file": "game/pantins.html",
-  "sha256": "d7ac31d6f6fcaf8540072010e09fd48647d6e1374b9ef83e3d8a5d2f0d325fc8",
-  "size": 1593168,
+  "sha256": "894e25ca30576b0edc5e96652492e60c2f3db32395117c9f030febd728820cbf",
+  "size": 1593470,
   "notes": [
+    {
+      "version": "1.0.1",
+      "date": "2026-10-29",
+      "cats": [
+        "bugs"
+      ],
+      "bugs": [
+        "Il manquait un moyen de quitter le jeu depuis le menu."
+      ]
+    },
     {
       "version": "1.0.0",
       "date": "2026-10-29",

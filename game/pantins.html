@@ -645,6 +645,7 @@ body.act2 .tbtn:hover:not(:disabled){background:rgba(190,20,10,.3)}
       <button class="tbtn" id="bLoad">Charger</button>
       <button class="tbtn" id="bCred">Crédits</button>
       <button class="tbtn" id="bSet">Paramètres</button>
+      <button class="tbtn hidden" id="bQuit">Quitter le jeu</button>
     </div>
     <div id="tslots" class="tview hidden">
       <div class="ttl" id="slotTitle">Nouvelle partie</div>
@@ -16721,6 +16722,8 @@ $('#bNew').onclick = () => openSlots('new');
 $('#bLoad').onclick = () => { if(anySave()) openSlots('load'); };
 $('#bCred').onclick = () => titleView('tcred');
 $('#bSet').onclick = () => titleView('tset');
+// dans le lanceur Windows, le jeu peut se fermer (retour au lanceur) ; dans un navigateur, le bouton reste caché
+if(location.protocol==='pantins:'){ $('#bQuit').classList.remove('hidden'); $('#bQuit').onclick=()=>window.close(); }
 document.querySelectorAll('.tback').forEach(b=>b.onclick=()=>titleView('tmain'));
 $('#toTitle').onclick = showTitle;
 $('#vestGo').onclick = () => { if(vestPending){ G.hard = vestPending>=6; startLevel(vestPending); } };
