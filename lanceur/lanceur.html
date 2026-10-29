@@ -1,0 +1,252 @@
+<title>Lanceur Pantins</title>
+<meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'">
+<style>
+/* Mise en page : une fenêtre d'application, scène à gauche (le pantin sous le projecteur), carnet des nouveautés à droite, barre d'action en pied */
+:root{
+  --ink:#0b0807; --wood:#16100d; --velvet:#6b0f14; --velvet-d:#3a070b;
+  --gold:#d9b36a; --gold2:#f1d798; --cream:#f3e6cf; --dim:#a8957a; --line:rgba(217,179,106,.28);
+  --ok:#8fc99a; --warn:#e8a25a;
+  --f-disp:"Cormorant Garamond","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+  --f-body:"Spectral","Palatino Linotype","Book Antiqua",Georgia,serif;
+  color-scheme:dark;
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--ink);color:var(--cream);font-family:var(--f-body);font-weight:300;
+  margin:0;user-select:none}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid var(--gold2);outline-offset:2px}
+
+.win{height:100%;display:flex;flex-direction:column;background:var(--wood);border:1px solid var(--line);overflow:hidden}
+.bar{-webkit-app-region:drag;display:flex;align-items:center;gap:10px;height:34px;padding:0 6px 0 14px;background:#0f0a08;border-bottom:1px solid rgba(217,179,106,.14);
+  font-family:var(--f-disp);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.bar .sp{flex:1}
+.bar button{-webkit-app-region:no-drag;width:34px;height:26px;border:0;background:none;color:var(--dim);cursor:pointer;border-radius:3px;font-size:15px;line-height:1}
+.bar button:hover{background:rgba(217,179,106,.1);color:var(--cream)}
+.bar button.x:hover{background:var(--velvet);color:var(--cream)}
+
+.main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);flex:1;min-height:0}
+.stage{position:relative;overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 0%,#2a0a0d 0%,#140707 55%,#0b0605 100%)}
+.stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.curtain{position:absolute;top:0;bottom:0;width:13%;pointer-events:none;
+  background:repeating-linear-gradient(90deg,var(--velvet-d) 0 10px,var(--velvet) 10px 22px,#4d0a0f 22px 30px)}
+.curtain.l{left:0;box-shadow:inset -18px 0 24px rgba(0,0,0,.6)} .curtain.r{right:0;box-shadow:inset 18px 0 24px rgba(0,0,0,.6)}
+.valance{position:absolute;left:0;right:0;top:0;height:30px;pointer-events:none;
+  background:repeating-linear-gradient(90deg,var(--velvet) 0 26px,var(--velvet-d) 26px 30px);
+  -webkit-mask:radial-gradient(16px 12px at 15px 30px,transparent 98%,#000) 0 0/30px 30px repeat-x;mask:radial-gradient(16px 12px at 15px 30px,transparent 98%,#000) 0 0/30px 30px repeat-x}
+.brand{position:absolute;left:0;right:0;bottom:26px;text-align:center;pointer-events:none}
+.brand h1{margin:0;font-family:var(--f-disp);font-weight:500;font-size:clamp(40px,7vw,64px);letter-spacing:.32em;padding-left:.32em;color:var(--gold2);
+  text-shadow:0 0 28px rgba(217,179,106,.35),0 2px 0 rgba(0,0,0,.7)}
+.brand p{margin:2px 0 0;font-family:var(--f-disp);font-style:italic;font-size:17px;color:var(--dim)}
+
+.notes{border-left:1px solid rgba(217,179,106,.14);display:flex;flex-direction:column;min-width:0;background:linear-gradient(#120c0a,#0f0a08)}
+.tabs{display:flex;gap:2px;padding:14px 18px 0;border-bottom:1px solid rgba(217,179,106,.14)}
+.tabs button{border:0;background:none;padding:8px 12px 10px;cursor:pointer;font-family:var(--f-disp);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--gold2);border-color:var(--gold)}
+.pane{padding:16px 20px 18px;overflow:auto;flex:1;min-height:0;min-width:0}
+.pane::-webkit-scrollbar{width:8px}.pane::-webkit-scrollbar-thumb{background:rgba(217,179,106,.25);border-radius:4px}
+.err{color:var(--warn)}
+.small{padding:6px 14px;border:1px solid rgba(217,179,106,.4);background:none;border-radius:2px;cursor:pointer;font-size:13px;color:var(--gold2)}
+.rel{display:grid;gap:4px;padding:14px 0;border-bottom:1px dashed rgba(217,179,106,.16)}
+.rel:first-child{padding-top:2px}
+.rel:last-child{border-bottom:0}
+.rel .h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.rel .v{font-variant-numeric:tabular-nums;font-size:12px;letter-spacing:.08em;color:var(--gold)}
+.rel .t{font-family:var(--f-disp);font-size:21px;font-weight:500;color:var(--cream);text-wrap:balance}
+.rel .d{font-size:11px;color:var(--dim);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.chip{font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid}
+.chip.new{color:var(--warn);border-color:rgba(232,162,90,.5);background:rgba(232,162,90,.08)}
+.chip.inst{color:var(--ok);border-color:rgba(143,201,154,.45);background:rgba(143,201,154,.07)}
+.cats{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px}
+.cats li{display:flex;align-items:center;gap:10px;font-family:var(--f-disp);font-size:20px;font-weight:500;color:var(--cream)}
+.cats li::before{content:"";width:6px;height:6px;flex:none;background:var(--gold);transform:rotate(45deg)}
+.cats li.bug{align-items:flex-start}
+.cats li.bug::before{margin-top:11px}
+.cats details{flex:1;min-width:0}
+.cats summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;border-radius:2px}
+.cats summary::-webkit-details-marker{display:none}
+.cats summary::after{content:"";width:7px;height:7px;border-right:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);transform:rotate(-45deg);transition:transform .15s;margin-left:2px}
+.cats details[open] summary::after{transform:rotate(45deg);margin-top:-4px}
+.cats summary:hover{color:var(--gold2)}
+.fix{margin:6px 0 4px;padding:0 0 0 14px;border-left:1px solid var(--line);display:grid;gap:5px;list-style:none}
+.cats .fix li{display:block;font-family:var(--f-body);font-size:14px;font-weight:300;line-height:1.45;color:#dccfb8}
+.cats .fix li::before{content:none}
+.hush{margin:18px 0 0;text-align:center;font-family:var(--f-disp);font-style:italic;font-size:16px;color:var(--dim)}
+.opt{display:grid;gap:18px}
+.opt h3{margin:0 0 8px;font-family:var(--f-disp);font-size:13px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{padding:6px 14px;border:1px solid rgba(217,179,106,.4);background:rgba(217,179,106,.06);border-radius:2px;cursor:pointer;font-size:14px;color:var(--gold2)}
+.seg button[aria-pressed="true"]{background:rgba(217,179,106,.28);border-color:var(--gold2);color:#fff3dc}
+.opt p{margin:6px 0 0;font-size:13px;color:var(--dim);line-height:1.45;max-width:46ch}
+.chk{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.chk input{accent-color:var(--gold);width:16px;height:16px}
+.links{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.links a{color:var(--gold2);text-decoration:none;border-bottom:1px solid transparent;align-self:flex-start}
+.links a:hover{border-color:var(--gold2)}
+
+.foot{display:flex;align-items:center;gap:20px;padding:16px 20px;background:#0f0a08;border-top:1px solid rgba(217,179,106,.18);flex-wrap:wrap}
+.status{flex:1;min-width:220px;display:grid;gap:7px}
+.status .l1{display:flex;align-items:center;gap:9px;font-size:15px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px currentColor;color:var(--ok);flex:none}
+.dot.warn{background:var(--warn);color:var(--warn)} .dot.off{background:#6d6258;color:transparent;box-shadow:none}
+.status .l2{font-size:12px;color:var(--dim);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.prog{height:6px;border-radius:3px;background:rgba(217,179,106,.12);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--velvet),var(--gold));transition:width .12s linear}
+.play{min-width:210px;padding:14px 30px;border:1px solid var(--gold);border-radius:3px;cursor:pointer;
+  background:linear-gradient(#7d1219,#55090e);color:#fff3dc;font-family:var(--f-disp);font-size:22px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;
+  box-shadow:inset 0 1px 0 rgba(255,220,170,.25),0 0 24px rgba(107,15,20,.5)}
+.play:hover{filter:brightness(1.15)}
+.play.upd{background:linear-gradient(#3e3018,#251c0d);border-color:var(--gold2);color:var(--gold2);font-size:17px;letter-spacing:.18em}
+.play:disabled{cursor:default;filter:saturate(.6) brightness(.85)}
+
+.demo{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--dim);letter-spacing:.06em}
+.demo button{padding:4px 10px;border:1px solid rgba(217,179,106,.25);background:none;border-radius:2px;cursor:pointer;color:var(--dim);font-size:12px}
+.demo button[aria-pressed="true"]{color:var(--gold2);border-color:var(--gold)}
+
+@media (max-width:720px){
+  .main{grid-template-columns:1fr}
+  .stage{min-height:300px}
+  .notes{border-left:0;border-top:1px solid rgba(217,179,106,.14)}
+  .pane{max-height:none}
+  .play{width:100%}
+}
+@media (prefers-reduced-motion:reduce){ .prog i{transition:none} }
+</style>
+
+<div class="win" role="application" aria-label="Lanceur Pantins">
+  <div class="bar"><span>Pantins</span><span class="sp"></span><button type="button" id="b-min" title="Réduire" aria-label="Réduire">–</button><button type="button" class="x" id="b-close" title="Fermer" aria-label="Fermer">✕</button></div>
+  <div class="main">
+    <div class="stage">
+      <canvas id="puppet" aria-hidden="true"></canvas>
+      <div class="valance"></div><div class="curtain l"></div><div class="curtain r"></div>
+      <div class="brand"><h1>PANTINS</h1><p>Un jeu de réflexes au théâtre</p></div>
+    </div>
+    <div class="notes">
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" id="tab-new" aria-selected="true" aria-controls="pane-new">Notes de mise à jour</button>
+        <button type="button" role="tab" id="tab-opt" aria-selected="false" aria-controls="pane-opt">Options</button>
+      </div>
+      <div class="pane" id="pane-new" role="tabpanel" aria-labelledby="tab-new"><div id="rels"></div><p class="hush">Le reste se découvre sur scène.</p></div>
+      <div class="pane" id="pane-opt" role="tabpanel" aria-labelledby="tab-opt" hidden>
+        <div class="opt">
+          <div>
+            <h3>Graphismes</h3>
+            <div class="seg" id="gfx"><button type="button" data-v="bas" aria-pressed="false">Bas</button><button type="button" data-v="moyen" aria-pressed="false">Moyen</button><button type="button" data-v="haut" aria-pressed="true">Haut</button></div>
+            <p id="gfx-desc">Tout au maximum : ombres douces et haute résolution.</p>
+          </div>
+          <div>
+            <h3>Démarrage</h3>
+            <label class="chk"><input type="checkbox" id="opt-fs" checked> Lancer en plein écran</label>
+            <label class="chk" style="margin-top:8px"><input type="checkbox" id="opt-auto" checked> Installer les mises à jour automatiquement</label>
+          </div>
+          <div>
+            <h3>Le jeu</h3>
+            <p id="vinfo" style="margin:0 0 10px"></p>
+            <button type="button" class="small" id="b-reinst">Réinstaller le jeu</button>
+            <p>Retélécharge la dernière version si le jeu ne se lance plus. Tes sauvegardes ne sont pas touchées.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="status">
+      <div class="l1"><span class="dot off" id="dot"></span><span id="st1">Vérification des mises à jour…</span></div>
+      <div class="prog" id="prog" hidden><i id="bar"></i></div>
+      <div class="l2" id="st2"></div>
+    </div>
+    <button type="button" class="play" id="btn">Jouer</button>
+  </div>
+</div>
+
+
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s), L=window.lanceur;
+const btn=$('#btn'), st1=$('#st1'), st2=$('#st2'), dot=$('#dot'), prog=$('#prog'), bar=$('#bar');
+const CAT={maps:'Nouvelles maps',armes:'Nouvelles armes',bugs:'Corrections de bugs'};
+const MOIS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+const fdate=d=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||''); return m?`${+m[3]} ${MOIS[+m[2]-1]} ${m[1]}`:''; };
+const mo=n=>(n/1048576).toFixed(1).replace('.',',')+' Mo';
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S={installed:'0.0.0',options:{}}, info=null, mode='play', busy=false;
+function renderNotes(notes,inst,latest){
+  $('#rels').innerHTML=(notes||[]).map(n=>{
+    const chip = n.version===inst ? '<span class="chip inst">Installée</span>' : (latest && n.version===latest && latest!==inst ? '<span class="chip new">À télécharger</span>' : '');
+    const cats=(n.cats||[]).map(c=> c==='bugs' && (n.bugs||[]).length
+      ? `<li class="bug"><details><summary>${CAT.bugs}</summary><ul class="fix">${n.bugs.map(b=>`<li>${esc(b)}</li>`).join('')}</ul></details></li>`
+      : `<li>${esc(CAT[c]||c)}</li>`).join('');
+    return `<div class="rel"><div class="h"><span class="v">v${esc(n.version)}</span>${chip}<span class="d">${fdate(n.date)}</span></div><ul class="cats">${cats}</ul></div>`;
+  }).join('');
+}
+function show(){
+  prog.hidden=true; btn.disabled=false; $('#vinfo').textContent=`Jeu v${S.installed} · lanceur v${S.launcher}`;
+  if(info && info.available){ mode='update'; dot.className='dot warn'; st1.textContent=`Mise à jour disponible : v${info.latest}`;
+    st2.textContent=`Version installée v${S.installed} · téléchargement ${mo(info.size||0)}`; btn.className='play upd'; btn.textContent='Mettre à jour'; }
+  else { mode='play'; btn.className='play'; btn.textContent='Jouer';
+    if(info && info.online){ dot.className='dot'; st1.textContent='Pantins est à jour'; st2.textContent=`Version installée v${S.installed}`; }
+    else { dot.className='dot off'; st1.textContent='Pas de connexion'; st2.textContent=`Version installée v${S.installed} · tu peux jouer, les mises à jour attendront`; } }
+  renderNotes(info?info.notes:S.notes, S.installed, info&&info.latest);
+}
+async function refresh(){
+  dot.className='dot off'; st1.textContent='Vérification des mises à jour…';
+  S=await L.state(); setGfx(S.options.gfx,false); $('#opt-fs').checked=!!S.options.fullscreen; $('#opt-auto').checked=!!S.options.auto;
+  info=await L.check(); show();
+  if(info.available && S.options.auto) doUpdate();
+}
+async function doUpdate(){
+  if(busy) return; busy=true; btn.disabled=true; btn.textContent='Téléchargement'; prog.hidden=false; bar.style.width='0';
+  try{ const r=await L.update(); S.installed=r.installed; info.available=false; st1.textContent='Mise à jour installée'; show(); }
+  catch(e){ show(); dot.className='dot warn'; st1.innerHTML='<span class="err">La mise à jour a échoué</span>'; st2.textContent=String(e.message||e).replace(/^Error invoking remote method '\w+': (Error: )?/,''); }
+  busy=false;
+}
+L.onProgress(p=>{ const f=p.total?Math.min(1,p.got/p.total):0; bar.style.width=(f*100)+'%'; st2.textContent=`${mo(p.got)} sur ${mo(p.total)}`; });
+L.onBack(()=>refresh());
+btn.addEventListener('click',()=>{ if(mode==='update') doUpdate(); else { btn.disabled=true; btn.textContent='Lever de rideau…'; L.play(); setTimeout(()=>{ btn.disabled=false; btn.textContent='Jouer'; },2500); } });
+$('#b-min').addEventListener('click',()=>L.minimize()); $('#b-close').addEventListener('click',()=>L.close());
+$('#b-reinst').addEventListener('click',async()=>{ $('#b-reinst').disabled=true; info=await L.reinstall(); S=await L.state(); show(); $('#b-reinst').disabled=false; if(info.available) doUpdate(); });
+$('#opt-fs').addEventListener('change',e=>L.options({fullscreen:e.target.checked}));
+$('#opt-auto').addEventListener('change',e=>L.options({auto:e.target.checked}));
+const tabs=[['#tab-new','#pane-new'],['#tab-opt','#pane-opt']];
+tabs.forEach(([t,p])=>$(t).addEventListener('click',()=>{ tabs.forEach(([t2,p2])=>{ const on=t2===t; $(t2).setAttribute('aria-selected',on); $(p2).hidden=!on; }); }));
+const GD={bas:'Pour les petits PC : image plus douce, sans ombres, moins de lumières et d\'effets.',moyen:'Ombres simplifiées, résolution normale.',haut:'Tout au maximum : ombres douces et haute résolution.'};
+function setGfx(v,save=true){ if(!GD[v]) v='haut'; document.querySelectorAll('#gfx button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v)); $('#gfx-desc').textContent=GD[v]; if(save) L.options({gfx:v}); }
+document.querySelectorAll('#gfx button').forEach(b=>b.addEventListener('click',()=>setGfx(b.dataset.v)));
+refresh();
+// le pantin sous le projecteur
+const cv=$('#puppet'), cx=cv.getContext('2d'); const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function size(){ const r=cv.getBoundingClientRect(), d=Math.min(devicePixelRatio||1,2); cv.width=r.width*d; cv.height=r.height*d; cx.setTransform(d,0,0,d,0,0); }
+addEventListener('resize',size); size();
+function seg(a,b,w,c){ cx.strokeStyle=c; cx.lineWidth=w; cx.lineCap='round'; cx.beginPath(); cx.moveTo(a[0],a[1]); cx.lineTo(b[0],b[1]); cx.stroke(); }
+function draw(t){
+  const r=cv.getBoundingClientRect(), W=r.width, H=r.height; cx.clearRect(0,0,W,H);
+  const s=Math.min(W,H)/560, X=W/2, top=36;
+  // projecteur
+  const g=cx.createRadialGradient(X,H*0.62,10,X,H*0.62,H*0.55); g.addColorStop(0,'rgba(241,215,152,.20)'); g.addColorStop(1,'rgba(241,215,152,0)');
+  cx.fillStyle=g; cx.beginPath(); cx.moveTo(X-30*s,top); cx.lineTo(X+30*s,top); cx.lineTo(X+190*s,H); cx.lineTo(X-190*s,H); cx.closePath(); cx.fill();
+  cx.fillStyle='rgba(241,215,152,.10)'; cx.beginPath(); cx.ellipse(X,H*0.40+125*s,120*s,14*s,0,0,7); cx.fill();
+  const k=still?0:t/1000, sw=Math.sin(k*1.1)*0.06, bob=Math.sin(k*2.2)*3*s;
+  // barre de commande
+  const bx=X+Math.sin(k*1.1)*14*s, by=top+22*s, ba=Math.sin(k*1.3)*0.18;
+  const cb=[bx-Math.cos(ba)*50*s, by-Math.sin(ba)*50*s], ce=[bx+Math.cos(ba)*50*s, by+Math.sin(ba)*50*s];
+  seg([bx,top-10],[bx,by],1,'rgba(241,215,152,.35)'); seg(cb,ce,5*s,'#6b4a2a'); seg([bx,by-14*s],[bx,by+14*s],5*s,'#6b4a2a');
+  // corps
+  const hip=[X+Math.sin(sw)*40*s, H*0.40+bob], neck=[hip[0]+Math.sin(sw)*-10*s, hip[1]-78*s], head=[neck[0], neck[1]-26*s];
+  const lh=[neck[0]-44*s, neck[1]+40*s+Math.sin(k*2.6)*14*s], rh=[neck[0]+46*s, neck[1]+28*s+Math.sin(k*2.6+2)*16*s];
+  const lk=[hip[0]-18*s, hip[1]+50*s+Math.sin(k*2.2)*6*s], rk=[hip[0]+18*s, hip[1]+50*s-Math.sin(k*2.2)*6*s];
+  const lf=[lk[0]-4*s, lk[1]+50*s], rf=[rk[0]+6*s, rk[1]+50*s];
+  // fils
+  for(const [a,b] of [[cb,lh],[ce,rh],[[bx,by-14*s],head],[[bx,by+14*s],hip],[cb,lk],[ce,rk]]) seg(a,b,0.8,'rgba(243,230,207,.45)');
+  const wood='#c99a62', wd='#8a5d35';
+  seg(neck,hip,16*s,wd); seg(neck,hip,12*s,wood);
+  for(const [a,b] of [[neck,lh],[neck,rh],[hip,lk],[lk,lf],[hip,rk],[rk,rf]]){ seg(a,b,9*s,wd); seg(a,b,6*s,wood); }
+  for(const p of [lh,rh,lk,rk,lf,rf]){ cx.fillStyle=wd; cx.beginPath(); cx.arc(p[0],p[1],5*s,0,7); cx.fill(); }
+  cx.fillStyle=wood; cx.beginPath(); cx.ellipse(head[0],head[1],15*s,18*s,sw,0,7); cx.fill();
+  cx.fillStyle='rgba(11,8,7,.75)'; cx.beginPath(); cx.arc(head[0]-5*s,head[1]-2*s,1.8*s,0,7); cx.arc(head[0]+5*s,head[1]-2*s,1.8*s,0,7); cx.fill();
+  if(!still) requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+})();
+</script>
