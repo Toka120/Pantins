@@ -1,10 +1,20 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "date": "2026-10-29",
   "file": "game/pantins.html",
-  "sha256": "894e25ca30576b0edc5e96652492e60c2f3db32395117c9f030febd728820cbf",
-  "size": 1593470,
+  "sha256": "67427bbdbfd08a54c2ffa154fd721a0b0ee1de7c1d06c54aeac6aeb302069442",
+  "size": 1593477,
   "notes": [
+    {
+      "version": "1.0.2",
+      "date": "2026-10-29",
+      "cats": [
+        "bugs"
+      ],
+      "bugs": [
+        "Un texte du menu en disait trop."
+      ]
+    },
     {
       "version": "1.0.1",
       "date": "2026-10-29",
