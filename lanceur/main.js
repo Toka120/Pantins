@@ -74,21 +74,43 @@ async function update(win){
    Un raccourci lance Pantins.exe dans son dossier complet, là où sont ses fichiers. */
 const APP_ID = 'fr.toka120.pantins';
 const inZip = exe => /\\Temp\\[^\\]*\.zip\\|\\Temp\\Temp\d+_|\\Temp\\7z[A-Za-z0-9]+\\/i.test(exe);
-function ensureShortcuts(o){
-  const exe = process.execPath, dir = path.dirname(exe);
-  if (process.platform !== 'win32' || !app.isPackaged || inZip(exe)) return;
+function journal(msg){ try { fs.appendFileSync(path.join(DATA, 'journal.txt'), new Date().toISOString() + ' ' + msg + '\n'); } catch (e) {} }
+// écrit un raccourci : d'abord par Electron, sinon par PowerShell (WScript.Shell)
+function writeLink(file, link){
+  try { fs.mkdirSync(path.dirname(file), { recursive: true }); } catch (e) {}
+  let ok = false;
+  try { ok = shell.writeShortcutLink(file, fs.existsSync(file) ? 'replace' : 'create', link); } catch (e) { journal('Electron : ' + e.message); }
+  if (!ok) {
+    const q = t => "'" + String(t).replace(/'/g, "''") + "'";
+    const ps = `$s=(New-Object -ComObject WScript.Shell).CreateShortcut(${q(file)});$s.TargetPath=${q(link.target)};$s.WorkingDirectory=${q(link.cwd)};$s.IconLocation=${q(link.icon + ',0')};$s.Description=${q(link.description)};$s.Save()`;
+    try { require('child_process').execFileSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', ps], { windowsHide: true, timeout: 15000 }); ok = fs.existsSync(file); }
+    catch (e) { journal('PowerShell : ' + e.message); }
+  }
+  journal((ok ? 'raccourci OK ' : 'raccourci ÉCHEC ') + file);
+  return ok;
+}
+function ensureShortcuts(o, force){
+  const exe = process.execPath, dir = path.dirname(exe), res = { start: false, desk: false, skipped: null };
+  if (process.platform !== 'win32') { res.skipped = 'windows'; return res; }
+  if (!app.isPackaged) { res.skipped = 'dev'; return res; }
+  if (inZip(exe)) { res.skipped = 'zip'; journal('lancé depuis le zip : ' + exe); return res; }
   const link = { target: exe, cwd: dir, description: 'Pantins, un jeu de réflexes au théâtre', icon: path.join(__dirname, 'icone.ico'), iconIndex: 0, appUserModelId: APP_ID };
   const put = file => {
     let cur = null; try { cur = shell.readShortcutLink(file); } catch (e) {}
-    if (cur && path.resolve(cur.target).toLowerCase() === exe.toLowerCase()) return true;
-    try { fs.mkdirSync(path.dirname(file), { recursive: true }); return shell.writeShortcutLink(file, cur ? 'replace' : 'create', link); } catch (e) { return false; }
+    if (!force && cur && path.resolve(cur.target).toLowerCase() === exe.toLowerCase()) return true;
+    return writeLink(file, link);
   };
-  const start = path.join(app.getPath('appData'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Pantins.lnk');
-  const desk = path.join(app.getPath('desktop'), 'Pantins.lnk');
-  put(start);
+  let start, desk;
+  try { start = path.join(app.getPath('appData'), 'Microsoft', 'Windows', 'Start Menu', 'Programs', 'Pantins.lnk'); } catch (e) { journal('appData : ' + e.message); }
+  try { desk = path.join(app.getPath('desktop'), 'Pantins.lnk'); } catch (e) { journal('desktop : ' + e.message); }
+  if (start) res.start = put(start);
   // le raccourci du Bureau : créé au premier lancement ; ensuite seulement réparé s'il existe (si le joueur l'a supprimé, on le laisse)
-  if (!o.deskDone) { if (put(desk)) saveOptions({ deskDone: true }); }
-  else if (fs.existsSync(desk)) put(desk);
+  if (desk) {
+    if (force || !o.deskDone) { res.desk = put(desk); if (res.desk) saveOptions({ deskDone: true }); }
+    else res.desk = fs.existsSync(desk) ? put(desk) : null;
+  }
+  journal('lanceur ' + LAUNCHER_VERSION + ' · ' + exe + ' · menu ' + res.start + ' · bureau ' + res.desk);
+  return res;
 }
 
 let launcher = null, game = null;
@@ -132,6 +154,7 @@ app.whenReady().then(() => {
   });
   ipcMain.handle('state', () => ({ inZip: process.platform === 'win32' && inZip(process.execPath), options: options(), launcher: LAUNCHER_VERSION, installed: installed().version, notes: installed().notes }));
   ipcMain.handle('check', () => check());
+  ipcMain.handle('shortcuts', () => { try { return ensureShortcuts(options(), true); } catch (e) { journal('raccourcis : ' + (e.stack || e)); return { error: String(e.message || e) }; } });
   ipcMain.handle('update', e => update(BrowserWindow.fromWebContents(e.sender)));
   ipcMain.handle('reinstall', async () => { try { fs.rmSync(GAME_DIR, { recursive: true, force: true }); } catch (e) {} return check(); });
   ipcMain.handle('options', (e, o) => { saveOptions(o); return options(); });
@@ -139,7 +162,7 @@ app.whenReady().then(() => {
   ipcMain.on('minimize', () => launcher && launcher.minimize());
   ipcMain.on('close', () => app.quit());
   ipcMain.on('gfx', e => { e.returnValue = options().gfx; });
-  try { ensureShortcuts(options()); } catch (e) {}
+  try { ensureShortcuts(options(), false); } catch (e) { journal('raccourcis : ' + (e.stack || e)); }
   createLauncher();
 });
 app.on('window-all-closed', () => app.quit());

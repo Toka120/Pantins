@@ -141,6 +141,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--gold2);outline-offs
             <label class="chk" style="margin-top:8px"><input type="checkbox" id="opt-auto" checked> Installer les mises à jour automatiquement</label>
           </div>
           <div>
+            <h3>Raccourcis</h3>
+            <button type="button" class="small" id="b-sc">Créer les raccourcis</button>
+            <p id="sc-msg">Ajoute Pantins sur le Bureau et dans le menu Démarrer, pour le lancer depuis la recherche Windows.</p>
+          </div>
+          <div>
             <h3>Le jeu</h3>
             <p id="vinfo" style="margin:0 0 10px"></p>
             <button type="button" class="small" id="b-reinst">Réinstaller le jeu</button>
@@ -182,6 +187,7 @@ function renderNotes(notes,inst,latest){
   }).join('');
 }
 function show(){
+  document.querySelector('.bar span').textContent='Pantins · lanceur v'+S.launcher;
   prog.hidden=true; btn.disabled=false; $('#vinfo').textContent=`Jeu v${S.installed} · lanceur v${S.launcher}`;
   if(info && info.available){ mode='update'; dot.className='dot warn'; st1.textContent=`Mise à jour disponible : v${info.latest}`;
     st2.textContent=`Version installée v${S.installed} · téléchargement ${mo(info.size||0)}`; btn.className='play upd'; btn.textContent='Mettre à jour'; }
@@ -208,6 +214,13 @@ L.onBack(()=>refresh());
 btn.addEventListener('click',()=>{ if(mode==='update') doUpdate(); else { btn.disabled=true; btn.textContent='Lever de rideau…'; L.play(); setTimeout(()=>{ btn.disabled=false; btn.textContent='Jouer'; },2500); } });
 $('#b-min').addEventListener('click',()=>L.minimize()); $('#b-close').addEventListener('click',()=>L.close());
 $('#b-reinst').addEventListener('click',async()=>{ $('#b-reinst').disabled=true; info=await L.reinstall(); S=await L.state(); show(); $('#b-reinst').disabled=false; if(info.available) doUpdate(); });
+$('#b-sc').addEventListener('click',async()=>{ const b=$('#b-sc'), m=$('#sc-msg'); b.disabled=true; m.textContent='Création…';
+  const r=await L.shortcuts(); b.disabled=false;
+  if(r.skipped==='zip') m.textContent='Dézippe d\'abord le dossier Pantins : les raccourcis ne peuvent pas pointer vers le zip.';
+  else if(r.skipped) m.textContent='Les raccourcis ne se créent que sous Windows.';
+  else if(r.error) m.textContent='Impossible de créer les raccourcis : '+r.error;
+  else m.textContent=(r.desk?'Bureau : fait':'Bureau : échec')+' · '+(r.start?'menu Démarrer : fait':'menu Démarrer : échec')+(r.desk&&r.start?'.':' (détails dans journal.txt, dossier %APPDATA%\\Pantins).');
+});
 $('#opt-fs').addEventListener('change',e=>L.options({fullscreen:e.target.checked}));
 $('#opt-auto').addEventListener('change',e=>L.options({auto:e.target.checked}));
 const tabs=[['#tab-new','#pane-new'],['#tab-opt','#pane-opt']];
