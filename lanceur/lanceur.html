@@ -25,7 +25,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--gold2);outline-offs
 .bar button:hover{background:rgba(217,179,106,.1);color:var(--cream)}
 .bar button.x:hover{background:var(--velvet);color:var(--cream)}
 
-.main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);flex:1;min-height:0}
+.main{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr);overflow:hidden;flex:1;min-height:0}
 .stage{position:relative;overflow:hidden;
   background:radial-gradient(120% 90% at 50% 0%,#2a0a0d 0%,#140707 55%,#0b0605 100%)}
 .stage canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -40,7 +40,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--gold2);outline-offs
   text-shadow:0 0 28px rgba(217,179,106,.35),0 2px 0 rgba(0,0,0,.7)}
 .brand p{margin:2px 0 0;font-family:var(--f-disp);font-style:italic;font-size:17px;color:var(--dim)}
 
-.notes{border-left:1px solid rgba(217,179,106,.14);display:flex;flex-direction:column;min-width:0;background:linear-gradient(#120c0a,#0f0a08)}
+.notes{border-left:1px solid rgba(217,179,106,.14);display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;background:linear-gradient(#120c0a,#0f0a08)}
 .tabs{display:flex;gap:2px;padding:14px 18px 0;border-bottom:1px solid rgba(217,179,106,.14)}
 .tabs button{border:0;background:none;padding:8px 12px 10px;cursor:pointer;font-family:var(--f-disp);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);border-bottom:2px solid transparent}
 .tabs button[aria-selected="true"]{color:var(--gold2);border-color:var(--gold)}
@@ -179,11 +179,14 @@ const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 let S={installed:'0.0.0',options:{}}, info=null, mode='play', busy=false;
 function renderNotes(notes,inst,latest){
   $('#rels').innerHTML=(notes||[]).map(n=>{
-    const chip = n.version===inst ? '<span class="chip inst">Installée</span>' : (latest && n.version===latest && latest!==inst ? '<span class="chip new">À télécharger</span>' : '');
+    const NEW='<span class="chip new">À télécharger</span>', INS='<span class="chip inst">Installée</span>';
+    const chip = n.lanceur
+      ? (info && info.launcherUpdate===n.version ? NEW : n.version===S.launcher ? INS : '')
+      : (n.version===inst ? INS : (latest && n.version===latest && latest!==inst ? NEW : ''));
     const cats=(n.cats||[]).map(c=> c==='bugs' && (n.bugs||[]).length
       ? `<li class="bug"><details><summary>${CAT.bugs}</summary><ul class="fix">${n.bugs.map(b=>`<li>${esc(b)}</li>`).join('')}</ul></details></li>`
       : `<li>${esc(CAT[c]||c)}</li>`).join('');
-    return `<div class="rel"><div class="h"><span class="v">v${esc(n.version)}</span>${chip}<span class="d">${fdate(n.date)}</span></div><ul class="cats">${cats}</ul></div>`;
+    return `<div class="rel"><div class="h"><span class="v">${n.lanceur?'Lanceur ':''}v${esc(n.version)}</span>${chip}<span class="d">${fdate(n.date)}</span></div><ul class="cats">${cats}</ul></div>`;
   }).join('');
 }
 function show(){

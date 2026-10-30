@@ -6,6 +6,41 @@
   "size": 1593477,
   "notes": [
     {
+      "version": "1.1.1",
+      "date": "2026-10-30",
+      "lanceur": true,
+      "cats": [
+        "bugs"
+      ],
+      "bugs": [
+        "Les mises à jour du lanceur n'apparaissaient pas dans les notes de mise à jour.",
+        "En ouvrant plusieurs listes de corrections, les notes débordaient sur le bas de la fenêtre."
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "date": "2026-10-30",
+      "lanceur": true,
+      "cats": [
+        "bugs"
+      ],
+      "bugs": [
+        "Il fallait retélécharger le lanceur pour recevoir ses corrections : il se met maintenant à jour tout seul, même quand il est déjà ouvert."
+      ]
+    },
+    {
+      "version": "1.0.2",
+      "date": "2026-10-30",
+      "lanceur": true,
+      "cats": [
+        "bugs"
+      ],
+      "bugs": [
+        "Pantins ne se lançait pas depuis la recherche Windows : le lanceur crée maintenant ses raccourcis sur le Bureau et dans le menu Démarrer.",
+        "Lancé depuis le zip sans être dézippé, le jeu plantait : le lanceur prévient maintenant."
+      ]
+    },
+    {
       "version": "1.0.2",
       "date": "2026-10-29",
       "cats": [
@@ -43,7 +78,7 @@
     }
   ],
   "lanceur": {
-    "version": "1.1.0",
+    "version": "1.1.1",
     "path": "lanceur/",
     "files": [
       {
@@ -53,8 +88,8 @@
       },
       {
         "name": "lanceur.html",
-        "sha256": "aea5f9eda2f5a7c5d934926c76f55afb0d35e1be6ba5e3f51258f4febc2446ff",
-        "size": 21867
+        "sha256": "1c7a437c330c3cdd918d5fb452fe63f9cd49b981a83e52750a669e44efba456f",
+        "size": 22111
       },
       {
         "name": "preload-lanceur.js",
@@ -73,7 +108,7 @@
       },
       {
         "name": "package.json",
-        "sha256": "8aa64fd0067cd9bacf69c1dd413bd5297ae53227c0537f74688221ae88205ed1",
+        "sha256": "ca15083ed854f4a4984981b180500099ea76e9cb4d0de6bfbc21bab7d81e3ffd",
         "size": 170
       }
     ]
