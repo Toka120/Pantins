@@ -3,6 +3,7 @@ contextBridge.exposeInMainWorld('lanceur', {
   state: () => ipcRenderer.invoke('state'),
   check: () => ipcRenderer.invoke('check'),
   update: () => ipcRenderer.invoke('update'),
+  updateLauncher: () => ipcRenderer.invoke('updateLauncher'),
   reinstall: () => ipcRenderer.invoke('reinstall'),
   shortcuts: () => ipcRenderer.invoke('shortcuts'),
   options: o => ipcRenderer.invoke('options', o),

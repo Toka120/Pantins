@@ -1,34 +1,54 @@
-"""Publie une nouvelle version du jeu pour le lanceur.
+"""Publie une nouvelle version pour le lanceur.
 
-Exemple :
-  python outils/publier.py chemin/vers/pantins.html 1.0.1 --cats maps,bugs --bug "Un bug corrigé." --bug "Un autre."
+Nouvelle version du jeu :
+  python outils/publier.py jeu chemin/vers/pantins.html 1.0.3 --cats maps,bugs --bug "Un bug corrigé." --bug "Un autre."
+
+Nouvelle version du lanceur (après avoir changé la version dans lanceur/package.json) :
+  python outils/publier.py lanceur
 
 Catégories possibles : maps, armes, bugs. Seuls les bugs sont détaillés aux joueurs.
-Ensuite : git add -A && git commit && git push.
+Ensuite : git add -A && git commit && git push. Les lanceurs installés voient la mise à jour au prochain contrôle.
 """
 import argparse, datetime, hashlib, json, shutil, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+LANCEUR = ROOT / 'lanceur'
+# fichiers téléchargés par les lanceurs déjà installés (amorce.js reste celui livré avec Pantins.exe)
+LANCEUR_FICHIERS = ['main.js', 'lanceur.html', 'preload-lanceur.js', 'preload-jeu.js', 'icone.png', 'package.json']
+
+
+def manifeste_lanceur():
+    version = json.loads((LANCEUR / 'package.json').read_text('utf-8'))['version']
+    files = []
+    for n in LANCEUR_FICHIERS:
+        b = (LANCEUR / n).read_bytes()
+        files.append({'name': n, 'sha256': hashlib.sha256(b).hexdigest(), 'size': len(b)})
+    return {'version': version, 'path': 'lanceur/', 'files': files}
+
+
 ap = argparse.ArgumentParser()
-ap.add_argument('jeu')
-ap.add_argument('version')
-ap.add_argument('--cats', default='bugs')
-ap.add_argument('--bug', action='append', default=[])
-ap.add_argument('--date', default=datetime.date.today().isoformat())
+sub = ap.add_subparsers(dest='quoi', required=True)
+j = sub.add_parser('jeu')
+j.add_argument('fichier'); j.add_argument('version')
+j.add_argument('--cats', default='bugs'); j.add_argument('--bug', action='append', default=[])
+j.add_argument('--date', default=datetime.date.today().isoformat())
+sub.add_parser('lanceur')
 a = ap.parse_args()
 
-dst = ROOT / 'game' / 'pantins.html'
-dst.parent.mkdir(exist_ok=True)
-shutil.copyfile(a.jeu, dst)
-data = dst.read_bytes()
-
 old = ROOT / 'latest.json'
-latest = json.loads(old.read_text('utf-8')) if old.exists() else {'notes': []}
-cats = [c.strip() for c in a.cats.split(',') if c.strip()]
-assert all(c in ('maps', 'armes', 'bugs') for c in cats), cats
-notes = [n for n in latest.get('notes', []) if n['version'] != a.version]
-notes.insert(0, {'version': a.version, 'date': a.date, 'cats': cats, 'bugs': a.bug})
-latest = {'version': a.version, 'date': a.date, 'file': 'game/pantins.html',
-          'sha256': hashlib.sha256(data).hexdigest(), 'size': len(data), 'notes': notes}
+latest = json.loads(old.read_text('utf-8'))
+if a.quoi == 'jeu':
+    dst = ROOT / 'game' / 'pantins.html'
+    dst.parent.mkdir(exist_ok=True)
+    shutil.copyfile(a.fichier, dst)
+    data = dst.read_bytes()
+    cats = [c.strip() for c in a.cats.split(',') if c.strip()]
+    assert all(c in ('maps', 'armes', 'bugs') for c in cats), cats
+    notes = [n for n in latest.get('notes', []) if n['version'] != a.version]
+    notes.insert(0, {'version': a.version, 'date': a.date, 'cats': cats, 'bugs': a.bug})
+    latest.update({'version': a.version, 'date': a.date, 'file': 'game/pantins.html',
+                   'sha256': hashlib.sha256(data).hexdigest(), 'size': len(data), 'notes': notes})
+    print('Jeu', a.version, 'prêt :', len(data), 'octets')
+latest['lanceur'] = manifeste_lanceur()
+print('Lanceur', latest['lanceur']['version'])
 old.write_text(json.dumps(latest, ensure_ascii=False, indent=2), 'utf-8')
-print('Version', a.version, 'prête :', len(data), 'octets')

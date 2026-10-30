@@ -189,29 +189,44 @@ function renderNotes(notes,inst,latest){
 function show(){
   document.querySelector('.bar span').textContent='Pantins · lanceur v'+S.launcher;
   prog.hidden=true; btn.disabled=false; $('#vinfo').textContent=`Jeu v${S.installed} · lanceur v${S.launcher}`;
-  if(info && info.available){ mode='update'; dot.className='dot warn'; st1.textContent=`Mise à jour disponible : v${info.latest}`;
+  if(info && info.launcherUpdate){ mode='launcher'; dot.className='dot warn'; st1.textContent='Mise à jour disponible';
+    st2.textContent=`Le lanceur va se mettre à jour, puis redémarrer`; btn.className='play upd'; btn.textContent='Mettre à jour'; }
+  else if(info && info.available){ mode='update'; dot.className='dot warn'; st1.textContent=`Mise à jour disponible : v${info.latest}`;
     st2.textContent=`Version installée v${S.installed} · téléchargement ${mo(info.size||0)}`; btn.className='play upd'; btn.textContent='Mettre à jour'; }
   else { mode='play'; btn.className='play'; btn.textContent='Jouer';
     if(info && info.online){ dot.className='dot'; st1.textContent='Pantins est à jour'; st2.textContent=`Version installée v${S.installed}`; }
     else { dot.className='dot off'; st1.textContent='Pas de connexion'; st2.textContent=`Version installée v${S.installed} · tu peux jouer, les mises à jour attendront`; } }
   renderNotes(info?info.notes:S.notes, S.installed, info&&info.latest);
-}
-async function refresh(){
-  dot.className='dot off'; st1.textContent='Vérification des mises à jour…';
-  S=await L.state(); setGfx(S.options.gfx,false); $('#opt-fs').checked=!!S.options.fullscreen; $('#opt-auto').checked=!!S.options.auto;
-  info=await L.check(); show();
   if(S.inZip){ dot.className='dot warn'; st1.textContent='Dézippe d\'abord le dossier Pantins'; st2.textContent='Tu lances le jeu depuis le zip : extrais tout le dossier, puis ouvre Pantins.exe.'; }
-  if(info.available && S.options.auto) doUpdate();
 }
+let lastCheck=0;
+async function refresh(quiet){
+  if(busy) return; lastCheck=Date.now();
+  if(!quiet){ dot.className='dot off'; st1.textContent='Vérification des mises à jour…'; }
+  S=await L.state(); setGfx(S.options.gfx,false); $('#opt-fs').checked=!!S.options.fullscreen; $('#opt-auto').checked=!!S.options.auto;
+  const r=await L.check(); if(busy) return;
+  if(quiet && !r.online && info && info.online) return;   // une coupure passagère ne change rien à l'écran
+  info=r; show();
+  if(!info.launcherUpdate && info.available && S.options.auto) doUpdate();
+}
+const errMsg=e=>String(e.message||e).replace(/^Error invoking remote method '\w+': (Error: )?/,'');
 async function doUpdate(){
   if(busy) return; busy=true; btn.disabled=true; btn.textContent='Téléchargement'; prog.hidden=false; bar.style.width='0';
-  try{ const r=await L.update(); S.installed=r.installed; info.available=false; st1.textContent='Mise à jour installée'; show(); }
-  catch(e){ show(); dot.className='dot warn'; st1.innerHTML='<span class="err">La mise à jour a échoué</span>'; st2.textContent=String(e.message||e).replace(/^Error invoking remote method '\w+': (Error: )?/,''); }
+  try{ const r=await L.update(); S.installed=r.installed; info.available=false; show(); st1.textContent='Mise à jour installée'; }
+  catch(e){ show(); dot.className='dot warn'; st1.innerHTML='<span class="err">La mise à jour a échoué</span>'; st2.textContent=errMsg(e); }
   busy=false;
 }
+async function doLauncher(){
+  if(busy) return; busy=true; btn.disabled=true; btn.textContent='Téléchargement'; prog.hidden=false; bar.style.width='0';
+  try{ await L.updateLauncher(); st1.textContent='Mise à jour installée'; st2.textContent='Redémarrage du lanceur…'; btn.textContent='Redémarrage'; }
+  catch(e){ busy=false; show(); dot.className='dot warn'; st1.innerHTML='<span class="err">La mise à jour a échoué</span>'; st2.textContent=errMsg(e); }
+}
+// tant que le lanceur est ouvert, il revérifie toutes les 5 minutes, et quand on revient sur sa fenêtre
+setInterval(()=>{ if(!document.hidden) refresh(true); }, 5*60*1000);
+addEventListener('focus',()=>{ if(Date.now()-lastCheck>60*1000) refresh(true); });
 L.onProgress(p=>{ const f=p.total?Math.min(1,p.got/p.total):0; bar.style.width=(f*100)+'%'; st2.textContent=`${mo(p.got)} sur ${mo(p.total)}`; });
 L.onBack(()=>refresh());
-btn.addEventListener('click',()=>{ if(mode==='update') doUpdate(); else { btn.disabled=true; btn.textContent='Lever de rideau…'; L.play(); setTimeout(()=>{ btn.disabled=false; btn.textContent='Jouer'; },2500); } });
+btn.addEventListener('click',()=>{ if(mode==='launcher') doLauncher(); else if(mode==='update') doUpdate(); else { btn.disabled=true; btn.textContent='Lever de rideau…'; L.play(); setTimeout(()=>{ btn.disabled=false; btn.textContent='Jouer'; },2500); } });
 $('#b-min').addEventListener('click',()=>L.minimize()); $('#b-close').addEventListener('click',()=>L.close());
 $('#b-reinst').addEventListener('click',async()=>{ $('#b-reinst').disabled=true; info=await L.reinstall(); S=await L.state(); show(); $('#b-reinst').disabled=false; if(info.available) doUpdate(); });
 $('#b-sc').addEventListener('click',async()=>{ const b=$('#b-sc'), m=$('#sc-msg'); b.disabled=true; m.textContent='Création…';

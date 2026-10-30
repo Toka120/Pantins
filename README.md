@@ -89,9 +89,14 @@ Ce dépôt distribue les mises à jour au lanceur :
 - `outils/publier.py` : prépare une nouvelle version.
 
 ```
-python outils/publier.py chemin/vers/pantins.html 1.0.3 --cats bugs --bug "Description du bug corrigé."
+# nouvelle version du jeu
+python outils/publier.py jeu chemin/vers/pantins.html 1.0.3 --cats bugs --bug "Description du bug corrigé."
+# nouvelle version du lanceur (après avoir monté la version dans lanceur/package.json)
+python outils/publier.py lanceur
 git add -A && git commit -m "Pantins 1.0.3" && git push
 ```
+
+Le lanceur se met lui-même à jour : `amorce.js` (livré avec `Pantins.exe`, jamais remplacé) charge la version la plus récente téléchargée dans `%APPDATA%\Pantins\lanceur`. Si une nouvelle version plante au démarrage, elle est mise de côté et l'amorce revient à la version livrée.
 
 Les lanceurs installés récupèrent la version au démarrage suivant.
 

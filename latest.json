@@ -41,5 +41,41 @@
         "Une zone pouvait rester bloquée si un ennemi se coinçait dans le décor."
       ]
     }
-  ]
+  ],
+  "lanceur": {
+    "version": "1.1.0",
+    "path": "lanceur/",
+    "files": [
+      {
+        "name": "main.js",
+        "sha256": "fc948b9a45f2f21a755d0254f4f8fe5762861f96d9495507a7ff2d6af17b5435",
+        "size": 14047
+      },
+      {
+        "name": "lanceur.html",
+        "sha256": "aea5f9eda2f5a7c5d934926c76f55afb0d35e1be6ba5e3f51258f4febc2446ff",
+        "size": 21867
+      },
+      {
+        "name": "preload-lanceur.js",
+        "sha256": "1f9586d1fb1534253b9eee6e5b9332fc2532d981cff713473e5e9e8f17ede66f",
+        "size": 701
+      },
+      {
+        "name": "preload-jeu.js",
+        "sha256": "cfc5f4c6dad9368687ab435a083bae3f6d9fd7a2b332592a45deedf347317f18",
+        "size": 262
+      },
+      {
+        "name": "icone.png",
+        "sha256": "99d2414fbbbb2cacf1649c5a2a1fee16a448a3419c0a1c8b99dce914923af9a2",
+        "size": 40330
+      },
+      {
+        "name": "package.json",
+        "sha256": "8aa64fd0067cd9bacf69c1dd413bd5297ae53227c0537f74688221ae88205ed1",
+        "size": 170
+      }
+    ]
+  }
 }

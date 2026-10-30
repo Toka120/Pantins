@@ -6,7 +6,9 @@ const crypto = require('crypto');
 
 
 const UPDATE_BASE = process.env.PANTINS_UPDATE_BASE || 'https://raw.githubusercontent.com/Toka120/Pantins/main/';
-const LAUNCHER_VERSION = app.getVersion();
+// chargé par amorce.js : BASE = dossier de cette version du lanceur, BUNDLED = dossier livré avec Pantins.exe
+const P = global.PANTINS || { base: __dirname, bundled: __dirname, version: JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8')).version, boot: null, dir: null };
+const BASE = P.base, BUNDLED = P.bundled, LAUNCHER_VERSION = P.version;
 
 app.setName('Pantins');
 if (process.platform === 'win32') app.setAppUserModelId('fr.toka120.pantins');   // même identifiant que les raccourcis
@@ -15,7 +17,7 @@ app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 // une adresse fixe pour le jeu : ses sauvegardes survivent à toutes les mises à jour
 protocol.registerSchemesAsPrivileged([{ scheme: 'pantins', privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true } }]);
 
-const BUNDLED_DIR = path.join(__dirname, 'jeu');
+const BUNDLED_DIR = path.join(BUNDLED, 'jeu');
 let DATA, GAME_DIR, OPT_FILE;
 const readJSON = (f, d) => { try { return JSON.parse(fs.readFileSync(f, 'utf8')); } catch (e) { return d; } };
 const cmp = (a, b) => { const x = String(a).split('.').map(Number), y = String(b).split('.').map(Number);
@@ -44,8 +46,11 @@ async function check(){
     const r = await fetchTimeout(UPDATE_BASE + 'latest.json', 9000);
     if (!r.ok) throw new Error('HTTP ' + r.status);
     LATEST = await r.json();
+    const L = LATEST.lanceur, ldir = P.dir || path.join(DATA, 'lanceur');
+    const lnew = !!(L && L.version && cmp(L.version, LAUNCHER_VERSION) > 0 && !fs.existsSync(path.join(ldir, 'refuse-' + L.version)));
     return { online: true, installed: inst.version, latest: LATEST.version, size: LATEST.size,
-             available: cmp(LATEST.version, inst.version) > 0, notes: LATEST.notes || inst.notes };
+             available: cmp(LATEST.version, inst.version) > 0, notes: LATEST.notes || inst.notes,
+             launcherUpdate: lnew ? L.version : null, launcherSize: lnew ? L.files.reduce((t, f) => t + (f.size || 0), 0) : 0 };
   } catch (e) {
     return { online: false, installed: inst.version, available: false, notes: inst.notes, error: String(e.message || e) };
   }
@@ -68,6 +73,37 @@ async function update(win){
   fs.renameSync(tmp, cur);
   fs.writeFileSync(path.join(GAME_DIR, 'installed.json'), JSON.stringify({ version: LATEST.version, notes: LATEST.notes || [], sha256: sum }));
   return { installed: LATEST.version };
+}
+
+/* Mise à jour du lanceur lui-même : ses fichiers (quelques centaines de Ko) vont dans %APPDATA%\Pantins\lanceur\<version>,
+   puis le lanceur redémarre ; amorce.js charge alors la nouvelle version. */
+async function updateLauncher(win){
+  const L = LATEST && LATEST.lanceur; if (!L) throw new Error('Aucune mise à jour du lanceur');
+  const ldir = P.dir || path.join(DATA, 'lanceur'), dst = path.join(ldir, L.version), tmp = dst + '.part';
+  fs.rmSync(tmp, { recursive: true, force: true }); fs.mkdirSync(tmp, { recursive: true });
+  const total = L.files.reduce((t, f) => t + (f.size || 0), 0); let got = 0;
+  for (const f of L.files) {
+    if (!/^[\w.-]+$/.test(f.name)) throw new Error('Nom de fichier refusé : ' + f.name);
+    const r = await fetchTimeout(UPDATE_BASE + (L.path || 'lanceur/') + f.name, 60000);
+    if (!r.ok) throw new Error('Téléchargement refusé (HTTP ' + r.status + ')');
+    const buf = Buffer.from(await r.arrayBuffer());
+    if (crypto.createHash('sha256').update(buf).digest('hex') !== f.sha256) throw new Error('Un fichier reçu est abîmé. Réessaie dans un instant.');
+    fs.writeFileSync(path.join(tmp, f.name), buf); got += buf.length;
+    if (!win.isDestroyed()) win.webContents.send('progress', { got, total });
+  }
+  fs.rmSync(dst, { recursive: true, force: true }); fs.renameSync(tmp, dst);
+  fs.writeFileSync(path.join(ldir, 'current.json'), JSON.stringify({ version: L.version }));
+  journal('lanceur mis à jour : ' + LAUNCHER_VERSION + ' → ' + L.version);
+  setTimeout(() => { if (!process.env.PANTINS_NO_RELAUNCH) app.relaunch(); app.exit(0); }, 600);
+  return { version: L.version };
+}
+// une fois la fenêtre affichée, cette version du lanceur est validée ; on range les anciennes
+function launcherBootOk(){
+  if (P.boot) { try { fs.unlinkSync(P.boot); } catch (e) {} }
+  const ldir = P.dir; if (!ldir || !fs.existsSync(ldir)) return;
+  for (const n of fs.readdirSync(ldir)) {
+    if (/^\d+\.\d+\.\d+(\.part)?$/.test(n) && n !== LAUNCHER_VERSION) { try { fs.rmSync(path.join(ldir, n), { recursive: true, force: true }); } catch (e) {} }
+  }
 }
 
 /* Raccourcis Windows : Bureau (créé une seule fois) et menu Démarrer (toujours tenu à jour).
@@ -94,7 +130,7 @@ function ensureShortcuts(o, force){
   if (process.platform !== 'win32') { res.skipped = 'windows'; return res; }
   if (!app.isPackaged) { res.skipped = 'dev'; return res; }
   if (inZip(exe)) { res.skipped = 'zip'; journal('lancé depuis le zip : ' + exe); return res; }
-  const link = { target: exe, cwd: dir, description: 'Pantins, un jeu de réflexes au théâtre', icon: path.join(__dirname, 'icone.ico'), iconIndex: 0, appUserModelId: APP_ID };
+  const link = { target: exe, cwd: dir, description: 'Pantins, un jeu de réflexes au théâtre', icon: path.join(BUNDLED, fs.existsSync(path.join(BUNDLED, 'icone.ico')) ? 'icone.ico' : 'icone.png'), iconIndex: 0, appUserModelId: APP_ID };
   const put = file => {
     let cur = null; try { cur = shell.readShortcutLink(file); } catch (e) {}
     if (!force && cur && path.resolve(cur.target).toLowerCase() === exe.toLowerCase()) return true;
@@ -116,18 +152,18 @@ function ensureShortcuts(o, force){
 let launcher = null, game = null;
 function createLauncher(){
   launcher = new BrowserWindow({ width: 980, height: 600, minWidth: 760, minHeight: 520, frame: false, resizable: true,
-    backgroundColor: '#0b0807', title: 'Pantins', show: false, icon: path.join(__dirname, 'icone.png'),
-    webPreferences: { preload: path.join(__dirname, 'preload-lanceur.js'), contextIsolation: true, nodeIntegration: false, sandbox: true } });
-  launcher.once('ready-to-show', () => launcher.show());
+    backgroundColor: '#0b0807', title: 'Pantins', show: false, icon: path.join(BASE, 'icone.png'),
+    webPreferences: { preload: path.join(BASE, 'preload-lanceur.js'), contextIsolation: true, nodeIntegration: false, sandbox: true } });
+  launcher.once('ready-to-show', () => { launcher.show(); launcherBootOk(); });
   launcher.webContents.setWindowOpenHandler(({ url }) => { if (/^https:\/\//.test(url)) shell.openExternal(url); return { action: 'deny' }; });
-  launcher.loadFile(path.join(__dirname, 'lanceur.html'));
+  launcher.loadFile(path.join(BASE, 'lanceur.html'));
 }
 function play(){
   if (game) { game.focus(); return; }
   const o = options();
-  game = new BrowserWindow({ width: 1280, height: 720, minWidth: 800, minHeight: 450, backgroundColor: '#000000', title: 'Pantins', icon: path.join(__dirname, 'icone.png'),
+  game = new BrowserWindow({ width: 1280, height: 720, minWidth: 800, minHeight: 450, backgroundColor: '#000000', title: 'Pantins', icon: path.join(BASE, 'icone.png'),
     autoHideMenuBar: true, show: false, fullscreen: !!o.fullscreen,
-    webPreferences: { preload: path.join(__dirname, 'preload-jeu.js'), contextIsolation: true, nodeIntegration: false, sandbox: true, backgroundThrottling: false } });
+    webPreferences: { preload: path.join(BASE, 'preload-jeu.js'), contextIsolation: true, nodeIntegration: false, sandbox: true, backgroundThrottling: false } });
   game.setMenu(null);
   game.once('ready-to-show', () => { if (!o.fullscreen) game.maximize(); game.show(); launcher && launcher.hide(); });
   game.webContents.on('before-input-event', (e, input) => {
@@ -156,6 +192,7 @@ app.whenReady().then(() => {
   ipcMain.handle('check', () => check());
   ipcMain.handle('shortcuts', () => { try { return ensureShortcuts(options(), true); } catch (e) { journal('raccourcis : ' + (e.stack || e)); return { error: String(e.message || e) }; } });
   ipcMain.handle('update', e => update(BrowserWindow.fromWebContents(e.sender)));
+  ipcMain.handle('updateLauncher', e => updateLauncher(BrowserWindow.fromWebContents(e.sender)));
   ipcMain.handle('reinstall', async () => { try { fs.rmSync(GAME_DIR, { recursive: true, force: true }); } catch (e) {} return check(); });
   ipcMain.handle('options', (e, o) => { saveOptions(o); return options(); });
   ipcMain.on('play', () => play());
