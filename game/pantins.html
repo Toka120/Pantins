@@ -1,6 +1,11 @@
-<title>Pantins</title>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pantins — Théâtre des Réflexes</title>
 <style>
-:root{color-scheme:dark;--gold:#d9b36a;--gold2:#f1d798;--cream:#f3e6cf;--velvet:#6b0f14;--ink:#0b0807}
+:root{--gold:#d9b36a;--gold2:#f1d798;--cream:#f3e6cf;--velvet:#6b0f14;--ink:#0b0807}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#000;overflow:hidden;color:var(--cream);
   font-family:"Cormorant Garamond","Didot","Bodoni 72","Bodoni MT","Playfair Display",Georgia,"Times New Roman",serif}
@@ -89,6 +94,9 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:crossh
 #givre{position:absolute;left:250px;bottom:150px;padding:7px 12px;background:linear-gradient(180deg,rgba(6,12,20,.82),rgba(6,12,20,.55));border:1px solid rgba(150,200,240,.5);border-radius:3px;font-size:12px;color:#dcecf8;min-width:150px}
 #givre .ft{margin:2px 0} #givre .gc,#givre .gw{height:4px;margin-top:4px;background:rgba(255,255,255,.12)} #givre .gc i{display:block;height:100%;width:0;background:linear-gradient(90deg,#9fd0ff,#ffffff)} #givre .gw i{display:block;height:100%;width:100%;background:#6fb6e8}
 #givre.nopompe .ft:nth-child(2){display:none}
+#ballon{position:absolute;left:250px;bottom:150px;padding:7px 12px;background:linear-gradient(180deg,rgba(20,12,6,.82),rgba(20,12,6,.55));border:1px solid rgba(240,200,140,.5);border-radius:3px;font-size:12px;color:#f6e6cc;min-width:170px}
+#ballon .ft{margin:2px 0} #ballon .alt{float:right;opacity:.8;font-variant-numeric:tabular-nums} #ballon .bh,#ballon .be{height:4px;margin-top:4px;background:rgba(255,255,255,.12)} #ballon .bh i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff7a2a,#ffd27a)} #ballon .be i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#c0392b,#f3e6cf)}
+#ballon.out{border-color:#ffb070;box-shadow:0 0 16px rgba(255,140,60,.6)} #ballon.out .bh{animation:blink38 .5s infinite alternate} @keyframes blink38{from{opacity:1}to{opacity:.3}}
 #givre.frozen{border-color:#e8f6ff;box-shadow:0 0 18px rgba(200,235,255,.7)}
 body.gel #vignette{background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,0) 45%,rgba(200,230,255,.35) 100%)}
 #fourn.burn{border-color:#ff5a20;box-shadow:0 0 18px rgba(255,90,20,.6)}
@@ -301,7 +309,7 @@ input[type=range]{accent-color:#d9b36a;width:120px}
 #stars{font-size:46px;letter-spacing:.2em;color:var(--gold2);margin:6px 0 2px;text-shadow:0 0 18px rgba(217,179,106,.5)}
 #stars .off{color:#3a2e22;text-shadow:none}
 .sec{display:none;font-size:12px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);opacity:.7;margin:2px 0 8px}
-#actwrap{display:none} #p3wrap{display:none} body.act3 #p3wrap{display:block} #p4wrap{display:none} body.act4 #p4wrap{display:block} #p5wrap{display:none} body.act5 #p5wrap{display:block} #p6wrap{display:none} body.act6 #p6wrap{display:block}
+#actwrap{display:none} #p3wrap{display:none} body.act3 #p3wrap{display:block} #p4wrap{display:none} body.act4 #p4wrap{display:block} #p5wrap{display:none} body.act5 #p5wrap{display:block} #p6wrap{display:none} body.act6 #p6wrap{display:block} #p7wrap{display:none} body.act7 #p7wrap{display:block}
 .fin{display:none;color:#e0352a;letter-spacing:.55em;padding-left:.55em;font-size:13px;margin:-8px 0 14px;text-shadow:0 0 12px rgba(255,30,10,.5)}
 body.act2 #menu .sec,body.act2 #actwrap,body.act2 #menu .fin{display:block}
 body.act2 #menu{background:radial-gradient(ellipse at 50% 34%,rgba(0,0,0,.05),rgba(0,0,0,.6) 45%,rgba(0,0,0,.97) 85%)}
@@ -335,7 +343,7 @@ body.mtab-tro #mtro{display:block}
 .vcard.fire .sw{box-shadow:0 0 14px var(--c),0 0 0 2px rgba(0,0,0,.4)}
 .vcard b{font-size:13px;letter-spacing:.08em} .vcard small{font-size:11px;opacity:.7;line-height:1.3}
 .vnote{font-size:12px;opacity:.7;margin-top:8px;font-style:italic}
-body.mtab-tro #mrules,body.mtab-tro #menu .sec,body.mtab-tro #levels,body.mtab-tro #actwrap,body.mtab-tro #p3wrap,body.mtab-tro #p4wrap,body.mtab-tro #p5wrap,body.mtab-tro #p6wrap,body.mtab-tro #menu .keys,body.mtab-ves #mrules,body.mtab-ves #menu .sec,body.mtab-ves #levels,body.mtab-ves #actwrap,body.mtab-ves #p3wrap,body.mtab-ves #p4wrap,body.mtab-ves #p5wrap,body.mtab-ves #p6wrap,body.mtab-ves #menu .keys{display:none!important}
+body.mtab-tro #mrules,body.mtab-tro #menu .sec,body.mtab-tro #levels,body.mtab-tro #actwrap,body.mtab-tro #p3wrap,body.mtab-tro #p4wrap,body.mtab-tro #p5wrap,body.mtab-tro #p6wrap,body.mtab-tro #p7wrap,body.mtab-tro #menu .keys,body.mtab-ves #mrules,body.mtab-ves #menu .sec,body.mtab-ves #levels,body.mtab-ves #actwrap,body.mtab-ves #p3wrap,body.mtab-ves #p4wrap,body.mtab-ves #p5wrap,body.mtab-ves #p6wrap,body.mtab-ves #p7wrap,body.mtab-ves #menu .keys{display:none!important}
 .trhead{text-align:center;margin-bottom:10px;color:var(--cream)}
 .trhead b{font-size:22px;color:var(--gold2)}
 .trbar{height:5px;margin:6px auto 0;width:60%;background:rgba(255,255,255,.1)}
@@ -519,7 +527,8 @@ body.act2 .tbtn:hover:not(:disabled){background:rgba(190,20,10,.3)}
 #err{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;font-size:20px}
 @media (max-width:760px){h1{font-size:44px}.levels{grid-template-columns:repeat(3,1fr)}#banner{max-width:calc(100vw - 32px);top:110px}}
 </style>
-
+</head>
+<body>
 <canvas id="c"></canvas>
 <div id="vignette"></div>
 
@@ -549,6 +558,7 @@ body.act2 .tbtn:hover:not(:disabled){background:rgba(190,20,10,.3)}
   <div id="loot"></div>
   <div id="encre" class="hidden"><div class="et"><span class="lab"><kbd>X</kbd> Encre de seiche</span><div class="eb"><i></i></div></div></div>
   <div id="fourn" class="hidden"><div class="ft"><span class="lab">Chaleur</span><div class="fh"><i></i></div></div><div class="ft fwr"><span class="lab"><kbd>V</kbd> Pompe</span><div class="fw"><i></i></div></div></div>
+  <div id="ballon" class="hidden"><div class="ft"><span class="lab">Chaleur</span><span class="alt">0 m</span><div class="bh"><i></i></div></div><div class="ft"><span class="lab">Enveloppe</span><div class="be"><i></i></div></div></div>
   <div id="givre" class="hidden"><div class="ft"><span class="lab">Froid</span><div class="gc"><i></i></div></div><div class="ft"><span class="lab"><kbd>V</kbd> Pompe</span><div class="gw"><i></i></div></div></div>
   <div id="sacHud" class="hidden"><kbd>I</kbd> <span>Poches 0 / 2</span></div>
   <div id="fadeblk"></div>
@@ -724,6 +734,7 @@ body.act2 .tbtn:hover:not(:disabled){background:rgba(190,20,10,.3)}
     <div id="p3wrap"><div class="sec" style="color:#6fd1bd;opacity:.9">Le Rafistoleur</div><div class="levels acts" id="p3"></div></div>
     <div id="p4wrap"><div class="sec" style="color:#6fb6e8;opacity:.9">La Mer de carton</div><div class="levels acts" id="p4"></div></div>
     <div id="p5wrap"><div class="sec" style="color:#ff8a4a;opacity:.9">La Fournaise</div><div class="levels acts" id="p5"></div></div>
+    <div id="p7wrap"><div class="sec" style="color:#f0d9a6;opacity:.9">Les Cintres</div><div class="levels acts" id="p7"></div></div>
     <div id="p6wrap"><div class="sec" style="color:#bfe4ff;opacity:.9">Le Monde de glace</div><div class="levels acts" id="p6"></div></div>
     
     <div class="sign" id="msign"></div>
@@ -800,7 +811,7 @@ const clamp = (x,a,b) => x<a?a:x>b?b:x;
 const lerp = (a,b,t) => a+(b-a)*t;
 const lerpAngle = (a,b,t) => { const d=((b-a+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI; return a+d*t; };
 const rand = (a,b) => a+Math.random()*(b-a);
-const PROG_RE = /^(h?(done|stars|best)\d+|prologue|loot\w+|inv|docs|sac|oeil\d+|noire\d|carte16|chu?_\w+|wp_\w+|boulet15|forge16|biblio16|soute16|lin16|grotte15|doyen15|doyenCoq|porte17|baleine17|cim17|cons_seen|cons_from|noisette|spect19|dessous19|loge19|aqua19|huitres19|bris20|fanon20|brisq20|fin4|mstage|tro_\w+|st_\w+|opt_\w+|s2[0-9]_\w+|s3[0-9]_\w+|fin5|fin6|fin7|lin30|code_\w+|cmb_\w+)$/;
+const PROG_RE = /^(h?(done|stars|best)\d+|prologue|loot\w+|inv|docs|sac|oeil\d+|noire\d|carte16|chu?_\w+|wp_\w+|boulet15|forge16|biblio16|soute16|lin16|grotte15|doyen15|doyenCoq|porte17|baleine17|cim17|cons_seen|cons_from|noisette|spect19|dessous19|loge19|aqua19|huitres19|bris20|fanon20|brisq20|fin4|mstage|tro_\w+|st_\w+|opt_\w+|s2[0-9]_\w+|s3[0-9]_\w+|fin5|fin6|fin7|fin8|lin30|code_\w+|cmb_\w+)$/;
 const P4_RE = /^(inv|docs|sac|oeil\d+|noire\d|carte16|chu?_\w+|wp_\w+|boulet15|forge16|biblio16|soute16|lin16|grotte15|doyen15|doyenCoq|porte17|baleine17|cim17|cons_seen|cons_from|noisette|spect19|dessous19|loge19|aqua19|huitres19|bris20|fanon20|brisq20|fin4)$/;
 let SLOT = null;   // emplacement de sauvegarde actif (1 à 3)
 const slotKey = k => PROG_RE.test(k) ? (SLOT ? 'slot'+SLOT+'_'+k : null) : k;
@@ -3765,14 +3776,81 @@ const G37_LIGHTS=[], G37_LCOL=[], G37_GLOWS=[]; let G37_LBRAZ=0;
   G37_GLOWS.push({p:[0,64,-40],s:10,c:[0.8,0.9,1],a:0.2});
 })();
 const G37_VERTS = new Float32Array(SV); SV.length = 0;
+/* =====================================================================
+   DÉCOR 38 : la Montgolfière — le ciel au-dessus du Pic des Frimas. Des nuages de papier (des châssis de théâtre peints,
+   avec leurs tasseaux au dos), deux mers de nuages qu'on traverse, les fils du monde qui montent vers les Mains,
+   et tout en haut les Cintres : un plancher de passerelles, un gril de poutres, des cordages et des contrepoids.
+   La nacelle monte dans l'axe du sommet du Pic (x 0, z −40).
+   ===================================================================== */
+const M38 = [0,-40], Y38_TOP = 362, H38 = 400;
+const CK38 = [60.4, 140, 220, 300], CK38_NAMES = ['le sommet du Pic','la mer de nuages','les herses','le Cerf-volant'];
+const G38_LIGHTS=[], G38_LCOL=[], G38_GLOWS=[];
+(function build38(){
+  const TAU=Math.PI*2;
+  const PA=[0.94,0.91,0.84], PA2=[0.88,0.84,0.76], PAs=[0.8,0.78,0.74], WD=[0.42,0.3,0.18], WD2=[0.3,0.21,0.13], HEMP=[0.46,0.38,0.26], IRON=[0.22,0.21,0.2];
+  const H=(a,b)=>Math.abs(Math.sin(a*12.9898+b*78.233)*43758.5453)%1;
+  const tri=(a,b,c,n,col)=>quad(a,b,c,c,n,col,0);
+  // un nuage de papier : un châssis découpé (bosses arrondies en haut, base droite), face peinte vers la nacelle, tasseaux au dos
+  function cloudFlat(cx,cy,cz,w,h,seed){
+    const dx=M38[0]-cx, dz=M38[1]-cz, L=Math.hypot(dx,dz)||1, n=[dx/L,0,dz/L], u=[-n[2],0,n[0]];
+    const P=(a,b)=>[cx+u[0]*a, cy+b, cz+u[2]*a], pts=[], nb=3+Math.floor(H(seed,1)*3);
+    pts.push([-w/2,0]); for(let i=0;i<nb;i++){ const a0=-w/2+i*w/nb, a1=a0+w/nb, r=(a1-a0)/2, mid=(a0+a1)/2, top=h*(0.55+0.45*H(seed,i+3));
+      for(let k=0;k<=6;k++){ const t=Math.PI-k*Math.PI/6; pts.push([mid+Math.cos(t)*r, Math.max(0, top-r+Math.sin(t)*r)]); } }
+    pts.push([w/2,0]);
+    const C=P(0,h*0.3), col=H(seed,9)<0.5?PA:PA2;
+    for(let i=0;i<pts.length-1;i++) tri(C,P(...pts[i]),P(...pts[i+1]),n,[col,PAs,PAs,PAs]);
+    tri(C,P(...pts[pts.length-1]),P(...pts[0]),n,col);
+    const off=[-n[0]*0.08,0,-n[2]*0.08];
+    for(const a of [-w*0.3,w*0.3]){ const b0=P(a,0.1), b1=P(a,h*0.7); bx(b0[0]+off[0]-0.06,b0[1],b0[2]+off[2]-0.06,b1[0]+off[0]+0.06,b1[1],b1[2]+off[2]+0.06,WD,0); }
+    const s0=P(-w*0.42,h*0.3), s1=P(w*0.42,h*0.3); quad(add(s0,add(off,[0,-0.05,0])),add(s1,add(off,[0,-0.05,0])),add(s1,add(off,[0,0.05,0])),add(s0,add(off,[0,0.05,0])),scl(n,-1),WD2,0);
+  }
+  // un nuage couché (une mer de nuages vue d'en dessous et d'au-dessus) : une galette festonnée
+  function puff(cx,cy,cz,R,seed){ const n=14, C=[cx,cy,cz]; for(let i=0;i<n;i++){ const a0=i/n*TAU, a1=(i+1)/n*TAU, r0=R*(0.82+0.18*Math.abs(Math.sin(a0*3+seed))), r1=R*(0.82+0.18*Math.abs(Math.sin(a1*3+seed)));
+    tri(C,[cx+Math.cos(a0)*r0,cy,cz+Math.sin(a0)*r0],[cx+Math.cos(a1)*r1,cy,cz+Math.sin(a1)*r1],[0,1,0],[PA,PAs,PAs,PAs]);
+    tri([cx,cy+0.5,cz],[cx+Math.cos(a0)*r0*0.7,cy+0.35,cz+Math.sin(a0)*r0*0.7],[cx+Math.cos(a1)*r1*0.7,cy+0.35,cz+Math.sin(a1)*r1*0.7],[0,1,0],PA); } }
+  // les nuages debout, en spirale autour de la colonne de la nacelle
+  for(let i=0;i<64;i++){ const y=68+i*4.6+H(i,2)*3, a=i*2.39996+H(i,5), r=10+H(i,7)*16; const w=5+H(i,11)*7, h=2.5+H(i,13)*3.5;
+    cloudFlat(M38[0]+Math.cos(a)*r, y, M38[1]+Math.sin(a)*r, w, h, i); }
+  // deux mers de nuages, percées au centre (la nacelle passe par le trou), et une troisième, pleine de trous, sous les Cintres
+  for(const [Y,R0] of [[132,8.5],[262,8]]) for(let i=0;i<46;i++){ const a=i*2.39996, r=R0+3+H(i,Y)*24, R=3+H(i,Y+1)*4.5; puff(M38[0]+Math.cos(a)*r, Y+H(i,Y+2)*2.5, M38[1]+Math.sin(a)*r, R, i+Y); }
+  // les fils du monde : ils montent vers les Mains, en se resserrant
+  for(let i=0;i<22;i++){ const a=i*TAU/22+H(i,3)*0.2, r0=12+H(i,4)*20, r1=4+H(i,6)*5, y0=58, y1=H38;
+    const A=[M38[0]+Math.cos(a)*r0,y0,M38[1]+Math.sin(a)*r0], B=[M38[0]+Math.cos(a+0.4)*r1,y1,M38[1]+Math.sin(a+0.4)*r1], d=norm(sub(B,A)), s1=norm(cross(d,[0,1,0.001])), s2=norm(cross(d,s1)), w=0.035;
+    for(const s of [s1,s2]) quad(add(A,scl(s,-w)),add(A,scl(s,w)),add(B,scl(s,w)),add(B,scl(s,-w)),cross(s,d),[0.85,0.8,0.7],0); }
+  // une lune peinte et des étoiles de papier, pendues à des fils
+  { const cx=18, cy=200, cz=-58; for(let i=0;i<24;i++){ const a0=-1.2+i*2.4/24, a1=-1.2+(i+1)*2.4/24;
+      tri([cx,cy,cz],[cx+Math.cos(a0)*4,cy+Math.sin(a0)*4,cz],[cx+Math.cos(a1)*4,cy+Math.sin(a1)*4,cz],[0,0,1],[[0.98,0.9,0.6],[0.95,0.85,0.5],[0.95,0.85,0.5],[0.95,0.85,0.5]]); }
+    bx(cx-0.03,cy+3.8,cz-0.03,cx+0.03,cy+40,cz+0.03,HEMP,0); }
+  for(let i=0;i<16;i++){ const a=i*1.7, r=14+H(i,21)*12, x=M38[0]+Math.cos(a)*r, z=M38[1]+Math.sin(a)*r, y=90+i*17, s=0.7+H(i,22)*0.5;
+    for(let k=0;k<5;k++){ const b0=k/5*TAU-Math.PI/2, b1=b0+TAU/10, b2=b0+TAU/5; tri([x,y,z],[x+Math.cos(b0)*s,y+Math.sin(b0)*s,z],[x+Math.cos(b1)*s*0.4,y+Math.sin(b1)*s*0.4,z],[0,0,1],[1,0.92,0.55]); tri([x,y,z],[x+Math.cos(b1)*s*0.4,y+Math.sin(b1)*s*0.4,z],[x+Math.cos(b2)*s,y+Math.sin(b2)*s,z],[0,0,1],[1,0.92,0.55]); }
+    bx(x-0.02,y+s,z-0.02,x+0.02,y+30,z+0.02,HEMP,0); }
+  // LES CINTRES : un plancher de passerelles autour du trou, le gril au-dessus, des cordages et des contrepoids
+  const Y=Y38_TOP, X0=M38[0], Z0=M38[1];
+  for(let k=-14;k<14;k+=0.5){ for(const [za,zb] of [[-16,-7],[7,16]]) bx(X0+k,Y-0.12,Z0+za,X0+k+0.46,Y,Z0+zb,H(k,za)<0.5?WD:[0.36,0.25,0.15],0); }
+  for(let k=-7;k<7;k+=0.5){ for(const [xa,xb] of [[-16,-7],[7,16]]) bx(X0+xa,Y-0.12,Z0+k,X0+xb,Y,Z0+k+0.46,H(k,xa)<0.5?WD:[0.36,0.25,0.15],0); }
+  for(const s of [-1,1]){ bx(X0-16,Y-0.5,Z0+s*7-0.15,X0+16,Y-0.12,Z0+s*7+0.15,WD2,0); bx(X0+s*7-0.15,Y-0.5,Z0-16,X0+s*7+0.15,Y-0.12,Z0+16,WD2,0); }
+  // les garde-corps autour du trou
+  for(const s of [-1,1]){ bx(X0-7,Y+1.0,Z0+s*7-0.04,X0+7,Y+1.08,Z0+s*7+0.04,WD,0); bx(X0+s*7-0.04,Y+1.0,Z0-7,X0+s*7+0.04,Y+1.08,Z0+7,WD,0);
+    for(let k=-7;k<=7;k+=1.75){ bx(X0+k-0.04,Y,Z0+s*7-0.04,X0+k+0.04,Y+1.05,Z0+s*7+0.04,WD,0); bx(X0+s*7-0.04,Y,Z0+k-0.04,X0+s*7+0.04,Y+1.05,Z0+k+0.04,WD,0); } }
+  // le gril : des poutres, des poulies, les cordages qui retombent
+  for(let k=-15;k<=15;k+=2.5) bx(X0+k-0.12,Y+14,Z0-16,X0+k+0.12,Y+14.35,Z0+16,IRON,0);
+  for(let i=0;i<40;i++){ const x=X0-15+H(i,31)*30, z=Z0-15+H(i,32)*30; if(Math.abs(x-X0)<6.5 && Math.abs(z-Z0)<6.5) continue; const yb=Y+0.2+H(i,33)*3;
+    bx(x-0.025,yb,z-0.025,x+0.025,Y+14,z+0.025,HEMP,0); if(i%3===0){ bx(x-0.22,yb-0.9,z-0.22,x+0.22,yb,z+0.22,IRON,0); } }
+  // un mur de fond (la toile du lointain), pour fermer la vue au sommet
+  for(const s of [-1,1]) quad([X0-40,Y-10,Z0+s*30],[X0+40,Y-10,Z0+s*30],[X0+40,Y+30,Z0+s*30],[X0-40,Y+30,Z0+s*30],[0,0,-s],[0.32,0.24,0.2],0);
+  // les lumières
+  for(const [p,I,c] of [[[14,95,-30],260,[1,0.95,0.85]],[[-16,175,-52],260,[0.95,0.92,1]],[[16,250,-28],260,[1,0.88,0.75]],[[-14,320,-50],300,[1,0.82,0.62]],[[0,Y+8,-40],220,[1,0.78,0.5]],[[12,Y+4,-28],140,[1,0.75,0.45]],[[-12,Y+4,-52],140,[1,0.75,0.45]]]){ G38_LIGHTS.push([...p,I]); G38_LCOL.push(c); }
+  G38_LIGHTS.unshift([0,62,-40,0]); G38_LCOL.unshift([1,0.6,0.25]);   // le brûleur (déplacé à chaque image)
+})();
+const G38_VERTS = new Float32Array(SV); SV.length = 0;
 function makeStatic(arr){
   const vao=gl.createVertexArray(); gl.bindVertexArray(vao);
   const b=gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER,b); gl.bufferData(gl.ARRAY_BUFFER,arr,gl.STATIC_DRAW);
   [[0,3,0],[1,3,12],[2,3,24],[3,1,36]].forEach(([l,n,o])=>{gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,n,gl.FLOAT,false,40,o);});
   gl.bindVertexArray(null); return {vao, count:arr.length/10};
 }
-const ST_THEATRE = makeStatic(THEATRE_VERTS), ST_CORR = makeStatic(CORRIDOR_VERTS), ST_DESS = makeStatic(DESSOUS_VERTS), ST_RUIN = makeStatic(RUIN_VERTS), ST_ARENA = makeStatic(ARENA_VERTS), ST_VOID = makeStatic(VOID_VERTS), ST_FLY = makeStatic(FLY_VERTS), ST_WORK = makeStatic(WORK_VERTS), ST_GLASS = makeStatic(GLASS_VERTS), ST_DRESS = makeStatic(DRESS_VERTS), ST_LOGE = makeStatic(LOGE_VERTS), ST_CLIN = makeStatic(CLIN_VERTS), ST_CHAMBRE = makeStatic(CHAMBRE_VERTS), ST_CABINET = makeStatic(CABINET_VERTS), ST_MER = makeStatic(MER_VERTS), ST_CHAMP = makeStatic(CHAMP_VERTS), ST_GALION = makeStatic(GALION_VERTS), ST_FORET = makeStatic(FORET_VERTS), ST_CONSERV = makeStatic(CONSERV_VERTS), ST_RECIF = makeStatic(RECIF_VERTS), ST_BALEINE = makeStatic(BALEINE_VERTS), ST_FONDS = makeStatic(FONDS_VERTS), ST_CLOCHE = makeStatic(CLOCHE_VERTS), ST_COMBLES = makeStatic(COMBLES_VERTS), ST_LINGERIE = makeStatic(LINGERIE_VERTS), ST_PORT = makeStatic(PORT_VERTS), ST_PHARE = makeStatic(PHARE_VERTS), ST_F28 = makeStatic(F28_VERTS), ST_F29 = makeStatic(F29_VERTS), ST_F30 = makeStatic(F30_VERTS), ST_F31 = makeStatic(F31_VERTS), ST_F32 = makeStatic(F32_VERTS), ST_G33 = makeStatic(G33_VERTS), ST_G34 = makeStatic(G34_VERTS), ST_G35 = makeStatic(G35_VERTS), ST_G36 = makeStatic(G36_VERTS), ST_G37 = makeStatic(G37_VERTS);
-let staticCount = ST_THEATRE.count + ST_CORR.count + ST_DESS.count + ST_RUIN.count + ST_ARENA.count + ST_VOID.count + ST_FLY.count + ST_WORK.count + ST_GLASS.count + ST_DRESS.count + ST_LOGE.count + ST_CLIN.count + ST_CHAMBRE.count + ST_CABINET.count + ST_MER.count + ST_CHAMP.count + ST_GALION.count + ST_FORET.count + ST_CONSERV.count + ST_RECIF.count + ST_BALEINE.count + ST_FONDS.count + ST_CLOCHE.count + ST_COMBLES.count + ST_LINGERIE.count + ST_PORT.count + ST_PHARE.count + ST_F28.count + ST_F29.count + ST_F30.count + ST_F31.count + ST_F32.count + ST_G33.count + ST_G34.count + ST_G35.count + ST_G36.count + ST_G37.count;
+const ST_THEATRE = makeStatic(THEATRE_VERTS), ST_CORR = makeStatic(CORRIDOR_VERTS), ST_DESS = makeStatic(DESSOUS_VERTS), ST_RUIN = makeStatic(RUIN_VERTS), ST_ARENA = makeStatic(ARENA_VERTS), ST_VOID = makeStatic(VOID_VERTS), ST_FLY = makeStatic(FLY_VERTS), ST_WORK = makeStatic(WORK_VERTS), ST_GLASS = makeStatic(GLASS_VERTS), ST_DRESS = makeStatic(DRESS_VERTS), ST_LOGE = makeStatic(LOGE_VERTS), ST_CLIN = makeStatic(CLIN_VERTS), ST_CHAMBRE = makeStatic(CHAMBRE_VERTS), ST_CABINET = makeStatic(CABINET_VERTS), ST_MER = makeStatic(MER_VERTS), ST_CHAMP = makeStatic(CHAMP_VERTS), ST_GALION = makeStatic(GALION_VERTS), ST_FORET = makeStatic(FORET_VERTS), ST_CONSERV = makeStatic(CONSERV_VERTS), ST_RECIF = makeStatic(RECIF_VERTS), ST_BALEINE = makeStatic(BALEINE_VERTS), ST_FONDS = makeStatic(FONDS_VERTS), ST_CLOCHE = makeStatic(CLOCHE_VERTS), ST_COMBLES = makeStatic(COMBLES_VERTS), ST_LINGERIE = makeStatic(LINGERIE_VERTS), ST_PORT = makeStatic(PORT_VERTS), ST_PHARE = makeStatic(PHARE_VERTS), ST_F28 = makeStatic(F28_VERTS), ST_F29 = makeStatic(F29_VERTS), ST_F30 = makeStatic(F30_VERTS), ST_F31 = makeStatic(F31_VERTS), ST_F32 = makeStatic(F32_VERTS), ST_G33 = makeStatic(G33_VERTS), ST_G34 = makeStatic(G34_VERTS), ST_G35 = makeStatic(G35_VERTS), ST_G36 = makeStatic(G36_VERTS), ST_G37 = makeStatic(G37_VERTS), ST_G38 = makeStatic(G38_VERTS);
+let staticCount = ST_THEATRE.count + ST_CORR.count + ST_DESS.count + ST_RUIN.count + ST_ARENA.count + ST_VOID.count + ST_FLY.count + ST_WORK.count + ST_GLASS.count + ST_DRESS.count + ST_LOGE.count + ST_CLIN.count + ST_CHAMBRE.count + ST_CABINET.count + ST_MER.count + ST_CHAMP.count + ST_GALION.count + ST_FORET.count + ST_CONSERV.count + ST_RECIF.count + ST_BALEINE.count + ST_FONDS.count + ST_CLOCHE.count + ST_COMBLES.count + ST_LINGERIE.count + ST_PORT.count + ST_PHARE.count + ST_F28.count + ST_F29.count + ST_F30.count + ST_F31.count + ST_F32.count + ST_G33.count + ST_G34.count + ST_G35.count + ST_G36.count + ST_G37.count + ST_G38.count;
 
 /* capsule mesh (instancée) */
 const MAX_INST = 6000;
@@ -4240,6 +4318,16 @@ const SCENES = {
   jardins: fScene({name:'jardins', st:ST_G35, glows:G35_GLOWS, lights:G35_LIGHTS, lcol:G35_LCOL, X:G35X, ZB:G35ZB, ZF:G35ZF, boxes:G35_BOXES, H:H35, cam:[0,1.6,8], kp:[0,17,14], kt:[0,0,-60], kfar:160, kfov:96, keyI:300, keyC:[0.75,0.86,1], fog:10, fogK:0.016, fogC:[0.42,0.5,0.6], clearC:[0.36,0.44,0.56]}),
   patinoire: fScene({name:'patinoire', st:ST_G36, glows:G36_GLOWS, lights:G36_LIGHTS, lcol:G36_LCOL, X:G36X, ZB:G36ZB, ZF:G36ZF, boxes:G36_BOXES, H:H36, cam:[0,1.6,7], kp:[0,21,6], kt:[0,0,-28], kfar:90, kfov:100, keyI:260, keyC:[0.7,0.84,1], fog:10, fogK:0.016, fogC:[0.1,0.13,0.2], clearC:[0.06,0.08,0.14]}),
   pic: Object.assign(fScene({name:'pic', st:ST_G37, glows:G37_GLOWS, lights:G37_LIGHTS, lcol:G37_LCOL, X:G37X, ZB:G37ZB, ZF:G37ZF, boxes:G37_BOXES, H:H37, cam:[-12,1.6,-17.5], kp:[10,130,45], kt:[0,25,-42], kfar:280, kfov:115, keyI:900, keyC:[0.85,0.9,1], fog:16, fogK:0.01, fogC:[0.64,0.72,0.84], clearC:[0.58,0.67,0.8]}), {rimC:[0.04,0.06,0.1], vmFill:0.7}),
+  ciel: Object.assign({
+    name:'ciel', st:ST_G38, st2:ST_G37, keyI:2600, keyCone:[0.2,0.55], keyC:[1,0.93,0.82], footC:[0,0,0], rimC:[0.1,0.1,0.13],
+    glows:G38_GLOWS, hlP:new Float32Array(G38_LIGHTS.flat()), hlC:new Float32Array(G38_LCOL.flat()), nl:G38_LIGHTS.length,
+    spotY:20, coneR:1.2, spotI:0, fog:22, fogK:0.016, vmFill:0.8, eyes:false, emis:1, lodDist:30,
+    fogC:[0.7,0.78,0.9], clearC:[0.66,0.74,0.86], cam:[0,1.6,-40], dust:{x0:-0.5,x1:0.5,y0:60,y1:61,z0:-40.5,z1:-39.5},
+    collide(x,y,z,qz,r){ return [x,z,G.bal?G.bal.y:60]; },
+    bound(nx,nz){ const dx=nx-M38[0], dz=nz-M38[1], d=Math.hypot(dx,dz), R=1.0; if(d>R){ nx=M38[0]+dx/d*R; nz=M38[1]+dz/d*R; } return [nx,nz]; },
+    clampBody(b){ return false; },
+    miss(ro,rd){ return {p:add(ro,scl(rd,70)), t:70}; },
+  }, keyLight([34,108,-10],[0,64,-40],46,20,160)),
   coeur: fScene({name:'coeur', st:ST_F32, glows:F32_GLOWS, lights:F32_LIGHTS, lcol:F32_LCOL, X:F32X, ZB:F32ZB, ZF:F32ZF, boxes:F32_BOXES, H:22, cam:[0,1.6,14], kp:[0,20,16], kt:[0,0,-20], kfar:90, keyI:260}),
   champ: Object.assign({
     name:'champ', st:ST_CHAMP, keyI:700, keyCone:[0.5,0.8], keyC:[0.45,0.7,0.95], footC:[0,0,0], rimC:[0.03,0.08,0.12],
@@ -4928,6 +5016,13 @@ const SONGS = {};
     if(k===0||k===4) INS.bass(c[0]+(k===4?7:0),t,0.4,0.1); if(k===2||k===6) INS.pluck(c[1],t,0.04,1800);
     if(k%2===1) INS.hat(t+60/104/6,0.012); if(k===4) INS.wood(t,72,0.03);
     if(lap>=2 && k===0) INS.glass(c[2]+12,t,1.8,0.012); }}; }
+// 38 · La Montgolfière : une valse en l'air (boîte à musique, cordes), qui devient un galop de cuivres contre le Cerf-volant
+{ const ch=['D3 A3 F#4','B2 F#3 D4','G2 D3 B3','A2 E3 C#4'].map(MCH), mel=[78,null,null,81,null,83,85,null,null,83,null,81, 78,null,null,76,null,74,73,null,null,74,null,76];
+  SONGS[38]={bpm:138, div:3, len:48, vol:0.9, rev:5, wet:0.6, fn(s,t,I,lap){ const bar=Math.floor(s/12), k=s%12, c=ch[bar%4];
+    if(k===0) INS.bass(c[0],t,1.2,0.06); if(k===3||k===6||k===9) INS.pluck(c[1+((k/3)%2)]+12,t,0.025,2600);
+    if(k===0) INS.pad(c,t,60/138*4,0.012,800);
+    const m=mel[s%24]; if(m!=null) INS.glass(m-12+(bar%8>=4?2:0),t,0.8,0.016);
+    if(I>=0.7){ if(k===0||k===6) INS.timp(c[0]+12,t,0.15); if(k%3===0) INS.tick(t,0.025); if(m!=null) INS.brass([m-12],t,0.3,0.022); if(k===0) INS.strings([c[0]+12,c[1]+12,c[2]+12],t,1.6,0.018); } }}; }
 // 37 · Le Pic des Frimas : l'ascension (des cordes qui montent, le vent), puis le combat au sommet (cuivres, timbales, chœur)
 { const ch=['A2 E3 C4','F2 C3 A3','G2 D3 B3','E2 B2 G#3'].map(MCH), mel=[76,null,79,81,null,83,84,null, 83,81,null,79,76,null,null,null, 77,null,81,84,null,86,88,null, 86,84,null,83,80,null,null,null];
   SONGS[37]={bpm:112, div:4, len:64, vol:0.95, rev:4.5, wet:0.55, fn(s,t,I,lap){ const bar=Math.floor(s/16), k=s%16, c=ch[bar%4];
@@ -6421,7 +6516,7 @@ function openVestiaire(lvl){
     if(open) b.onclick=()=>{ sel=k; store.set('loadout',k); L.querySelectorAll('.wcard').forEach(c=>c.classList.remove('on')); b.classList.add('on'); };
     L.appendChild(b);
   }
-  $('#vestAct').textContent = lvl===37 ? 'Le Monde de glace · Le Pic des Frimas' : lvl===36 ? 'Le Monde de glace · La Patinoire' : lvl===35 ? 'Le Monde de glace · Les Jardins d\'hiver' : lvl===34 ? 'Le Monde de glace · Le Palais de glace' : lvl===33 ? 'Le Monde de glace · Le Lac gelé' : lvl>=28 && lvl<=32 ? 'La Fournaise · '+({28:'La Grève de cendre',29:'La Fonderie',30:'Les Supplices',31:'La Coulée',32:'Le Cœur de la Forge'})[lvl] : lvl===26 ? 'La Mer de carton · Le Port englouti' : lvl===27 ? 'La Mer de carton · Le Phare' : lvl===24 ? 'Le Rafistoleur · Les Combles' : lvl===25 ? 'Le Rafistoleur · La Lingerie' : lvl===22 ? 'La Mer de carton · La Cloche des profondeurs' : lvl===21 ? 'La Mer de carton · Les Grands Fonds' : lvl>=20 ? 'La Mer de carton · Le Ventre de la baleine' : lvl>=19 ? 'La Mer de carton · Le Récif-Cabaret' : lvl>=18 ? 'La Mer de carton · La Conserverie' : lvl>=17 ? 'La Mer de carton · La Forêt d\'algues' : lvl>=16 ? 'La Mer de carton · L\'Épave du galion' : lvl>=15 ? 'La Mer de carton · Les Appâts' : lvl>=11 ? ('Le Rafistoleur · '+(['La Salle de réveil','La Chambre d\'enfant','Les Yeux rouges'][lvl-11]||'')) : lvl<6 ? `Prologue · ${LEVELS[lvl-1].t}` : `Acte ${ROMAN[lvl-6]} · ${ACTS[lvl-6].t}`;
+  $('#vestAct').textContent = lvl===38 ? 'Les Cintres · La Montgolfière' : lvl===37 ? 'Le Monde de glace · Le Pic des Frimas' : lvl===36 ? 'Le Monde de glace · La Patinoire' : lvl===35 ? 'Le Monde de glace · Les Jardins d\'hiver' : lvl===34 ? 'Le Monde de glace · Le Palais de glace' : lvl===33 ? 'Le Monde de glace · Le Lac gelé' : lvl>=28 && lvl<=32 ? 'La Fournaise · '+({28:'La Grève de cendre',29:'La Fonderie',30:'Les Supplices',31:'La Coulée',32:'Le Cœur de la Forge'})[lvl] : lvl===26 ? 'La Mer de carton · Le Port englouti' : lvl===27 ? 'La Mer de carton · Le Phare' : lvl===24 ? 'Le Rafistoleur · Les Combles' : lvl===25 ? 'Le Rafistoleur · La Lingerie' : lvl===22 ? 'La Mer de carton · La Cloche des profondeurs' : lvl===21 ? 'La Mer de carton · Les Grands Fonds' : lvl>=20 ? 'La Mer de carton · Le Ventre de la baleine' : lvl>=19 ? 'La Mer de carton · Le Récif-Cabaret' : lvl>=18 ? 'La Mer de carton · La Conserverie' : lvl>=17 ? 'La Mer de carton · La Forêt d\'algues' : lvl>=16 ? 'La Mer de carton · L\'Épave du galion' : lvl>=15 ? 'La Mer de carton · Les Appâts' : lvl>=11 ? ('Le Rafistoleur · '+(['La Salle de réveil','La Chambre d\'enfant','Les Yeux rouges'][lvl-11]||'')) : lvl<6 ? `Prologue · ${LEVELS[lvl-1].t}` : `Acte ${ROMAN[lvl-6]} · ${ACTS[lvl-6].t}`;
   $('#menu').classList.add('hidden'); $('#vest').classList.remove('hidden');
 }
 function wpnHUD(){
@@ -6485,6 +6580,7 @@ const VOICE_PROF = {   // rang : quelle voix de la même catégorie (pour que de
   'Une voix dans le vent':{sex:'f', rank:0, pitch:1.25, rate:0.8,  vol:0.75, layer:'glass',  bab:{f:[520,760],  f1:[420,600], type:'sine',     nf:[3000,5200], nq:7, step:0.14, g:0.02, echo:true}},
   'La petite patineuse':  {sex:'f', rank:3, pitch:1.42, rate:1.05, vol:0.85, layer:'wood',   bab:{f:[420,560],  f1:[340,460], type:'triangle', nf:[2200,3800], nq:6, step:0.09, g:0.022}},
   'Une voix au plafond':  {sex:'f', rank:0, pitch:1.25, rate:0.82, vol:0.8,  layer:'glass',  bab:{f:[520,760],  f1:[420,600], type:'sine',     nf:[3000,5200], nq:7, step:0.13, g:0.022, echo:true}},
+  'Le Cerf-volant':       {sex:'m', rank:3, pitch:0.85, rate:1.05, vol:0.85, layer:'quill', bab:{f:[300,520], f1:[260,420], type:'sawtooth', nf:[1800,3200], nq:4, step:0.08, g:0.02, echo:true}},
   'Les Trois Frimas':     {sex:'m', rank:3, pitch:1.45, rate:1.2,  vol:0.8,  layer:'glass',  bab:{f:[600,900],  f1:[500,760], type:'triangle', nf:[3000,5000], nq:6, step:0.07, g:0.022, echo:true}},
   'Le Fondeur':           {sex:'m', rank:1, pitch:0.78, rate:0.88, vol:1.0,  layer:'brass',  bab:{f:[90,140],   f1:[70,110],  type:'sawtooth', nf:[400,900],   nq:3, step:0.13, g:0.032}},
   'Le Bourreau':          {sex:'m', rank:1, pitch:0.62, rate:0.78, vol:1.0,  layer:'abyss',  bab:{f:[70,100],   f1:[55,80],   type:'sawtooth', nf:[250,600],   nq:3, step:0.18, g:0.035}},
@@ -7011,7 +7107,7 @@ function reviveRole(d){
 }
 function useBTarget(T){
   if(T.kind==='grap'){ startGrapple(T); return; }
-  if(T.fire && (use35(T)||use37(T))) return;
+  if(T.fire && (use35(T)||use37(T)||use38(T))) return;
   if(T.kind==='melt'||T.kind==='braz'||T.kind==='heart'||T.kind==='prison'){ use34(T); return; }
   if(T.kind==='rack'){ G.disguise=6.5; SFX.wing(); floatText(T.p,'Te voilà soldat…','#ffd27a','ils te prennent pour l\'un des leurs');
     showTip('Tu portes un <b>costume de soldat</b> : les pantins ne t\'attaquent plus… tant que tu ne tires pas.', 4); }
@@ -7285,6 +7381,7 @@ function hpHUD(){
     bb.querySelector('.fill').style.width=(B.f*100)+'%'; bb.querySelector('.chip').style.width=(clamp(G.bossChip,0,1)*100)+'%'; }
 }
 function bossInfo(){
+  if(G.level===38 && G.cerf && G.l38==='cerf'){ const C=G.cerf; return {name:'Le Cerf-volant', f:C.hp/C.max, sub:C.st==='aim'?'Ses yeux s\'allument : tire pour l\'étourdir !':C.st==='stun'?'Étourdi : il encaisse double !':C.st==='souffle'?'Il souffle sur le brûleur':C.burn>0?'Il brûle !':'Le feu le brûle, les balles le percent'}; }
   if(G.level===37){ if(G.l37==='trois' && G.minis) return {name:'Les Trois Frimas', f:G.minis.reduce((a,m)=>a+Math.max(0,m.hp),0)/(3*MINI_HP), phased:true, sub:G.minis.filter(m=>!m.dead).map(m=>MINI_DEF[m.i].n).join(' · ')}; if(G.l37==='avalanche' && G.colo) return {name:'L\'Avalanche', f:G.colo.hp/G.colo.max, sub:(()=>{ const n=G.colo.plates.filter(p=>p.on).length; return G.colo.st==='slamW'?'Elle lève les bras : saute !':G.colo.st==='breath'?'Son souffle : passe dans son dos':n? n+' plaques de glace · le Katana les arrache':'Plus une plaque : elle fond !'; })()}; return null; }
   if(G.level===36){ const D=G.dame; if(G.l36!=='boss'||!D) return null; const nb=D.broken.filter(b=>b).length; return {name:'La Dame d\'hiver', f:Math.max(0,(4-nb-1+(D.st==='stun'?0:D.hp/D.hpMax))/4), phased:true, sub:D.st==='stun'?'Sonnée ! Fais fondre un fil (Boule de feu)':D.st==='spin'?'Le blizzard : éloigne-toi':['','I · Fends sa carapace','II · Elle tourne au centre','III · Les pics de glace','IV · Le dernier fil'][Math.min(4,D.phase)]}; }
   if(G.level===13) return G.l13==='boss' ? {name:'L\'Oculiste', f:G.oHP/OCU_HP, sub: G.oPhase===2?'Il a poussé la lentille à fond':'Les Yeux ne le figent pas'} : null;
@@ -11411,6 +11508,9 @@ const TROPHIES = [
   {id:'pic', n:'Le toit du monde', d:'Atteins le sommet du Pic des Frimas.', ok:()=>g('st_pic')},
   {id:'grimpeur', n:'Pied sûr', d:'Grimpe le Pic des Frimas d\'une traite, sans une seule chute.', ok:()=>g('st_grimpeur')},
   {id:'avalanche', n:'Une avalanche de moins', d:'Vaincs l\'Avalanche au sommet du Pic.', ok:()=>g('hdone37')},
+  {id:'montgolfiere', n:'Plus léger que l\'air', d:'Monte jusqu\'aux Cintres en montgolfière.', ok:()=>g('hdone38')},
+  {id:'aeronaute', n:'Sans un accroc', d:'Fais toute la Montgolfière sans que l\'enveloppe ne passe sous la moitié.', ok:()=>g('st_aeronaute')},
+  {id:'feusacre', n:'Feu sacré', d:'Fais toute la Montgolfière sans jamais laisser le brûleur s\'éteindre.', ok:()=>g('st_feusacre')},
   {id:'etoiles6', n:'Cœur de glace', d:'Trois étoiles sur tous les niveaux du Monde de glace.', ok:()=>[33,34,35,36,37].every(n=>store.get('hstars'+n,0)>=3)},
   {id:'etoiles4', n:'Standing ovation', d:'Trois étoiles sur tous les niveaux de la Mer de carton.', ok:()=>[15,16,17,18,26,27,19,21,22,20].every(n=>store.get('hstars'+n,0)>=3), rw:'cauchemar'},
   {id:'tout', n:'Le Grand Marionnettiste', d:'Obtiens tous les autres trophées.', ok:()=>TROPHIES.every(T=>T.id==='tout'||trHas(T.id)), rw:'hand_calcinee'},
@@ -11453,7 +11553,7 @@ const CODE_ORDER = [[1,'done','Lever de rideau'],[2,'done','Coulisses'],[3,'done
   [6,'hdone','Les Cintres'],[7,'hdone','L\'Atelier'],[8,'hdone','La Galerie des Glaces'],[9,'hdone','La Garde-Robe'],[10,'hdone','La Loge'],
   [11,'hdone','La Salle de réveil'],[12,'hdone','La Chambre d\'enfant'],[24,'hdone','Les Combles'],[25,'hdone','La Lingerie'],[13,'hdone','Les Yeux rouges'],
   [15,'hdone','Les Appâts'],[16,'hdone','L\'Épave du galion'],[17,'hdone','La Forêt d\'algues'],[26,'hdone','Le Port englouti'],[27,'hdone','Le Phare'],[19,'hdone','Le Récif-Cabaret'],[21,'hdone','Les Grands Fonds'],[22,'hdone','La Cloche des profondeurs'],[20,'hdone','Le Ventre de la baleine'],
-  [28,'hdone','La Grève de cendre'],[29,'hdone','La Fonderie'],[30,'hdone','Les Supplices'],[31,'hdone','La Coulée'],[32,'hdone','Le Cœur de la Forge'],[33,'hdone','Le Lac gelé'],[34,'hdone','Le Palais de glace'],[35,'hdone','Les Jardins d\'hiver'],[36,'hdone','La Patinoire'],[37,'hdone','Le Pic des Frimas']];
+  [28,'hdone','La Grève de cendre'],[29,'hdone','La Fonderie'],[30,'hdone','Les Supplices'],[31,'hdone','La Coulée'],[32,'hdone','Le Cœur de la Forge'],[33,'hdone','Le Lac gelé'],[34,'hdone','Le Palais de glace'],[35,'hdone','Les Jardins d\'hiver'],[36,'hdone','La Patinoire'],[37,'hdone','Le Pic des Frimas'],[38,'hdone','La Montgolfière']];
 function codeSkip(){
   const inLevel = G.level && (G.state==='play' || G.state==='pause' || G.state==='bag') && !$('#menu').offsetParent;
   if(inLevel){
@@ -11652,7 +11752,7 @@ function applyRewards(){
 let MTAB='jeu';
 function setMenuTab(t){ MTAB=t; document.body.classList.toggle('mtab-tro', t==='tro'); document.body.classList.toggle('mtab-ves', t==='ves'); if(t==='ves') renderVestiaire(); document.querySelectorAll('#mtabs button').forEach(b=>b.classList.toggle('on', b.dataset.t===t)); if(t==='tro'){ checkTrophies(true); renderTrophies(); } else jukeStop(); }
 let JUKE=null;
-const JUKE_LIST = [[1,'Lever de rideau'],[2,'Coulisses'],[5,'L\'Arène'],[6,'Les Cintres'],[7,'L\'Atelier'],[8,'La Galerie des Glaces'],[9,'La Garde-Robe'],[10,'La Loge'],[11,'La Salle de réveil'],[12,'La Chambre d\'enfant'],[24,'Les Combles'],[25,'La Lingerie'],[13,'Les Yeux rouges'],[14,'La Plongée'],[15,'Les Appâts'],[16,'L\'Épave du galion'],[17,'La Forêt d\'algues'],[18,'La Conserverie'],[26,'Le Port englouti'],[27,'Le Phare'],[19,'Le Récif-Cabaret'],[21,'Les Grands Fonds'],[22,'La Cloche des profondeurs'],[20,'Le Ventre de la baleine'],[28,'La Grève de cendre'],[29,'La Fonderie'],[30,'Les Supplices'],[31,'La Coulée'],[32,'Le Cœur de la Forge'],[33,'Le Lac gelé'],[34,'Le Palais de glace'],[35,'Les Jardins d\'hiver'],[36,'La Patinoire'],[37,'Le Pic des Frimas']];
+const JUKE_LIST = [[1,'Lever de rideau'],[2,'Coulisses'],[5,'L\'Arène'],[6,'Les Cintres'],[7,'L\'Atelier'],[8,'La Galerie des Glaces'],[9,'La Garde-Robe'],[10,'La Loge'],[11,'La Salle de réveil'],[12,'La Chambre d\'enfant'],[24,'Les Combles'],[25,'La Lingerie'],[13,'Les Yeux rouges'],[14,'La Plongée'],[15,'Les Appâts'],[16,'L\'Épave du galion'],[17,'La Forêt d\'algues'],[18,'La Conserverie'],[26,'Le Port englouti'],[27,'Le Phare'],[19,'Le Récif-Cabaret'],[21,'Les Grands Fonds'],[22,'La Cloche des profondeurs'],[20,'Le Ventre de la baleine'],[28,'La Grève de cendre'],[29,'La Fonderie'],[30,'Les Supplices'],[31,'La Coulée'],[32,'Le Cœur de la Forge'],[33,'Le Lac gelé'],[34,'Le Palais de glace'],[35,'Les Jardins d\'hiver'],[36,'La Patinoire'],[37,'Le Pic des Frimas'],[38,'La Montgolfière']];
 function jukePlay(n){ try{ initAudio(); }catch(e){} const save=G.level; Music.stop(); G.level=n; Music.start(); G.level=save; Music.setIntensity(+($('#jukeI')?.value??0.5)); JUKE=n; renderTrophies(); }
 function jukeStop(){ if(JUKE!==null){ Music.stop(); JUKE=null; } }
 function renderVestiaire(){
@@ -13579,12 +13679,20 @@ function lightBraz(i){
   say10('Mèche', ['Tiens, prends un peu de ma flamme. Juste un peu, hein ! Je n\'en ai pas beaucoup.','Allume, allume… Voilà. Ça va mieux, non ? Moi, ça va mieux.','Hop. Un feu de plus. Je fonds un peu à chaque fois, tu sais.'][i%3], null);
   if(i===1 && ck33Get()<1){ ck33Set(1); }
 }
+/* Mèche dans la paume : le froid ambiant ne peut plus te geler (la jauge plafonne à 60 %, et redescend si une attaque l'a fait monter plus haut).
+   Les attaques de glace (le Regard, les souffles, les ondes, les éclats) peuvent encore te figer un instant. */
+function mecheTemper(rate){
+  if(rate<=0) return rate;
+  if(G.cold>=0.6){ if(!G.tipsDone.meche){ G.tipsDone.meche=true; floatText(add(cam.pos,scl(camDir(),2.5)),'Mèche te réchauffe','#ffb070','dans ta paume, le froid ne te gèlera pas'); } return G.cold>0.62 ? -0.08 : 0; }
+  return rate*0.6;
+}
 function glaceCold(dt){
   const x=cam.pos[0], z=cam.pos[2];
   let near=1e9; for(const B of BRAZ33) if(B.lit) near=Math.min(near, Math.hypot(x-B.p[0],z-B.p[2]));
   const blizz = z<-80 && z>-104;
   let rate = near<4 ? -0.32 : blizz ? 0.05 : 0.022;
   if(G.cine || dlgActive() || G.l33==='intro') rate=Math.min(rate,0);
+  rate=mecheTemper(rate);
   G.cold = clamp((G.cold||0)+rate*dt, 0, 1.05);
   if(near<4 && G.cold>0.05 && !G.tipsDone.warm){ G.tipsDone.warm=true; floatText(add(cam.pos,scl(camDir(),2.5)),'Ça réchauffe','#ffb070'); }
   if(G.cold>=1 && !G.frozen){ G.frozen=true; G.frozeT=0.4; floatText(add(cam.pos,scl(camDir(),2.5)),'Tu gèles !','#bfe8ff','trouve un brasero allumé'); tone({f:1800,f1:900,dur:0.6,g:0.05,type:'sine'}); }
@@ -13739,7 +13847,7 @@ function l33Points(put){
    (ceux de givre fondent d'un coup). Dans la main, Mèche est la boule elle-même : deux petits yeux dans le feu.
    ===================================================================== */
 function boucleHas(){ return !!store.get('lootboucle',false); }
-function boucleOn(){ if(G.level===34) return !!G.boucleHave; if(G.level===33 || G.level<6) return false; return boucleHas() && store.get('opt_left','boucle')==='boucle'; }
+function boucleOn(){ if(G.level===38) return true; if(G.level===34) return !!G.boucleHave; if(G.level===33 || G.level<6) return false; return boucleHas() && store.get('opt_left','boucle')==='boucle'; }
 function giveBoule(){ G.boucleHave=true; store.set('lootboucle',true); G.loopCast=1; SFX.ping(2); noise({f:600,f1:2200,q:0.6,dur:1.2,g:0.18}); tone({f:220,f1:660,dur:0.8,g:0.06,type:'triangle'}); }
 function boucleSfx(){ G.loopCast=1; noise({f:500,f1:1800,q:0.8,dur:0.35,g:0.16}); tone({f:160,f1:420,dur:0.25,g:0.05,type:'sawtooth'}); for(let i=0;i<4;i++) noise({f:rand(2500,5000),q:4,dur:0.04,g:0.05,delay:0.05+i*0.05}); }
 function meltFoe(b){
@@ -13885,6 +13993,7 @@ function palaisCold(dt){
   const hearts = G.l34==='trone' ? HEART34.filter(H=>H.hp>0).length : 0;
   let rate = near<4 ? -0.32 : 0.012 + (G.boucleHave?0:0.008) + hearts*0.007;
   if(G.cine || dlgActive() || G.l34==='intro' || G.l34==='fil' || G.l34==='end') rate=Math.min(rate,0);
+  rate=mecheTemper(rate);
   G.cold = clamp((G.cold||0)+rate*dt, 0, 1.05);
   if(near<4 && G.cold>0.05 && !G.tipsDone.warm){ G.tipsDone.warm=true; floatText(add(cam.pos,scl(camDir(),2.5)),'Ça réchauffe','#ffb070'); }
   if(G.cold>=1 && !G.frozen){ G.frozen=true; G.frozeT=0.4; floatText(add(cam.pos,scl(camDir(),2.5)),'Tu gèles !','#bfe8ff','rallume un brasero avec la Boule de feu'); tone({f:1800,f1:900,dur:0.6,g:0.05,type:'sine'}); }
@@ -14330,6 +14439,7 @@ function glaceCommonCold(dt, braz, li, base){
   let near=1e9; for(const B of braz) if(B.lit) near=Math.min(near, Math.hypot(x-B.p[0],z-B.p[2]));
   let rate = near<4 ? -0.32 : base;
   if(G.cine || dlgActive() || G['l'+G.level]==='intro' || G['l'+G.level]==='end') rate=Math.min(rate,0);
+  rate=mecheTemper(rate);
   G.cold = clamp((G.cold||0)+rate*dt, 0, 1.05);
   if(near<4 && G.cold>0.05 && !G.tipsDone.warm){ G.tipsDone.warm=true; floatText(add(cam.pos,scl(camDir(),2.5)),'Ça réchauffe','#ffb070'); }
   if(G.cold>=1 && !G.frozen){ G.frozen=true; G.frozeT=0.4; G.nFrozen=(G.nFrozen||0)+1; floatText(add(cam.pos,scl(camDir(),2.5)),'Tu gèles !','#bfe8ff','rallume un brasero avec la Boule de feu'); tone({f:1800,f1:900,dur:0.6,g:0.05,type:'sine'}); }
@@ -14757,6 +14867,7 @@ function picCold(dt){
   let near=1e9; for(const B of BRAZ37) if(B.lit) near=Math.min(near, len(sub(P,B.p)));
   let rate = near<4 ? -0.32 : 0.005 + Math.max(0,G.feet)/60*0.014 + (G.gust>0?0.02:0);
   if(G.cine || dlgActive() || G.l37==='intro' || G.l37==='end' || G.l37==='fusion') rate=Math.min(rate,0);
+  rate=mecheTemper(rate);
   G.cold = clamp((G.cold||0)+rate*dt, 0, 1.05);
   if(near<4 && G.cold>0.05 && !G.tipsDone.warm){ G.tipsDone.warm=true; floatText(add(cam.pos,scl(camDir(),2.5)),'Ça réchauffe','#ffb070'); }
   if(G.cold>=1 && !G.frozen){ G.frozen=true; G.frozeT=0.4; G.nFrozen++; floatText(add(cam.pos,scl(camDir(),2.5)),'Tu gèles !','#bfe8ff','trouve un brasero, ou rallume-le'); }
@@ -15020,6 +15131,339 @@ function l37Points(put){
   // la neige qui file : plus fort dans le vent
   if(G.flakes.length<200) for(let k=0;k<16;k++) G.flakes.push({o:[rand(-12,12),rand(-2,9),rand(-12,12)], s:rand(0.03,0.07), v:rand(0.3,0.7), ph:rand(0,6)});
   for(const F of G.flakes){ F.o[1]-=F.v*0.016; F.o[0]+=(G.gust?0.18:0.02); if(F.o[0]>12) F.o[0]-=24; if(F.o[1]<-1.8) F.o[1]+=11; const p=[cam.pos[0]+F.o[0]+Math.sin(clock*0.5+F.ph)*0.5, cam.pos[1]+F.o[1]-1.6, cam.pos[2]+F.o[2]]; put(p,F.s,[0.76,0.82,0.94],0.5); }
+}
+/* =====================================================================
+   LES CINTRES · 1 — La Montgolfière : monter du sommet du Pic jusqu'aux Cintres, dans une nacelle d'osier.
+   Le brûleur ne vit que de la Boule de feu (lance-la au-dessus de ta tête) : sans chaleur, le ballon redescend.
+   Les corneilles de papier crèvent l'enveloppe, les herses barrent le passage (coupe UNE corde : elle bascule ;
+   les deux : elle tombe sur l'enveloppe), les pies soufflent le brûleur. En haut : le Cerf-volant, gardien des Cintres.
+   ===================================================================== */
+const DMGM = {crow:7, dart:9, dive:12, fail:15};
+const ck38Key = () => 'pantins_ck38_'+(SLOT||0);
+function ck38Get(){ try{ return +localStorage.getItem(ck38Key())||0; }catch(e){ return 0; } }
+function ck38Set(v){ try{ localStorage.setItem(ck38Key(), String(v)); }catch(e){} }
+const CERF_HP = 240, ENV_R = 4.4, ENV_UP = 8.6, BURN_UP = 2.75;
+const envC = () => { const k=G.bal.inf??1; return [M38[0], G.bal.y+BURN_UP+0.8+(ENV_UP-BURN_UP-0.8)*k, M38[1]]; };
+const burnP = () => [M38[0], G.bal.y+BURN_UP, M38[1]];
+function startMont(){
+  setScene('ciel', true); TERRB=[]; TERRP=[]; TERRF=0; G.lavaY=0;
+  keys.clear(); Object.assign(MV,{vx:0,vz:0,bob:0,moved:0,still:0,stam:1,exh:false,run:false});
+  const ck=Math.min(ck38Get(),3), y0=CK38[ck];
+  Object.assign(G,{state:'play',level:38,score:0,combo:0,maxCombo:0,lives:3,hits:0,shots:0,decoyHits:0,timeouts:0,reactions:[],heads:0,
+    queue:[],resolved:0,scoring:true,useLives:true,endT:0,step:null,stepIdx:0,dodges:0,deathMsg:null,move:'full',phase:1,cine:null,boss:null,strings:null,rocks:[],
+    l38:'intro', l38T:0, swing:null, threads:[], hooks:[], bags:[], reelSpin:0, btargets:[], t10:[], pend:[], tipsDone:{}, introDone:false, tutFreeze:false,
+    feet:y0, vy:0, grounded:true, jumps:0, coyote:0, safe:[M38[0],M38[1]], falls:0, nJumps:0, nDouble:0, nGrap:0, iframe:0, airFree:false, grap:null, sw:null,
+    heat:0, cold:0, frozen:false, chill:1, slip:false, water:1, burning:false, crusts:[], spray:null, geysers:[], barrels:[], fBoxes:[], eye:{ch:1,on:0}, eyesHave:store.get('lootyeux',false), boucleHave:true, loopCast:0,
+    bal:{y:y0, vy:0, heat:ck?0.75:0, env:100, lit:ck>0, inf:ck>0?1:0.12, sway:0, tears:[], out:false}, ck38:ck, startCk38:ck, nFalls38:0, envMin:100, heatOut:false,
+    crows:[], pies:[], herses:[], darts:[], feathers:[], cerf:null, nCrows:0, spawnT:3, pieT:6, w38:[ck>=1,ck>=2,ck>=3,false], hitT:0});
+  if(!boucleHas()) store.set('lootboucle',true);
+  G.herses=[170,190,210].map((h,i)=>({y:h, i, ropes:[{s:-1,cut:false},{s:1,cut:false}], st:h<y0+14?'gone':'up', ang:0, av:0, fall:0, fv:0, hit:false, hit2:false}));
+  G.btargets=[{kind:'bruleur38', fire:true, p:burnP(), r:0.95},
+    {kind:'cerf38', fire:true, p:[0,304,-40], r:2.2, get off(){ return !G.cerf || G.cerf.st==='down' || G.l38!=='cerf'; }}];
+  timers.length=0; cam.yaw=0; cam.pitch=0.1; cam.pos=[M38[0],y0+1.6,M38[1]+0.3];
+  $('#lives').classList.add('hidden'); $('#hpbar').classList.remove('hidden'); document.body.classList.add('hpmode');
+  $('#fourn').classList.add('hidden'); $('#givre').classList.add('hidden'); $('#ballon').classList.remove('hidden');
+  G.hp=HP_MAX; G.hpChip=HP_MAX; G.lastHp=HP_MAX; G.dmgTaken=0; G.bossKey=null; $('#react').textContent='—'; G.inter=[];
+  $('#bstep').textContent='Les Cintres · La Montgolfière'; $('#btext').textContent='Monte jusqu\'aux Cintres. Garde le brûleur chaud.';
+  SFX.sting(); Music.start(); Music.setIntensity(0.3);
+  if(ck>=1){ G.introDone=true; G.l38='monte'; showCenter('Point de reprise · '+CK38_NAMES[ck],2.4); }
+  balScene(0); updateHUD();
+}
+/* ---------------- le ciel suit la nacelle : le soleil, la couleur de l'air, la lueur du brûleur ---------------- */
+function balScene(dt){
+  const B=G.bal, y=B.y, t=clamp((y-60)/300,0,1);
+  const lo=[0.70,0.78,0.9], mid=[0.78,0.74,0.88], hi=[0.95,0.78,0.6], top=[0.36,0.26,0.2];
+  let c = t<0.5 ? lo.map((v,i)=>lerp(v,mid[i],t*2)) : mid.map((v,i)=>lerp(v,hi[i],(t-0.5)*2));
+  if(y>335) c=c.map((v,i)=>lerp(v,top[i],clamp((y-335)/25,0,1)));
+  const inCloud = [132,262].some(Y=>Math.abs(y+6-Y)<5.5);
+  SC.fogC=c; SC.clearC=c.map(v=>v*0.94); SC.fogK = inCloud ? 0.075 : y>335 ? 0.03 : 0.016;
+  const P=[M38[0]+34, y+48, M38[1]+30], T=[M38[0], y+4, M38[1]];
+  Object.assign(SC, keyLight(P,T,46,20,160)); SC.keyI = y>335 ? 900 : 2600;
+  const bp=burnP(), fl=B.lit && B.heat>0 ? 4+B.heat*16*(0.85+0.15*Math.sin(clock*23)) : 0;
+  SC.hlP[0]=bp[0]; SC.hlP[1]=bp[1]+0.6; SC.hlP[2]=bp[2]; SC.hlP[3]=fl;
+}
+/* ---------------- la nacelle : chaleur, montée, enveloppe ---------------- */
+function tear38(n, at){
+  const B=G.bal; B.env=Math.max(0,B.env-n); G.envMin=Math.min(G.envMin,B.env);
+  if(at && B.tears.length<40){ const C=envC(), d=norm(sub(at,C)); B.tears.push({d, s:0.25+n*0.02}); }
+  noise({f:2600,f1:900,q:0.7,dur:0.35,g:0.14});
+  if(!G.tipsDone.tear){ G.tipsDone.tear=true; showTip('L\'<b>enveloppe</b> est déchirée : le ballon monte moins bien. Si elle se vide, tu retombes au dernier point de reprise.', 7); }
+}
+function balFail(why){
+  const B=G.bal; G.nFalls38++; G.envMin=Math.min(G.envMin,0);
+  hpDamage(DMGM.fail, why+' Garde le brûleur chaud (Boule de feu au-dessus de ta tête) et abats ce qui s\'en prend à l\'enveloppe.'); if(G.state!=='play') return;
+  B.y=CK38[G.ck38]; B.vy=0; B.heat=0.75; B.env=Math.max(B.env,70); B.lit=true; B.tears.length=Math.min(B.tears.length,6);
+  G.crows.length=0; G.pies.length=0; G.darts.length=0; G.spawnT=3;
+  for(const H of G.herses) if(H.y>B.y+14 && H.st!=='up'){ Object.assign(H,{st:'up',ang:0,av:0,fall:0,fv:0,hit:false,hit2:false}); H.ropes.forEach(r=>r.cut=false); }
+  if(G.cerf && G.l38==='cerf'){ G.cerf.st='circle'; G.cerf.t=3; }
+  floatText(add(cam.pos,scl(camDir(),3)),'Le ballon retombe','#ffd27a',CK38_NAMES[G.ck38]); SFX.stomp(1); cam.shake=0.5;
+}
+function updBal(dt){
+  const B=G.bal; if(!B.lit) return; B.inf=Math.min(1,B.inf+dt*0.35);
+  const drain = 0.042 + G.pies.filter(p=>p.st==='perch').length*0.13;
+  B.heat=Math.max(0,B.heat-drain*dt);
+  if(B.heat<=0){ if(!B.out){ B.out=true; if(G.l38!=='fin') G.heatOut=true; floatText(burnP(),'Le brûleur s\'éteint !','#ffb070','Boule de feu au-dessus de ta tête'); } } else B.out=false;
+  const eff=0.45+0.55*B.env/100;
+  let tv = clamp((B.heat-0.32)*8*eff, -3.2, 3.2);
+  if(G.l38==='cerf' || G.l38==='cerfIntro') tv = clamp((303-B.y)*0.6, -1.2, 1.2) - (B.heat<0.12 ? 1.6 : 0);
+  if(G.l38==='fin') tv = Math.min(4, (Y38_TOP-B.y)*0.8+0.2);
+  B.vy += (tv-B.vy)*(1-Math.exp(-dt*0.9));
+  B.y += B.vy*dt; if(B.y<60.4){ B.y=60.4; B.vy=Math.max(0,B.vy); }
+  if(G.l38==='fin' && B.y>Y38_TOP) { B.y=Y38_TOP; B.vy=0; }
+  B.sway=Math.sin(clock*0.7)*0.03;
+  if(G.l38==='cerf' && B.heat<0.12){ B.wrinkle=(B.wrinkle||0)+dt; if(B.wrinkle>1){ B.wrinkle=0; tear38(3); if(!G.tipsDone.cold38){ G.tipsDone.cold38=true; floatText(envC(),'L\'enveloppe se froisse','#ffd27a','rallume le brûleur !'); } } }
+  if(G.ck38>0 && B.y<CK38[G.ck38]-14 && G.l38!=='fin') balFail('Le ballon est retombé trop bas.');
+  else if(B.env<=0 && G.l38!=='fin') balFail('L\'enveloppe s\'est vidée.');
+  for(let i=G.ck38+1;i<CK38.length;i++) if(B.y>=CK38[i] && G.l38==='monte'){ G.ck38=i; if(ck38Get()<i) ck38Set(i); showCenter(CK38_NAMES[i].charAt(0).toUpperCase()+CK38_NAMES[i].slice(1),2.2); SFX.ping(2); }
+  G.feet=B.y; G.grounded=true; G.vy=0;
+}
+/* ---------------- les corneilles de papier ---------------- */
+function spawnCrow(dive){
+  const a=rand(0,TAU), r=rand(14,18);
+  G.crows.push({a, r, oy:rand(1,11), x:M38[0]+Math.cos(a)*r, y:G.bal.y+6, z:M38[1]+Math.sin(a)*r, st:'circle', t:rand(2,4.5), w:rand(0,6), va:rand(0.6,0.9)*(Math.random()<0.5?-1:1), tgt:null, dive:dive||(Math.random()<0.32?'me':'env'), flash:0, peckT:0});
+}
+function crowDie(C, why){ const i=G.crows.indexOf(C); if(i<0) return; G.crows.splice(i,1); G.nCrows++; G.score+=60; G.hits++;
+  for(let k=0;k<10;k++) G.feathers.push({p:[C.x,C.y,C.z], v:[rand(-2,2),rand(-1,2),rand(-2,2)], t:0, s:rand(0.12,0.22), spin:rand(0,6), c:Math.random()<0.7?[0.08,0.08,0.09]:[0.9,0.88,0.82]});
+  noise({f:3200,f1:1200,q:0.6,dur:0.18,g:0.1}); if(why!=='fire') SFX.hit(); }
+function updCrows(dt){
+  const B=G.bal, me=add(cam.pos,[0,-0.15,0]);
+  for(const C of G.crows.slice()){
+    C.w+=dt*14; C.flash=Math.max(0,C.flash-dt);
+    if(C.st==='circle'){ C.a+=C.va*dt; C.x=M38[0]+Math.cos(C.a)*C.r; C.z=M38[1]+Math.sin(C.a)*C.r; C.y=lerp(C.y,B.y+C.oy,1-Math.exp(-dt*2)); C.t-=dt;
+      if(C.t<=0 && !G.cine){ C.st='dive'; noise({f:1800,f1:900,q:2,dur:0.25,g:0.08});
+        if(C.dive==='env'){ const C0=envC(), d=norm([C.x-C0[0], rand(-0.4,0.6), C.z-C0[2]]); C.tgt=add(C0,scl(d,ENV_R)); C.n=d; } else C.tgt=null; } }
+    else if(C.st==='dive'){ const T=C.tgt||me, v=sub(T,[C.x,C.y,C.z]), d=len(v), sp=C.dive==='me'?8.5:9.5;
+      if(C.dive==='env' && C.tgt){ C.tgt=add(envC(),scl(C.n,ENV_R)); }
+      if(d<0.6){ if(C.dive==='env'){ C.st='peck'; C.peckT=0.3; } else { if(!G.cine) hpDamage(DMGM.crow,'Une corneille de papier t\'a crevé un œil de bois. Abats-les quand elles piquent vers toi.'); C.st='flee'; C.t=1.6; } }
+      else { const s=Math.min(d,sp*dt)/d; C.x+=v[0]*s; C.y+=v[1]*s; C.z+=v[2]*s; } }
+    else if(C.st==='peck'){ const P=add(envC(),scl(C.n,ENV_R+0.2)); C.x=P[0]; C.y=P[1]; C.z=P[2]; C.peckT-=dt;
+      if(C.peckT<=0){ C.peckT=0.7; tear38(3,P); if(!G.tipsDone.peck){ G.tipsDone.peck=true; floatText(P,'Elle crève l\'enveloppe !','#ffd27a','abats-la'); } } }
+    else if(C.st==='flee'){ C.t-=dt; const o=norm([C.x-M38[0],0.6,C.z-M38[1]]); C.x+=o[0]*7*dt; C.y+=o[1]*7*dt; C.z+=o[2]*7*dt;
+      if(C.t<=0){ C.st='circle'; C.a=Math.atan2(C.z-M38[1],C.x-M38[0]); C.r=Math.hypot(C.x-M38[0],C.z-M38[1]); C.oy=C.y-B.y; C.t=rand(3,5); C.dive=Math.random()<0.3?'me':'env'; } }
+    const P=[C.x,C.y,C.z];
+    G.t10.push({A:P,B:P,r:0.55,fn:h=>crowDie(C)});
+  }
+}
+/* ---------------- les pies : elles se posent sur le brûleur et soufflent la flamme ---------------- */
+function updPies(dt){
+  const bp=burnP();
+  for(const Q of G.pies.slice()){ Q.w+=dt*12;
+    if(Q.st==='fly'){ const T=add(bp,[Math.cos(Q.slot)*0.62,0.15,Math.sin(Q.slot)*0.62]), v=sub(T,Q.p), d=len(v); if(d<0.25){ Q.st='perch'; tone({f:2400,f1:3100,dur:0.12,g:0.05,type:'square'});
+        if(!G.tipsDone.pie){ G.tipsDone.pie=true; showTip('Une <b>pie</b> s\'est posée sur le brûleur : elle <b>souffle la flamme</b> ! Abats-la vite.', 6); say10('Mèche','Hé ! Hé ! Elle me souffle dessus ! Enlève-la, enlève-la !',null); } }
+      else Q.p=add(Q.p,scl(v,Math.min(d,7*dt)/d)); }
+    else { Q.p=add(bp,[Math.cos(Q.slot)*0.62,0.15,Math.sin(Q.slot)*0.62]); if(Math.random()<dt*2) tone({f:2600,f1:2200,dur:0.06,g:0.03,type:'square'}); }
+    G.t10.push({A:Q.p,B:Q.p,r:0.4,fn:h=>{ const i=G.pies.indexOf(Q); if(i>=0){ G.pies.splice(i,1); G.score+=90; G.hits++; for(let k=0;k<8;k++) G.feathers.push({p:Q.p.slice(), v:[rand(-2,2),rand(-1,2),rand(-2,2)], t:0, s:rand(0.1,0.18), spin:rand(0,6), c:k%2?[0.06,0.06,0.08]:[0.95,0.95,0.95]}); noise({f:3000,q:0.6,dur:0.15,g:0.1}); } }}); }
+}
+/* ---------------- les herses : une perche chargée de sacs de lest, en travers du passage ---------------- */
+function herseEnds(H){ // les deux bouts de la perche
+  if(H.st==='swing' || H.st==='hang'){ const s=H.piv, P0=[M38[0]+s*5.6, H.y, M38[1]], P1=[P0[0]-s*11.2*Math.cos(H.ang), H.y-11.2*Math.sin(H.ang), M38[1]]; return [P0,P1]; }
+  const y=H.y-H.fall; return [[M38[0]-5.6,y,M38[1]],[M38[0]+5.6,y,M38[1]]];
+}
+function updHerses(dt){
+  const B=G.bal, top=B.y+ENV_UP+ENV_R;
+  for(const H of G.herses){ if(H.st==='gone') continue;
+    if(H.st==='up'){
+      if(top>H.y-0.35 && top<H.y+3){ if(!H.hit){ H.hit=true; tear38(16,[M38[0],H.y-0.3,M38[1]]); B.vy=-3.2; SFX.knock(1); cam.shake=0.45; floatText([M38[0],H.y-1,M38[1]],'La herse !','#ffd27a','coupe une de ses cordes');
+          showTip('Une <b>herse</b> barre le ciel. Tire sur <b>une seule</b> de ses deux cordes : la perche bascule et libère le passage. Coupe les deux, et elle te tombe dessus !', 9); }
+        B.y=Math.min(B.y,H.y-0.35-ENV_UP-ENV_R); B.vy=Math.min(B.vy,0); G.feet=B.y; }
+      if(H.y-top<18 && !H.warned){ H.warned=true; if(!G.tipsDone.herse){ G.tipsDone.herse=true; say10('Lin','Là-haut ! Une perche en travers, chargée de sacs. On va s\'y cogner. Une corde, une seule, et elle pivote !',null); } }
+      for(const r of H.ropes){ if(r.cut) continue; const A=[M38[0]+r.s*5.6,H.y+0.15,M38[1]], Bt=[A[0],H.y+10,A[2]];
+        G.t10.push({A,B:Bt,r:0.38,fn:h=>{ if(r.cut || H.st!=='up') return; r.cut=true; SFX.snap(); G.score+=50;
+          const n=H.ropes.filter(q=>q.cut).length; if(n===1){ H.pendT=0.55; H.pendS=r.s; } else { H.st='fall'; H.fv=0; floatText([M38[0],H.y,M38[1]],'Les deux cordes !','#ff8a6a','elle tombe…'); } }}); }
+      if(H.pendT!=null && H.st==='up'){ H.pendT-=dt; if(H.pendT<=0){ H.st='swing'; H.piv=-H.pendS; H.ang=0; H.av=0; SFX.creak(1); H.pendT=null; } } }
+    else if(H.st==='swing'){ H.av += (13*Math.cos(H.ang) - H.av*1.1)*dt; H.ang += H.av*dt; if(H.ang>Math.PI/2+0.25){ H.ang=Math.PI/2+0.25; H.av*=-0.4; }
+      if(Math.abs(H.ang-Math.PI/2)<0.06 && Math.abs(H.av)<0.3){ H.st='hang'; SFX.knock(0.6); } }
+    else if(H.st==='hang'){ H.ang=Math.PI/2+Math.sin(clock*1.3+H.i)*0.04; }
+    else if(H.st==='fall'){ H.fv+=18*dt; H.fall+=H.fv*dt; const y=H.y-H.fall;
+      if(!H.hit2 && y<top && y>B.y+ENV_UP-1){ H.hit2=true; tear38(24,[M38[0],y,M38[1]]); B.vy=-4; SFX.knock(1); cam.shake=0.6; floatText([M38[0],y,M38[1]],'Sur l\'enveloppe !','#ff8a6a','une seule corde, la prochaine fois'); }
+      if(H.fall>70) H.st='gone'; }
+  }
+}
+/* ---------------- les flèches de bambou (le Cerf-volant), avec leur ombre sur le plancher de la nacelle ---------------- */
+function updDarts(dt){
+  const B=G.bal;
+  for(const D of G.darts.slice()){ D.t+=dt; const k=Math.min(1,D.t/D.T), base=lerp(D.from[1],B.y+0.1,k);
+    D.p=[lerp(D.from[0],D.tgt[0],k), base+Math.sin(k*Math.PI)*4, lerp(D.from[2],D.tgt[2],k)];
+    if(k>=1){ G.darts.splice(G.darts.indexOf(D),1); SFX.knock(0.5); if(Math.hypot(cam.pos[0]-D.tgt[0],cam.pos[2]-D.tgt[2])<0.62) hpDamage(DMGM.dart,'Une flèche de bambou du Cerf-volant t\'a cloué au plancher. Quand des ombres rouges apparaissent dans la nacelle, va de l\'autre côté.'); continue; }
+    G.t10.push({A:D.p,B:D.p,r:0.4,fn:h=>{ const i=G.darts.indexOf(D); if(i>=0){ G.darts.splice(i,1); G.score+=30; SFX.knock(0.4); } }}); }
+}
+/* ---------------- le Cerf-volant ---------------- */
+function cerfPos(C){ return [M38[0]+Math.cos(C.a)*C.r, C.y, M38[1]+Math.sin(C.a)*C.r]; }
+function spawnCerf(){ G.cerf={a:-Math.PI/2, r:15, y:G.bal.y+4, hp:CERF_HP, max:CERF_HP, st:'circle', t:3.5, flash:0, tail:[], aimDmg:0, stun:0, next:0, p:null, called:false, burn:0}; G.cerf.p=cerfPos(G.cerf); }
+function cerfDmgFor(){ return WPN==='katana'?9 : WPN==='gaffe'?7 : WPN==='harpoon'?6 : WPN==='scissors'?5 : WPN==='blunder'?2.2 : 3; }
+function cerfHit(n, h, fire){
+  const C=G.cerf; if(!C || C.st==='down' || G.l38!=='cerf') return;
+  const m = C.st==='stun' ? 2 : 1; n*=m; C.hp=Math.max(0,C.hp-n); C.flash=0.12; G.score+=Math.round(n*8); G.hits++;
+  if(C.st==='aim'){ C.aimDmg+=n; if(C.aimDmg>=10){ C.st='stun'; C.t=2.4; floatText(C.p,'Étourdi !','#ffe08a','frappe-le !'); SFX.stomp(0.8); } }
+  if(fire){ C.burn=3; flameSparks(h||C.p,10,true); }
+  if(C.hp<=C.max*0.5 && !C.called){ C.called=true; for(let i=0;i<3;i++) spawnCrow('env'); say10('Le Cerf-volant','Mes corneilles ! Mes jolies ! Crevez-moi ce ballon de foire !',C.p); }
+  if(C.hp<=0) cerfDown();
+}
+function cerfDown(){ const C=G.cerf; C.st='down'; C.vy=0; G.l38='fin'; G.crows.length=0; G.pies.length=0; G.darts.length=0; Music.setIntensity(0.25); cam.shake=0.7; SFX.snap(); SFX.crumble();
+  floatText(C.p,'Le fil casse !','#ffd27a','+1500'); G.score+=1500; ck38Set(0);
+  say10('Le Cerf-volant','Mon fil ! Elles ont lâché mon fil ! Elles me laissent tomber… comme les autres…',C.p);
+  G.pend.push({t:2.5, fn:()=>{ if(!G.tipsDone.finUp){ G.tipsDone.finUp=true; showTip('Le passage est libre : le ballon monte vers les <b>Cintres</b>.', 5); } }}); }
+function cerfAI(dt){
+  const C=G.cerf; if(!C) return; C.flash=Math.max(0,C.flash-dt);
+  if(C.burn>0){ C.bt=(C.bt||0)+dt; if(C.bt>0.8){ C.bt=0; C.burn--; if(C.st!=='down'){ C.hp=Math.max(0,C.hp-2.5); flameSparks(C.p,6,false); if(C.hp<=0) return cerfDown(); } } }
+  const ph2=C.hp<C.max*0.5, me=add(cam.pos,[0,-0.2,0]);
+  C.tail.unshift(C.p.slice()); if(C.tail.length>26) C.tail.length=26;
+  if(C.st==='down'){ C.vy-=12*dt; C.y+=C.vy*dt; C.a+=dt*0.6; C.p=cerfPos(C); if(C.y<G.bal.y-60) G.cerf=null; return; }
+  if(C.st==='circle'){ C.a+=(ph2?0.5:0.36)*dt; C.y=lerp(C.y,G.bal.y+3+Math.sin(G.l38T*0.9)*2.5,1-Math.exp(-dt)); C.p=cerfPos(C); C.t-=dt;
+    if(C.t<=0 && !G.cine){ const pick=['dive','rain','souffle','dive','rain'][C.next++%5];
+      if(pick==='dive'){ C.st='aim'; C.t=ph2?0.85:1.1; C.aimDmg=0; tone({f:900,f1:2400,dur:0.9,g:0.07,type:'sawtooth'}); }
+      else if(pick==='rain'){ C.st='rain'; C.t=0.9; const phi=rand(0,TAU); C.side=phi;
+        for(let i=0;i<(ph2?6:5);i++){ const a=phi+rand(-1.2,1.2), r=Math.sqrt(Math.random())*0.95; G.darts.push({from:C.p.slice(), tgt:[M38[0]+Math.cos(a)*r, 0, M38[1]+Math.sin(a)*r], t:-i*0.12, T:1.5, p:C.p.slice()}); }
+        SFX.whoosh(); if(!G.tipsDone.rain){ G.tipsDone.rain=true; showTip('Des <b>flèches de bambou</b> : leurs <b>ombres rouges</b> tombent dans la nacelle. Passe de l\'autre côté, ou abats-les.', 6); } }
+      else { C.st='souffle'; C.t=1.6; noise({f:300,f1:900,q:0.5,dur:1.5,g:0.1}); } } }
+  else if(C.st==='aim'){ C.t-=dt; C.y=lerp(C.y,G.bal.y+1.6,1-Math.exp(-dt*3)); C.p=cerfPos(C);
+    if(!G.tipsDone.aim){ G.tipsDone.aim=true; showTip('Ses yeux s\'allument : il va <b>foncer</b> sur toi. Tire-lui dessus (10 dégâts) pour l\'<b>étourdir</b>, ou écarte-toi de sa ligne.', 6); }
+    if(C.t<=0){ C.st='dash'; const from=C.p.slice(), to=add(me,[rand(-0.5,0.5),0,rand(-0.5,0.5)]), d=norm(sub(to,from)); C.from=from; C.dir=d; C.dist=0; C.hitMe=false; C.hitEnv=false; SFX.whoosh(); } }
+  else if(C.st==='dash'){ const step=19*dt; C.dist+=step; C.p=add(C.from,scl(C.dir,C.dist));
+    if(!C.hitMe && len(sub(C.p,me))<1.25){ C.hitMe=true; hpDamage(DMGM.dive,'Le Cerf-volant t\'a fauché en passant. Quand ses yeux s\'allument, tire-lui dessus pour l\'étourdir, ou écarte-toi.'); }
+    if(!C.hitEnv && len(sub(C.p,envC()))<ENV_R+0.6){ C.hitEnv=true; tear38(9,C.p); }
+    if(C.dist>32){ C.st='circle'; C.t=ph2?2.2:3.2; C.a=Math.atan2(C.p[2]-M38[1],C.p[0]-M38[0]); C.r=clamp(Math.hypot(C.p[0]-M38[0],C.p[2]-M38[1]),12,17); C.y=C.p[1]; } }
+  else if(C.st==='stun'){ C.t-=dt; C.y-=dt*0.6; C.p=cerfPos(C); if(C.t<=0){ C.st='circle'; C.t=2.5; } }
+  else if(C.st==='rain'){ C.t-=dt; C.p=cerfPos(C); if(C.t<=0){ C.st='circle'; C.t=ph2?2.4:3.4; } }
+  else if(C.st==='souffle'){ C.t-=dt; C.p=cerfPos(C); G.bal.sway=Math.sin(clock*9)*0.12; cam.shake=Math.max(cam.shake||0,0.12);
+    if(C.t<=0){ C.st='circle'; C.t=3; G.bal.heat=Math.max(0,G.bal.heat-0.35); floatText(burnP(),'Il souffle sur le brûleur !','#ffb070','rallume-le'); say10('Mèche','Brrr ! Il m\'a soufflé dessus ! Vite, vite, du feu !',null); } }
+  const body=[C.p, add(C.p,[0,-1.6,0])];
+  G.t10.push({A:body[0],B:body[1],r:1.5,fn:h=>cerfHit(cerfDmgFor(),h,false)});
+}
+function use38(T){
+  if(T.kind==='bruleur38'){ const B=G.bal; const was=B.lit; B.lit=true; B.heat=Math.min(1,B.heat+0.32); flameSparks(burnP(),14,true); noise({f:400,f1:1400,q:0.5,dur:0.6,g:0.16}); G.score+=10;
+    if(!was){ G.pend.push({t:0.6, fn:()=>{ if(G.l38==='allume'){ G.l38='monte'; Music.setIntensity(0.45); say10('Mèche','Ha ! Il chauffe ! On décolle ! Reste près de moi, hein : je n\'ai pas assez de flamme pour deux montgolfières.',null);
+      showTip('La <b>chaleur</b> baisse toute seule : relance la <b>Boule de feu</b> dans le brûleur dès que la jauge descend. Sans chaleur, le ballon redescend.', 9); } }}); }
+    return true; }
+  if(T.kind==='cerf38'){ cerfHit(10,T.p,true); return true; }
+  return false;
+}
+/* ---------------- le déroulé ---------------- */
+function startCerf(){
+  G.l38='cerfIntro'; Music.setIntensity(0.3); spawnCerf();
+  cineTalk([
+    {who:'', narr:true, txt:'Le ballon ralentit. Quelque chose plane au-dessus, immense et léger : un cerf-volant de papier et de bambou, à tête de dragon, tenu par un fil qui monte tout droit vers les Mains.', eye:[0,305,-26], at:[0,307,-52], k:0.6},
+    {who:'Le Cerf-volant', txt:'Personne ne monte aux Cintres. Personne. Les Mains me tiennent pour ça : je garde la porte du ciel.', src:[0,307,-52]},
+    {who:'Lin', txt:'Il est en papier. Comme les corneilles. Mèche ?'},
+    {who:'Mèche', txt:'Le papier, c\'est mon plat préféré. Mais garde-moi aussi pour le brûleur, d\'accord ? D\'accord ?'},
+  ], ()=>{ G.l38='cerf'; Music.setIntensity(0.95); G.cerf.t=2; showTip('Le <b>Cerf-volant</b> : le <b>feu</b> le brûle, les balles le percent. Quand ses yeux s\'allument, il fonce : tire pour l\'<b>étourdir</b>. Et ne laisse pas le brûleur s\'éteindre.', 10); });
+}
+function endMont(){
+  if(G.startCk38===0){ if(G.envMin>=50) store.set('st_aeronaute',true); if(!G.heatOut) store.set('st_feusacre',true); }
+  cineTalk([
+    {who:'', narr:true, txt:'La nacelle traverse la dernière couche de nuages et s\'arrête contre un plancher de bois. Au-dessus, un gril de poutres, des milliers de cordes qui montent et descendent, des contrepoids qui se balancent dans le noir.', eye:[9,Y38_TOP+3,-30], at:[0,Y38_TOP+6,-46], k:0.5},
+    {who:'Lin', txt:'Les Cintres. L\'endroit d\'où on fait descendre le ciel sur la scène. C\'est là qu\'ils rangent les nuages, la lune, les étoiles…'},
+    {who:'', narr:true, txt:'Tout en haut, au-delà du gril, deux ombres immenses bougent lentement. Les doigts des Mains glissent sur les fils, comme sur les cordes d\'une harpe.', eye:[0,Y38_TOP+2,-40], at:[0,Y38_TOP+40,-44], k:0.4},
+    {who:'Mèche', txt:'J\'ai froid aux pieds et chaud partout ailleurs. C\'est bon signe, non ? On continue ?'},
+    {who:'', narr:true, txt:'Dans la poche de Lin, la petite poupée de verre chuchote : « Les passerelles. Suivez les passerelles. »'},
+  ], ()=>{ G.lives = G.hp>=HP_MAX/2 ? HARD.lives : 1; store.set('fin8',true); G.pend.push({t:0.8, fn:()=>{ Music.stop(); winLevel(); }}); });
+}
+function updateL38(dt, rdt){
+  G.l38T+=dt; Music.tick(rdt); updateThreads(rdt); updCine10(rdt); updHP(rdt); updEyes(rdt);
+  G.t10.length=0; G.tutFreeze=dlgActive();
+  for(let i=G.pend.length-1;i>=0;i--){ const P=G.pend[i]; P.t-=rdt; if(P.t<=0){ G.pend.splice(i,1); P.fn(); } }
+  G.btargets[0].p=burnP(); if(G.cerf) G.btargets[1].p=add(G.cerf.p,[0,-0.6,0]);
+  for(let i=G.feathers.length-1;i>=0;i--){ const F=G.feathers[i]; F.t+=rdt; F.v[1]-=3*rdt; F.v=scl(F.v,1-rdt*1.2); F.p=add(F.p,scl(F.v,rdt)); F.spin+=rdt*6; if(F.t>3) G.feathers.splice(i,1); }
+  iceAim(); balScene(rdt);
+  if(!G.cine && !dlgActive()) updBal(dt); else { G.feet=G.bal.y; }
+  cam.pos[1]=SC.cam[1]+G.feet;   // la nacelle porte la caméra, même immobile
+  const g=$('#ballon'); if(g){ g.querySelector('.bh i').style.width=(G.bal.heat*100).toFixed(1)+'%'; g.querySelector('.be i').style.width=G.bal.env.toFixed(1)+'%'; g.querySelector('.alt').textContent=Math.round(G.bal.y-60)+' m'; g.classList.toggle('out', G.bal.lit && G.bal.heat<=0.15); }
+  if(G.cine || dlgActive()) return;
+  const y=G.bal.y;
+  updCrows(dt); updPies(dt); updHerses(dt); updDarts(dt);
+  switch(G.l38){
+    case 'intro':
+      if(G.l38T>0.4 && !G.introDone){ G.introDone=true;
+        cineTalk([
+          {who:'', narr:true, txt:'Au sommet du Pic, derrière les éclats de l\'Avalanche, quelque chose dépasse de la neige : une nacelle d\'osier, et une enveloppe dégonflée, cousue dans de vieilles affiches de théâtre. Une montgolfière.', eye:[6,63,-30], at:[0,61,-40], k:0.5},
+          {who:'Lin', txt:'Quelqu\'un est déjà monté par ici. Il y a même un nom, brodé sur l\'osier : « Pour aller voir les Mains ». Il n\'est jamais redescendu.'},
+          {who:'Mèche', txt:'Un brûleur ! Tout froid, tout vide. Mais moi, je suis chaude. Tu vois où je veux en venir ? Tu vois ?'},
+        ], ()=>{ G.l38='allume'; showTip('Lève les yeux : lance la <b>Boule de feu</b> dans le <b>brûleur</b>, au-dessus de ta tête, pour gonfler le ballon.', 9); }); }
+      break;
+    case 'allume': break;
+    case 'monte': {
+      const max = y<140 ? 3 : y<220 ? 4 : 6, iv = y<140 ? 4.2 : y<220 ? 3.6 : 2.5;
+      G.spawnT-=dt; if(G.spawnT<=0 && G.crows.length<max && y>66){ G.spawnT=iv; spawnCrow(); if(!G.w38[0]){ G.w38[0]=true; say10('Lin','Des corneilles ! En papier noir. Elles visent l\'enveloppe !',null); showTip('Les <b>corneilles</b> piquent sur l\'<b>enveloppe</b> (ou sur toi). Abats-les avant qu\'elles ne la crèvent.', 7); } }
+      if(y>=222){ G.pieT-=dt; if(G.pieT<=0 && G.pies.length<2){ G.pieT=rand(7,10); const a=rand(0,TAU); G.pies.push({p:[M38[0]+Math.cos(a)*16, y+6, M38[1]+Math.sin(a)*16], st:'fly', slot:rand(0,TAU), w:0}); } }
+      if(!G.w38[1] && y>=142){ G.w38[1]=true; say10('Mèche','On a traversé les nuages ! Il fait plus chaud, ici. Ou c\'est moi. C\'est sûrement moi.',null); }
+      if(!G.w38[2] && y>=224){ G.w38[2]=true; say10('Lin','Des pies… Elles adorent ce qui brille. Et Mèche, ça brille.',null); }
+      if(y>=300){ startCerf(); }
+      break; }
+    case 'cerf': cerfAI(dt); G.spawnT-=dt; if(G.cerf && G.cerf.hp<G.cerf.max*0.5 && G.spawnT<=0 && G.crows.length<3){ G.spawnT=6; spawnCrow('env'); } break;
+    case 'fin': if(G.cerf) cerfAI(dt); if(y>=Y38_TOP-0.05 && !G.ended38){ G.ended38=true; endMont(); } break;
+  }
+}
+/* ---------------- dessin ---------------- */
+function drawNacelle(){
+  const B=G.bal, y=B.y, X=M38[0], Z=M38[1], OS=[0.62,0.46,0.26], OS2=[0.5,0.36,0.2], RO=[0.55,0.45,0.3], IRON=[0.2,0.2,0.21];
+  const sw=B.sway, P=(x,yy,z)=>[X+x+sw*(yy-y), yy, Z+z];
+  for(let k=-1.15;k<=1.16;k+=0.23) emitVM(P(k,y-0.07,-1.2),0.08,P(k,y-0.07,1.2),0.08,k*4%2<1?OS:OS2,0);
+  for(let h=0.12;h<=1.0;h+=0.17){ const c=h*6%2<1?OS:OS2; emitVM(P(-1.25,y+h,-1.25),0.07,P(1.25,y+h,-1.25),0.07,c,0); emitVM(P(-1.25,y+h,1.25),0.07,P(1.25,y+h,1.25),0.07,c,0); emitVM(P(-1.25,y+h,-1.25),0.07,P(-1.25,y+h,1.25),0.07,c,0); emitVM(P(1.25,y+h,-1.25),0.07,P(1.25,y+h,1.25),0.07,c,0); }
+  for(const [a,b] of [[-1,-1],[-1,1],[1,-1],[1,1]]){ emitVM(P(a*1.25,y,b*1.25),0.06,P(a*1.25,y+1.12,b*1.25),0.06,OS2,0); emitVM(P(a*1.25,y+1.12,b*1.25),0.014,P(a*0.45,y+BURN_UP-0.1,b*0.45),0.014,[0.72,0.62,0.45],0);
+    emitVM(P(a*0.45,y+BURN_UP-0.1,b*0.45),0.02,P(a*2.6,y+ENV_UP-2.2,b*2.6),0.02,RO,0); }
+  // le brûleur : un anneau de fer, la flamme
+  const by=y+BURN_UP; for(let i=0;i<10;i++){ const a0=i/10*TAU, a1=(i+1)/10*TAU; emitVM(P(Math.cos(a0)*0.5,by,Math.sin(a0)*0.5),0.06,P(Math.cos(a1)*0.5,by,Math.sin(a1)*0.5),0.06,IRON,1); }
+  emitVM(P(0,by-0.25,0),0.22,P(0,by+0.05,0),0.25,IRON,1);
+  if(B.lit && B.heat>0){ const h=0.4+B.heat*1.6; for(let k=0;k<6;k++){ const a=k*1.05+clock*3, w=0.12+0.06*Math.sin(clock*17+k); emitVM(P(Math.cos(a)*0.12,by+0.1,Math.sin(a)*0.12),0.2,P(Math.cos(a)*0.05,by+0.2+h*(0.6+0.4*Math.sin(clock*11+k*2)),Math.sin(a)*0.05),w*0.3,k%2?[2.8,1.4,0.35]:[2.6,0.75,0.12],5); } }
+  // l'enveloppe : des fuseaux d'affiches, une jupe, les déchirures
+  const C=envC(), k=B.inf??1, R0=(ENV_R-1.15)*(0.3+0.7*k), RS=0.35+0.65*k; const COL=[[0.72,0.16,0.12],[0.93,0.86,0.7],[0.2,0.3,0.5],[0.93,0.86,0.7]];
+  for(let g=0;g<12;g++){ const a=g/12*TAU, col=COL[g%4]; for(let k=0;k<8;k++){ const t0=-1.15+k*0.3, t1=t0+0.3;
+      const p0=[C[0]+Math.cos(a)*Math.cos(t0)*R0*1.05+sw*8, C[1]+Math.sin(t0)*R0*1.1, C[2]+Math.sin(a)*Math.cos(t0)*R0*1.05], p1=[C[0]+Math.cos(a)*Math.cos(t1)*R0*1.05+sw*8, C[1]+Math.sin(t1)*R0*1.1, C[2]+Math.sin(a)*Math.cos(t1)*R0*1.05];
+      emitVM(p0,1.18*RS,p1,1.18*RS,col,0); } }
+  emitVM([C[0]+sw*8,C[1]+R0*1.12,C[2]],1.3*RS,[C[0]+sw*8,C[1]+R0*1.15,C[2]],1.3*RS,[0.93,0.86,0.7],0);
+  for(let i=0;i<12;i++){ const a=i/12*TAU; emitVM([C[0]+Math.cos(a)*1.9*RS+sw*7,C[1]-3.4*RS,C[2]+Math.sin(a)*1.9*RS],0.22,[C[0]+Math.cos(a)*0.7+sw*6,y+BURN_UP+0.4,C[2]+Math.sin(a)*0.7],0.12,COL[i%4],0); }
+  for(const T of B.tears){ const p=add(C,scl(T.d,ENV_R+0.05)); emitVM(p,T.s,add(p,[0,-T.s*0.6,0]),T.s*0.7,[0.06,0.04,0.04],0); }
+}
+function drawCrow(C){ const P=[C.x,C.y,C.z], f=C.st==='circle'?norm([-Math.sin(C.a)*Math.sign(C.va),0,Math.cos(C.a)*Math.sign(C.va)]):norm(sub(C.st==='peck'?envC():(C.tgt||cam.pos),P)), s=norm(cross(f,[0,1,0])), fl=Math.sin(C.w)*0.6, col=C.flash>0?[0.9,0.5,0.4]:[0.07,0.07,0.08];
+  emitVM(add(P,scl(f,-0.35)),0.16,add(P,scl(f,0.3)),0.12,col,0); emitVM(add(P,scl(f,0.3)),0.07,add(P,scl(f,0.6)),0.02,[0.85,0.7,0.2],0);
+  for(const e of [-1,1]){ const tip=add(add(P,scl(s,e*0.9)),[0,fl*e*0+fl,0]); emitVM(add(P,scl(s,e*0.1)),0.08,tip,0.03,col,0); emitVM(tip,0.03,add(tip,scl(f,-0.35)),0.02,col,0); }
+  emitVM(add(P,scl(f,-0.35)),0.06,add(add(P,scl(f,-0.75)),[0,0.05,0]),0.12,col,0);
+  for(const e of [-1,1]) emitVM(add(add(P,scl(f,0.36)),add(scl(s,e*0.07),[0,0.05,0])),0.03,add(add(P,scl(f,0.37)),add(scl(s,e*0.07),[0,0.05,0])),0.03,[1.6,1.3,0.3],5); }
+function drawPie(Q){ const P=Q.p, fl=Q.st==='fly'?Math.sin(Q.w)*0.4:0.05; emitVM(add(P,[-0.2,0,0]),0.12,add(P,[0.2,0.02,0]),0.1,[0.06,0.06,0.08],0); emitVM(add(P,[-0.05,-0.05,0.01]),0.09,add(P,[0.12,-0.05,0.01]),0.08,[0.95,0.95,0.95],0);
+  for(const e of [-1,1]) emitVM(add(P,[0,0.02,e*0.05]),0.05,add(P,[-0.1,fl,e*0.55]),0.02,[0.1,0.12,0.25],0); emitVM(add(P,[-0.2,0,0]),0.04,add(P,[-0.65,0.1,0]),0.03,[0.08,0.1,0.22],0); emitVM(add(P,[0.2,0.04,0]),0.03,add(P,[0.32,0.03,0]),0.01,[0.1,0.1,0.1],0); }
+function drawHerse(H){ if(H.st==='gone') return; const [P0,P1]=herseEnds(H), BAR=[0.42,0.3,0.18], SAC=[0.62,0.52,0.36], HEMP=[0.5,0.42,0.28];
+  emitVM(P0,0.12,P1,0.12,BAR,0);
+  if(H.st==='up' || H.st==='fall') for(const r of H.ropes){ const A=r.s<0?P0:P1; if(!r.cut) emitVM(A,0.035,add(A,[0,26,0]),0.035,HEMP,0); else emitVM(A,0.035,add(A,[0,0.6,0]),0.035,HEMP,0); }
+  else { emitVM(P0,0.035,add(P0,[0,26,0]),0.035,HEMP,0); }
+  const n=7; for(let i=1;i<n;i++){ const k=i/n, Q=vlerp(P0,P1,k), S=add(Q,[0,-1.4,0]); emitVM(Q,0.02,S,0.02,HEMP,0); emitVM(add(S,[0,-0.1,0]),0.32,add(S,[0,-0.55,0]),0.34,SAC,0); } }
+function drawCerf(){ const C=G.cerf; if(!C) return; const P=C.p, fl=C.flash>0, PAPER=fl?[1.4,1.2,1.1]:[0.86,0.18,0.12], PAP2=fl?[1.3,1.3,1.3]:[0.95,0.82,0.45], BAM=[0.55,0.45,0.25];
+  const toward=norm([M38[0]-P[0],0,M38[1]-P[2]]), s=norm(cross(toward,[0,1,0])), up=[0,1,0], burnC=C.burn>0;
+  const Q=(a,b,c)=>add(P,add(add(scl(s,a),scl(up,b)),scl(toward,c)));
+  // la croix de bambou, l'aile en losange, les panneaux de papier
+  emitVM(Q(0,2.4,0),0.07,Q(0,-2.6,0),0.07,BAM,0); emitVM(Q(-3.4,0.4,0),0.07,Q(3.4,0.4,0),0.07,BAM,0);
+  for(let r=0;r<26;r++){ const y=2.3-r*0.19, w=(r<9?(r+0.5)/9:(26-r)/17)*3.3; emitVM(Q(-w,y,-0.05),0.1,Q(w,y,-0.05),0.1,(r>=8&&r<=10)||(r>=17&&r<=18)?PAP2:PAPER,0); }
+  for(const e of [-1,1]){ emitVM(Q(0,2.4,0.02),0.05,Q(e*3.3,0.6,0.02),0.05,BAM,0); emitVM(Q(e*3.3,0.6,0.02),0.05,Q(0,-2.6,0.02),0.05,BAM,0); }
+  // la tête de dragon, les yeux
+  emitVM(Q(0,2.6,0.4),0.6,Q(0,3.2,0.7),0.55,PAP2,0); emitVM(Q(0,2.6,1.0),0.3,Q(0,2.5,1.5),0.18,PAPER,0);
+  const eye=C.st==='aim'?[3,2.2,0.6]:C.st==='stun'?[0.5,0.5,0.6]:[1.8,1.2,0.3]; for(const e of [-1,1]) emitVM(Q(e*0.32,2.95,1.05),0.1,Q(e*0.32,2.97,1.08),0.1,eye,5);
+  for(const e of [-1,1]){ emitVM(Q(e*0.4,3.4,0.6),0.06,Q(e*0.9,4.1,0.3),0.02,PAP2,0); }
+  // la queue : des rubans qui suivent sa trajectoire
+  for(let i=1;i<C.tail.length;i+=2){ const a=add(C.tail[i-1],[0,-2.6-i*0.15,0]), b=add(C.tail[i],[0,-2.6-(i+1)*0.15,0]); emitVM(a,0.16-i*0.004,b,0.15-i*0.004,i%4<2?PAPER:PAP2,0); }
+  // son fil, qui monte vers les Mains
+  if(C.st!=='down') emitVM(Q(0,2.4,0),0.03,[P[0]*0.3,P[1]+70,M38[1]+(P[2]-M38[1])*0.3],0.03,[0.9,0.86,0.75],0);
+  if(burnC) for(let k=0;k<4;k++){ const a=Q(rand(-2,2),rand(-1.5,1.5),0.2); emitVM(a,0.25,add(a,[0,0.7,0]),0.04,[2.6,0.9,0.2],5); } }
+function drawMains38(){ const B=G.bal; if(B.y<330) return; const WD=[0.5,0.36,0.22], WD2=[0.42,0.3,0.18];
+  for(const e of [-1,1]){ const c=[M38[0]+e*16, Y38_TOP+46, M38[1]-14]; emitVM(c,4.2,add(c,[0,-5,e*-1]),4.6,WD,0);
+    for(let f=0;f<4;f++){ const b=add(c,[e*(-3+f*2),-6,2-f*0.3]), t=add(b,[e*0.6,-6+f*0.4,1]); emitVM(b,1.0,t,0.8,f%2?WD:WD2,0); emitVM(t,0.8,add(t,[0,-3,1.2]),0.7,WD2,0); }
+    emitVM(add(c,[e*-4.5,-2,0]),1.1,add(c,[e*-6,-6,2]),0.9,WD,0); } }
+function buildL38Extras(){
+  drawThreads(); drawNacelle();
+  for(const C of G.crows) drawCrow(C);
+  for(const Q of G.pies) drawPie(Q);
+  for(const H of G.herses) drawHerse(H);
+  for(const D of G.darts){ emitVM(D.p,0.05,add(D.p,[0,-0.6,0]),0.02,[0.6,0.5,0.28],0);
+    if(D.t>0){ const k=Math.min(1,D.t/D.T); for(let i=0;i<8;i++){ const a0=i/8*TAU, a1=(i+1)/8*TAU, r=0.55; emitVM([D.tgt[0]+Math.cos(a0)*r,G.bal.y+0.04,D.tgt[2]+Math.sin(a0)*r],0.03,[D.tgt[0]+Math.cos(a1)*r,G.bal.y+0.04,D.tgt[2]+Math.sin(a1)*r],0.03,[1.4*k+0.3,0.15,0.1],5); } } }
+  for(const F of G.feathers){ const d=[Math.cos(F.spin)*F.s,0.02,Math.sin(F.spin)*F.s]; emitVM(sub(F.p,d),0.03,add(F.p,d),0.01,F.c,0); }
+  drawCerf(); drawMains38();
+}
+function l38Points(put){
+  const B=G.bal; if(B.lit && B.heat>0){ const bp=burnP(); put(add(bp,[0,0.6,0]),1.6+B.heat*2,[1,0.6,0.2],0.35+0.25*B.heat); if(Math.random()<0.5) sparks.push({p:add(bp,[rand(-0.1,0.1),0.5,rand(-0.1,0.1)]),v:[rand(-0.3,0.3),rand(1.5,3),rand(-0.3,0.3)],life:rand(0.4,0.8),age:0,s:rand(0.04,0.08),c:[1,0.6,0.2]}); }
+  else if(!B.lit){ const bp=burnP(); put(bp,0.7,[1,0.8,0.4],0.2+0.15*Math.sin(clock*4)); }
+  for(const C of G.crows) if(C.st==='dive') put([C.x,C.y,C.z],0.5,[1,0.85,0.3],0.25);
+  if(G.cerf && G.cerf.st==='aim') put(add(G.cerf.p,[0,2.9,0]),2.4,[1,0.7,0.2],0.6);
+  // de la poussière dorée dans l'air, qui file vers le bas quand on monte
+  if(!G.motes) G.motes=Array.from({length:120},()=>({o:[rand(-14,14),rand(-6,14),rand(-14,14)],s:rand(0.03,0.07)}));
+  for(const M of G.motes){ M.o[1]-=(B.vy||0)*0.016+0.003; if(M.o[1]<-6) M.o[1]+=20; if(M.o[1]>14) M.o[1]-=20; put([M38[0]+M.o[0],B.y+M.o[1],M38[1]+M.o[2]],M.s,[1,0.95,0.8],0.35); }
 }
 /* =====================================================================
    NIVEAU 5 — Gala : le colisée, l'effondrement, le Marionnettiste
@@ -15838,6 +16282,11 @@ function buildLevelMenu(){
       b.innerHTML=`<div class="n">${L.cine?'▶':L.secret?'✧':!L.built?'✦':(['I','II','III','IV','V','VI','VII','VIII','IX','X'][rk++]||'')}</div><div class="t">${L.t}</div><div class="s">${open?('★'.repeat(store.get('hstars'+L.n,0))+'☆'.repeat(3-store.get('hstars'+L.n,0))):`<small>${P4 && !L.built?'bientôt':'verrouillé'}</small>`}</div>`;
       if(open) b.onclick=()=>{ G.hard=true; if(!L.cine && anyExtraWeapon()) openVestiaire(L.n); else startLevel(L.n); };
       w4.appendChild(b); } }
+  { const P7=isHDone(37)||store.get('fin7',false); document.body.classList.toggle('act7', P7); const w7=$('#p7'); w7.innerHTML='';
+    for(const [r,L] of [{n:38,t:'La Montgolfière',built:true},{n:39,t:'Les Passerelles'},{n:40,t:'Le Ciel peint'},{n:41,t:'L\'Atelier'},{n:42,t:'Les Mains'}].entries()){ const open=P7 && L.built && (L.n===38 || isHDone(L.n-1)), stars=store.get('hstars'+L.n,0), b=document.createElement('button'); b.className='lvl'; b.disabled=!open;
+      b.innerHTML=`<div class="n">${['I','II','III','IV','V'][r]}</div><div class="t">${L.built?L.t:'???'}</div><div class="s">${open?('★'.repeat(stars)+'☆'.repeat(3-stars)):`<small>${P7 && !L.built?'bientôt':'verrouillé'}</small>`}</div>`;
+      if(open) b.onclick=()=>{ G.hard=true; if(anyExtraWeapon()) openVestiaire(L.n); else startLevel(L.n); };
+      w7.appendChild(b); } }
   { const P6=isHDone(32)||store.get('fin5',false); document.body.classList.toggle('act6', P6); const w6=$('#p6'); w6.innerHTML='';
     for(const [r,L] of [{n:33,t:'Le Lac gelé'},{n:34,t:'Le Palais de glace'},{n:35,t:'Les Jardins d\'hiver'},{n:36,t:'La Patinoire'},{n:37,t:'Le Pic des Frimas'}].entries()){ const open=P6 && (L.n===33 || isHDone(L.n-1)), stars=store.get('hstars'+L.n,0), b=document.createElement('button'); b.className='lvl'; b.disabled=!open;
       b.innerHTML=`<div class="n">${['I','II','III','IV','V'][r]}</div><div class="t">${L.t}</div><div class="s">${open?('★'.repeat(stars)+'☆'.repeat(3-stars)):'<small>verrouillé</small>'}</div>`;
@@ -15881,7 +16330,7 @@ function startLevel(n){
   initAudio(); if(autoFS) goFS(); lockPointer();
   Music.stop(); clearFace(); DLG.queue=[]; DLG.cur=null; DLG.block=false; DLG.onEnd=null; dlgShow(false); $('#reel').classList.remove('on'); G.swing=null; G.threads=[]; $('#menu').classList.remove('reveal');
   G.hard = !!G.hard; document.body.classList.toggle('hardrun', G.hard);
-  $('#vest').classList.add('hidden'); G.cool=0; needles.length=0; G.btargets=[]; $('#hpbar').classList.add('hidden'); $('#bossbar').classList.add('hidden'); $('#lowhp').style.opacity='0'; document.body.classList.remove('hpmode'); G.disguise=0; G.sewn=0; G.needle=null; G.sb=null; G.kingMech=false; G.tutFreeze=false; G.t10=[]; G.roll=0; G.quills=[]; G.coins=[]; G.reveal=null; G.rmb=false; G.feet=0; G.vy=0; G.grounded=true; G.bolts=[]; G.zap=null; G.rafiDown=false; G.reveal11=false; G.grap=null; G.eye=null; G.pp=null; G.ocu=null; G.corks=[]; G.geyes=[]; G.beam=null; G.ceilFils=false; G.fin=null; G.l16=null; G.l17=null; G.l18=null; G.l19=null; G.l20=null; G.l21=null; G.l22=null; G.l24=null; G.l25=null; G.l26=null; G.l27=null; for(const k of ['l28','l29','l30','l31','l32','bou','fon','cart','fils','ingots','rings32','puddles','cages','sweep','brand','hookC','bats','rivs','snip','pris','streams','presses','jets','blades','crusts','spray']) G[k]=null; G.geysers=[]; G.barrels=[]; G.heatMul=1; G.hotZone=null; G.fonUp=undefined; G.youUp=undefined; G.flooded=false; $('#fourn')&&$('#fourn').classList.add('hidden'); $('#givre')&&$('#givre').classList.add('hidden'); document.body.classList.remove('gel'); for(const k of ['l33','snow','sballs','l34','pat34','l35','l36','dame','roses','l37','minis','colo']) G[k]=null; G.spikes=[]; G.shards=[]; G.fprj=[]; G.burns=[]; G.ftr=[]; G.shotRefs=[]; G.rPend=null; G.lastFire=null; G.katFlame=false; G.gaffeFlame=false; G.cmbAnim=null; G.katFireT=0; G.mzF=0; G.flines=[]; G.hurled=[]; G.stitch=[]; G.boucleHave=false; G.reelFrozen=false; G.filT=0; G.loopCast=0; $('#givre')&&$('#givre').classList.remove('nopompe'); G.flakes=[]; G.cold=0; G.frozen=false; G.chill=1; G.slip=false; G.wind=0; G.katSnow=false; G.portT=undefined; G.gar=null; G.thr=null; G.lamps=null; G.fires=null; G.flash=null; G.blinded=0; G.nou=null; G.needles25=null; G.wool=null; G.lull=null; G.drowsy=0; G.nStun=0; $('#c').style.filter=''; G.son=null; G.baud=null; G.rings=null; G.lanterns=null; G.whale22=null; G.crack=0; G.bf=null; G.fb=[]; G.finShown=false; G.ouvLines=null; const fin4=$('#finIV'); if(fin4) fin4.remove(); G.ml=null; G.meds=null; G.ink=null; $('#encre')&&$('#encre').classList.add('hidden'); G.ouv=null; G.cm=null; G.slam=false; G.coeurHere=false; G.ch=null; G.scaph=[]; G.whale=null; G.freedP=[]; G.dangerY=DANGER_Y; G.boats=null; G.crabClamp=null; G.inter=null; G.chOpen={}; G.anchorT=0; G.interCur=null; $('#prompt').classList.remove('on'); $('#sac').classList.add('hidden'); G.crabs=null; G.mur=null; G.forging=false; TERRF=0; G.sw=null; G.caught=null; G.choosing=false; $('#depth').classList.add('hidden'); $('#choix').classList.add('hidden'); $('#fadeblk').classList.remove('on'); G.doorOpen=0; G.aimHook=null; G.zip=null; G.aimZip=null; G.st12=null; ['#style','#applau','#defis'].forEach(q=>$(q).classList.add('hidden')); $('#bank').classList.remove('on'); $('#eyes').classList.add('hidden'); $('#eyes').classList.remove('on'); $('#redvis').classList.remove('on'); $('#cross').classList.remove('grap'); G.costumes=[]; G.disHold=false; G.noRecrown=false; G.ammo={}; G.reload=0; G.scis=null; G.heroB=null; G.seamB=null; G.seamShow=null; G.gift=null; G.fin=null;
+  $('#vest').classList.add('hidden'); G.cool=0; needles.length=0; G.btargets=[]; $('#hpbar').classList.add('hidden'); $('#ballon')&&$('#ballon').classList.add('hidden'); $('#bossbar').classList.add('hidden'); $('#lowhp').style.opacity='0'; document.body.classList.remove('hpmode'); G.disguise=0; G.sewn=0; G.needle=null; G.sb=null; G.kingMech=false; G.tutFreeze=false; G.t10=[]; G.roll=0; G.quills=[]; G.coins=[]; G.reveal=null; G.rmb=false; G.feet=0; G.vy=0; G.grounded=true; G.bolts=[]; G.zap=null; G.rafiDown=false; G.reveal11=false; G.grap=null; G.eye=null; G.pp=null; G.ocu=null; G.corks=[]; G.geyes=[]; G.beam=null; G.ceilFils=false; G.fin=null; G.l16=null; G.l17=null; G.l18=null; G.l19=null; G.l20=null; G.l21=null; G.l22=null; G.l24=null; G.l25=null; G.l26=null; G.l27=null; for(const k of ['l28','l29','l30','l31','l32','bou','fon','cart','fils','ingots','rings32','puddles','cages','sweep','brand','hookC','bats','rivs','snip','pris','streams','presses','jets','blades','crusts','spray']) G[k]=null; G.geysers=[]; G.barrels=[]; G.heatMul=1; G.hotZone=null; G.fonUp=undefined; G.youUp=undefined; G.flooded=false; $('#fourn')&&$('#fourn').classList.add('hidden'); $('#givre')&&$('#givre').classList.add('hidden'); document.body.classList.remove('gel'); for(const k of ['l33','snow','sballs','l34','pat34','l35','l36','dame','roses','l37','minis','colo','l38','cerf']) G[k]=null; G.spikes=[]; G.shards=[]; G.fprj=[]; G.burns=[]; G.ftr=[]; G.shotRefs=[]; G.rPend=null; G.lastFire=null; G.katFlame=false; G.gaffeFlame=false; G.cmbAnim=null; G.katFireT=0; G.mzF=0; G.flines=[]; G.hurled=[]; G.stitch=[]; G.boucleHave=false; G.reelFrozen=false; G.filT=0; G.loopCast=0; $('#givre')&&$('#givre').classList.remove('nopompe'); G.flakes=[]; G.cold=0; G.frozen=false; G.chill=1; G.slip=false; G.wind=0; G.katSnow=false; G.portT=undefined; G.gar=null; G.thr=null; G.lamps=null; G.fires=null; G.flash=null; G.blinded=0; G.nou=null; G.needles25=null; G.wool=null; G.lull=null; G.drowsy=0; G.nStun=0; $('#c').style.filter=''; G.son=null; G.baud=null; G.rings=null; G.lanterns=null; G.whale22=null; G.crack=0; G.bf=null; G.fb=[]; G.finShown=false; G.ouvLines=null; const fin4=$('#finIV'); if(fin4) fin4.remove(); G.ml=null; G.meds=null; G.ink=null; $('#encre')&&$('#encre').classList.add('hidden'); G.ouv=null; G.cm=null; G.slam=false; G.coeurHere=false; G.ch=null; G.scaph=[]; G.whale=null; G.freedP=[]; G.dangerY=DANGER_Y; G.boats=null; G.crabClamp=null; G.inter=null; G.chOpen={}; G.anchorT=0; G.interCur=null; $('#prompt').classList.remove('on'); $('#sac').classList.add('hidden'); G.crabs=null; G.mur=null; G.forging=false; TERRF=0; G.sw=null; G.caught=null; G.choosing=false; $('#depth').classList.add('hidden'); $('#choix').classList.add('hidden'); $('#fadeblk').classList.remove('on'); G.doorOpen=0; G.aimHook=null; G.zip=null; G.aimZip=null; G.st12=null; ['#style','#applau','#defis'].forEach(q=>$(q).classList.add('hidden')); $('#bank').classList.remove('on'); $('#eyes').classList.add('hidden'); $('#eyes').classList.remove('on'); $('#redvis').classList.remove('on'); $('#cross').classList.remove('grap'); G.costumes=[]; G.disHold=false; G.noRecrown=false; G.ammo={}; G.reload=0; G.scis=null; G.heroB=null; G.seamB=null; G.seamShow=null; G.gift=null; G.fin=null;
   { const sec=store.get('loadout','pistol'); WPN = wpnUnlocked(sec) ? sec : 'pistol'; }
   $('#menu').classList.add('hidden'); $('#over').classList.add('hidden');
   $('#hud').classList.remove('hidden'); $('#cross').classList.remove('hidden');
@@ -15909,6 +16358,7 @@ function startLevel(n){
   if(n===35){ startJardins(); afterStart(); return; }
   if(n===36){ startPatinoire(); afterStart(); return; }
   if(n===37){ startPic(); afterStart(); return; }
+  if(n===38){ startMont(); afterStart(); return; }
   if(n===27){ startPhare(); afterStart(); return; }
   if(n===25){ startLingerie(); afterStart(); return; }
   if(n===14){ startMer(); return; }
@@ -15940,7 +16390,7 @@ function afterStart(){
   sacHUD();
   if(!G.hard) return;
   G.lives = Math.min(G.lives, HARD.lives);
-  if(G.level>=28){ showCenter({28:'La Grève de cendre',29:'La Fonderie',30:'Les Supplices',31:'La Coulée',32:'Le Cœur de la Forge',33:'Le Lac gelé',34:'Le Palais de glace',35:'Les Jardins d\'hiver',36:'La Patinoire',37:'Le Pic des Frimas'}[G.level]||'La Fournaise', 2.2); updateHUD(); return; }
+  if(G.level>=28){ showCenter({28:'La Grève de cendre',29:'La Fonderie',30:'Les Supplices',31:'La Coulée',32:'Le Cœur de la Forge',33:'Le Lac gelé',34:'Le Palais de glace',35:'Les Jardins d\'hiver',36:'La Patinoire',37:'Le Pic des Frimas',38:'La Montgolfière'}[G.level]||'La Fournaise', 2.2); updateHUD(); return; }
   if(isP4()){ showCenter(G.level===27?'Le Phare':G.level===26?'Le Port englouti':G.level===22?'La Cloche':G.level===21?'Les Grands Fonds':G.level===20?'La Baleine':G.level===19?'Le Récif':G.level===18?'La Conserverie':G.level===17?'La Forêt':G.level===16?'L\'Épave':'La Mer de carton', 2.2); updateHUD(); return; }
   if(G.level>=11){ showCenter('Le Rafistoleur', 2.2); updateHUD(); return; }
   const an = G.level>=6 ? G.level-5 : G.level;
@@ -15977,7 +16427,7 @@ function endScreen(win, silent){
   const nextTxt = nextL ? (nextL.built ? ` Le niveau ${n+1} est débloqué !` : ` Le niveau ${n+1} arrive bientôt…`) : '';
   const an = n>=6 ? n-5 : n;
   $('#osub').textContent = (win && G.hard) ? (n===5 ? 'Il sourit encore… Le Marionnettiste n\'en a pas fini avec toi.' : (record?'Nouveau record ! ':'')+`Acte ${ROMAN[an-1]} terminé.`+(an<5?(an<ACTS_BUILT?` L'Acte ${ROMAN[an]} est débloqué !`:` L'Acte ${ROMAN[an]} arrive bientôt…`):'')+((nw=>nw.length ? (nw.length>1?' Nouvelles armes au Vestiaire : ':' Nouvelle arme au Vestiaire : ')+nw.map(W=>W.name).join(' et ')+' !' : '')(Object.values(WEAPONS).filter(W=>W.unlock===n && !W.soon)))) : win ? (n===5 ? 'Les fils sont rompus. Le Marionnettiste s\'est retiré dans l\'ombre… pour l\'instant.' : (record?'Nouveau record ! ':'')+`Niveau ${n} terminé.`+nextTxt)
-    : (G.deathMsg || (n===1 ? 'Plus de vies. Le tutoriel est validé : retente juste l\'épreuve finale.' : n===3 ? 'Le noir t\'a englouti. Garde ta lampe sur eux et ne les laisse pas approcher.' : n===4 ? 'Le public a eu raison de toi. Ne leur tourne jamais le dos trop longtemps.' : n===22 ? 'La Cloche a sonné pour toi.' : n===21 ? 'Les Grands Fonds t\'ont gardé.' : n===20 ? 'La baleine t\'a digéré.' : n===19 ? 'Le Récif t\'a éteint.' : n===18 ? 'Tu as fini en boîte, comme les autres. La Conserverie ne garde pas de point de reprise.' : n===17 ? 'La Forêt t\'a gardé.' : n===16 ? 'L\'épave t\'a gardé.' : n===15 ? 'La Mer de carton t\'a englouti.' : n===28 ? 'La Grève de cendre t\'a réduit en braise.' : n===29 ? 'La Fonderie t\'a coulé dans un moule.' : n===30 ? 'Les Supplices ont eu raison de toi.' : n===31 ? 'Le wagonnet est arrivé sans toi.' : n===37 ? 'Le Pic des Frimas t\'a gardé dans sa glace.' : n===36 ? 'La Dame d\'hiver t\'a rangé tout en haut des gradins.' : n===35 ? 'Les jardiniers t\'ont taillé en haie.' : n===34 ? 'Le Palais t\'a rangé avec les autres.' : n===33 ? 'Le froid t\'a rangé dans la glace.' : n===32 ? 'Le Fondeur t\'a fondu.' : n===27 ? 'Le Phare t\'a rendu à la mer.' : n===26 ? 'Le Port englouti t\'a gardé.' : n===25 ? 'La Nourrice t\'a bordé pour toujours.' : n===24 ? 'Les combles t\'ont gardé avec les jouets cassés.' : n===13 ? 'Le Cabinet de l\'Oculiste t\'a ouvert les yeux… pour de bon.' : n===12 ? 'Les soldats de plomb ont gagné la bataille de la chambre.' : n===11 ? 'La Clinique t\'a démonté pièce par pièce.' : n===10 ? 'Le Marionnettiste et ses employés t\'ont eu.' : n===9 ? 'La Garde-Robe t\'a habillé pour l\'hiver. Ferme les cabines, découds les costumes aux Ciseaux, et surveille la ligne rouge de l\'aiguille.' : n===8 ? 'Les glaces t\'ont eu. Vise les yeux qui brillent, jamais le reflet.' : n===7 ? 'L\'atelier t\'a remis en pièces. Abats-les, puis clic droit sur leur corps pour leur arracher la tête avant qu\'ils ne se remontent.' : n===6 ? 'Les Cintres t\'ont englouti. Sers-toi de la Bobine : un pantin sous ton fil vaut deux balles, et un sac de sable en vaut trois.' : n===5 ? 'Le colisée t\'a englouti. Recule, tourne-toi sans cesse, et tire d\'abord sur les plus proches.' : 'Plus de vies. Recharge et retente les coulisses.'));
+    : (G.deathMsg || (n===1 ? 'Plus de vies. Le tutoriel est validé : retente juste l\'épreuve finale.' : n===3 ? 'Le noir t\'a englouti. Garde ta lampe sur eux et ne les laisse pas approcher.' : n===4 ? 'Le public a eu raison de toi. Ne leur tourne jamais le dos trop longtemps.' : n===22 ? 'La Cloche a sonné pour toi.' : n===21 ? 'Les Grands Fonds t\'ont gardé.' : n===20 ? 'La baleine t\'a digéré.' : n===19 ? 'Le Récif t\'a éteint.' : n===18 ? 'Tu as fini en boîte, comme les autres. La Conserverie ne garde pas de point de reprise.' : n===17 ? 'La Forêt t\'a gardé.' : n===16 ? 'L\'épave t\'a gardé.' : n===15 ? 'La Mer de carton t\'a englouti.' : n===28 ? 'La Grève de cendre t\'a réduit en braise.' : n===29 ? 'La Fonderie t\'a coulé dans un moule.' : n===30 ? 'Les Supplices ont eu raison de toi.' : n===31 ? 'Le wagonnet est arrivé sans toi.' : n===38 ? 'Le ciel t\'a laissé tomber.' : n===37 ? 'Le Pic des Frimas t\'a gardé dans sa glace.' : n===36 ? 'La Dame d\'hiver t\'a rangé tout en haut des gradins.' : n===35 ? 'Les jardiniers t\'ont taillé en haie.' : n===34 ? 'Le Palais t\'a rangé avec les autres.' : n===33 ? 'Le froid t\'a rangé dans la glace.' : n===32 ? 'Le Fondeur t\'a fondu.' : n===27 ? 'Le Phare t\'a rendu à la mer.' : n===26 ? 'Le Port englouti t\'a gardé.' : n===25 ? 'La Nourrice t\'a bordé pour toujours.' : n===24 ? 'Les combles t\'ont gardé avec les jouets cassés.' : n===13 ? 'Le Cabinet de l\'Oculiste t\'a ouvert les yeux… pour de bon.' : n===12 ? 'Les soldats de plomb ont gagné la bataille de la chambre.' : n===11 ? 'La Clinique t\'a démonté pièce par pièce.' : n===10 ? 'Le Marionnettiste et ses employés t\'ont eu.' : n===9 ? 'La Garde-Robe t\'a habillé pour l\'hiver. Ferme les cabines, découds les costumes aux Ciseaux, et surveille la ligne rouge de l\'aiguille.' : n===8 ? 'Les glaces t\'ont eu. Vise les yeux qui brillent, jamais le reflet.' : n===7 ? 'L\'atelier t\'a remis en pièces. Abats-les, puis clic droit sur leur corps pour leur arracher la tête avant qu\'ils ne se remontent.' : n===6 ? 'Les Cintres t\'ont englouti. Sers-toi de la Bobine : un pantin sous ton fil vaut deux balles, et un sac de sable en vaut trois.' : n===5 ? 'Le colisée t\'a englouti. Recule, tourne-toi sans cesse, et tire d\'abord sur les plus proches.' : 'Plus de vies. Recharge et retente les coulisses.'));
   if(n===10){ if(win){ $('#otitle').textContent='FIN DES ACTES'; $('#osub').textContent=(record?'Nouveau record ! ':'')+'Acte V terminé. Le Marionnettiste n\'était qu\'un apprenti… La troupe part en tournée : le Rafistoleur t\'attend.'; }
     else { const ck=ck10Get(); $('#osub').textContent += ck>=1 ? ` Point de reprise : ${L10_STAGES[ck]}.` : ' Tout recommence depuis le Souffleur.'; } }
   if(n===11){ if(win){ $('#otitle').textContent='BRAVO !'; $('#osub').textContent=(record?'Nouveau record ! ':'')+'La Salle de réveil est terminée. Le monte-charge grince vers les étages : la Chambre d\'enfant est ouverte !'; }
@@ -15988,9 +16438,13 @@ function endScreen(win, silent){
       if(!cheat) store.set('hstars33',Math.max(prev,s33)); $('#stars').innerHTML=[0,1,2].map(i=>`<span class="${i<s33?'':'off'}">★</span>`).join('');
       $('#otitle').textContent='BRAVO !'; $('#osub').textContent=(record?'Nouveau record ! ':'')+'Les mains du Palais se sont ouvertes. La Dame d\'hiver t\'attend : le Palais de glace est ouvert !'+(s33<3?' (Étoiles : la cascade gelée, et la cabane du patineur.)':''); }
     else { const ck=ck33Get(); $('#osub').textContent += ck>=1 ? ' Point de reprise : '+CK33_NAMES[ck]+'.' : ''; } }
+  if(n===38){ if(win){ const s38=1+((G.nFalls38||0)===0?1:0)+(G.hp>=HP_MAX/2?1:0);
+      if(!cheat) store.set('hstars38',Math.max(prev,s38)); $('#stars').innerHTML=[0,1,2].map(i=>`<span class="${i<s38?'':'off'}">★</span>`).join('');
+      $('#otitle').textContent='BRAVO !'; $('#osub').textContent=(record?'Nouveau record ! ':'')+'Te voilà dans les Cintres, au-dessus du monde. Les passerelles mènent vers les Mains… La suite arrive bientôt.'+(s38<3?' (Étoiles : ne jamais laisser le ballon retomber, et finir avec la moitié de tes PV.)':''); }
+    else { const ck=ck38Get(); $('#osub').textContent += ck>=1 ? ' Point de reprise : '+CK38_NAMES[ck]+'.' : ''; } }
   if(n===37){ if(win){ const s37=1+((G.nFalls37||0)===0?1:0)+(G.hp>=HP_MAX/2?1:0);
       if(!cheat) store.set('hstars37',Math.max(prev,s37)); $('#stars').innerHTML=[0,1,2].map(i=>`<span class="${i<s37?'':'off'}">★</span>`).join('');
-      $('#otitle').textContent='FIN DU MONDE DE GLACE'; $('#osub').textContent=(record?'Nouveau record ! ':'')+'Au sommet du Pic, les nuages se sont ouverts sur les Mains. Elles ne savent pas qu\'on arrive… La suite arrive bientôt.'+(s37<3?' (Étoiles : ne jamais retomber à un palier, et finir avec la moitié de tes PV.)':''); }
+      $('#otitle').textContent='FIN DU MONDE DE GLACE'; $('#osub').textContent=(record?'Nouveau record ! ':'')+'Au sommet du Pic, les nuages se sont ouverts sur les Mains. Elles ne savent pas qu\'on arrive… Une nacelle t\'attend au sommet.'+(s37<3?' (Étoiles : ne jamais retomber à un palier, et finir avec la moitié de tes PV.)':''); }
     else { const ck=ck37Get(); $('#osub').textContent += ck>=1 ? ' Point de reprise : '+CK37_NAMES[ck]+'.' : ''; } }
   if(n===35){ if(win){ const s35=1+(store.get('s35_serre',false)?1:0)+(store.get('s35_grenier',false)?1:0);
       if(!cheat) store.set('hstars35',Math.max(prev,s35)); $('#stars').innerHTML=[0,1,2].map(i=>`<span class="${i<s35?'':'off'}">★</span>`).join('');
@@ -16076,7 +16530,8 @@ function endScreen(win, silent){
   if(n===34 && win){ nb.textContent='Les Jardins d\'hiver'; nb.classList.remove('hidden'); nb.onclick=()=>{ G.hard=true; startLevel(35); }; }
   if(n===35 && win){ nb.textContent='La Patinoire'; nb.classList.remove('hidden'); nb.onclick=()=>{ G.hard=true; startLevel(36); }; }
   if(n===36 && win){ nb.textContent='Le Pic des Frimas'; nb.classList.remove('hidden'); nb.onclick=()=>{ G.hard=true; startLevel(37); }; }
-  if(n===37 && win){ nb.classList.add('hidden'); }
+  if(n===37 && win){ nb.textContent='La Montgolfière'; nb.classList.remove('hidden'); nb.onclick=()=>{ G.hard=true; startLevel(38); }; }
+  if(n===38 && win){ nb.classList.add('hidden'); }
   if(n===17 && win){ nb.textContent='Le Port englouti'; nb.classList.remove('hidden'); nb.onclick=()=>{ G.hard=true; startLevel(26); }; }
   if(n===26 && win){ nb.textContent='Le Phare'; nb.classList.remove('hidden'); nb.onclick=()=>{ G.hard=true; startLevel(27); }; }
   if(n===27 && win){ nb.textContent='Le Récif-Cabaret'; nb.classList.remove('hidden'); nb.onclick=()=>{ G.hard=true; startLevel(19); }; }
@@ -16088,7 +16543,7 @@ function endScreen(win, silent){
   if(n===10 && win){ nb.textContent='Le Rafistoleur'; nb.classList.remove('hidden'); nb.onclick=()=>{ G.hard=true; startLevel(11); }; }
   const row=(k,v)=>`<div><span>${k}</span><b>${v}</b></div>`;
   $('#ostats').innerHTML = row('Score',G.score)+row('Record',Math.max(prevBest,record?G.score:0))+row('Précision',Math.round(acc*100)+' %')+row('Réflexe moyen',avg?Math.round(avg*1000)+' ms':'—')
-    +row('Meilleur réflexe',bestR?Math.round(bestR*1000)+' ms':'—')+row('Combo max',G.maxCombo)+row('Têtes',G.heads)+row('Porcelaines brisées',G.decoyHits)+(n===2?row('Esquives',G.dodges||0)+row('Manche atteinte',(G.phase||1)+' / 3'):'')+(n===3?row('Esquives',G.dodges||0)+row('Vague atteinte',(G.phase||1)+' / 3'):'')+(n===4?row('Acte atteint',(G.phase||1)+' / 3'):'')+(n===5?row('Fils rompus',(G.boss?G.boss.cut:0)+' / 5'):'')+(n===9?row('Pantins libérés',G.freed||0)+row('Rois recousus',G.crowned||0)+row('Cabines fermées',(G.cabinsClosed||0)+' / 6'):'')+(n===21?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Choix',G.sw&&G.sw.mode==='libre'?'Libre':'Lesté')+row('Baudroies coulées',G.baudKills||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===22?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Ondes encaissées',G.ringHits||0)+row('Baudroies coulées',G.baudKills||0)+row('Crypte',store.get('s22_crypte',false)?'ouverte':'—'):'')+(n===20?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Avalés renvoyés',G.ouvKills||0)+row('Perles noires',nPearls()+' / 3')+row('Harpon',store.get('lootharpon',false)?'trouvé':'—')+row('Coffres ouverts',G.chestsOpened||0):'')+(n===19&&G.sw?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Choix',G.sw.mode==='libre'?'Libre':'Lesté')+row('Hippocampes démontés',G.sharkKills||0)+row('Méduses éteintes',G.medKills||0)+row('Nuages d\'encre',G.nInk||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===17&&G.sw?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Choix',G.sw.mode==='libre'?'Libre':'Lesté')+row('Câbles coupés',G.ch?G.ch.cables.filter(c=>c.cut).length+' / 4':'0 / 4')+row('Requins coulés',G.sharkKills||0)+row('Crabes taillés',G.crabKills||0)+row('Scaphandriers',G.scaphKills||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===16&&G.sw?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Choix',G.sw.mode==='libre'?'Libre':'Lesté')+row('Yeux de la Figure de proue',((store.get('oeil1',false)?1:0)+(store.get('oeil2',false)?1:0))+' / 2')+row('Perle noire',store.get('noire1',false)?'trouvée':'—')+row('Crabes taillés',G.crabKills||0)+row('Murènes décousues',G.murKills||0):'')+(n===15&&G.sw?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Choix',G.sw.mode==='libre'?'Libre':'Lesté')+row('Appâts libérés',(G.freed||0)+' / '+(G.baits?G.baits.length:12))+row('Requins coulés',G.sharkKills||0)+row('Pêché',(G.catches||0)+' fois'):'')+(n===12&&G.st12?row('Applaudimètre',G.st12.applau.toLocaleString('fr-FR'))+row('Meilleur enchaînement',G.st12.best.toLocaleString('fr-FR'))+row('Multiplicateur max','×'+G.st12.maxMult)+row('Figures',G.st12.tricks)+row('Défis du petit',G.defis.filter(d=>d.done).length+' / '+G.defis.length)+row('Boutons dorés',(G.nBtn||0)+' / '+BUTTONS12.length)+row('Tyroliennes',G.st12.zips):'')+(n===37?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Retours au palier',G.nFalls37||0)+row('Plaques arrachées',G.colo?G.colo.plates.filter(p=>!p.on).length:0)+row('Braseros rallumés',G.nBraz||0):'')+(n===35?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Roses de givre brisées',G.nRoses||0)+row('Braseros rallumés',G.nBraz||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===36?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Fils fondus',(G.dame?G.dame.broken.filter(b=>b).length:0)+' / 4')+row('Fois gelé',G.nFrozen||0):'')+(n===34?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Cœurs de givre fondus',(G.nHearts||0)+' / 3')+row('Braseros rallumés',G.nBraz||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===33?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Plaques de glace',G.nCrust||0)+row('Bonshommes de neige',G.snowKills||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n>=28&&n<=32?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Jets de la Pompe',G.nSpray||0)+row('Croûtes de lave',G.nCrust||0)+(n===30?row('Prisonniers sauvés',(G.saved||0)+' / 5'):'')+(n===31?row('Chauves-souris',G.batKills||0)+row('Coups encaissés',G.hitsTaken31||0):'')+(n===32?row('Fours refermés',(G.foursShut||0)+' / 7'):'')+row('Coffres ouverts',G.chestsOpened||0):'')+(n===26?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Requins coulés',G.sharkKills||0)+row('Crabes taillés',G.crabKills||0)+row('Murènes décousues',G.murKills||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===27?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Naufrageurs',G.nauKills||0)+row('Chutes à la mer',G.falls||0)+row('Grappins',G.nGrap||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===24?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Billes de verre',nBilles24()+' / '+BILLES24.length)+row('Grappins',G.nGrap||0)+row('Chutes',G.falls||0):'')+(n===25?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Boîtes à musique fermées',G.boxesShut||0)+row('Endormi',(G.slept||0)+' fois')+row('Grappins',G.nGrap||0):'')+(n===13?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Yeux rouges utilisés',G.nEyes||0)+row('Grappins',G.nGrap||0)+row('Chutes',G.falls||0):'')+(n===11?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Chutes dans les rebuts',G.falls||0)+row('Doubles sauts',G.nDouble||0):'')+(n===10?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Dégâts subis',G.dmgTaken||0):'')+(n===8?row('Glaces brisées',G.mirrorHits||0)+row('Tirs sur ton reflet',G.selfHits||0)+row('Vague atteinte',(G.w8||0)+1+' / 3'):'')+(n===7?row('Têtes arrachées',G.rips||0)+row('Remontés',G.revives||0)+row('Écrasés',G.bagKills||0)+row('Vague atteinte',(G.w7||0)+1+' / 3'):'')+(n===6?row('Pantins manipulés',G.pupKills||0)+row('Écrasés',G.bagKills||0)+row('Passerelle atteinte',(G.plat||0)+1+' / 3'):'');
+    +row('Meilleur réflexe',bestR?Math.round(bestR*1000)+' ms':'—')+row('Combo max',G.maxCombo)+row('Têtes',G.heads)+row('Porcelaines brisées',G.decoyHits)+(n===2?row('Esquives',G.dodges||0)+row('Manche atteinte',(G.phase||1)+' / 3'):'')+(n===3?row('Esquives',G.dodges||0)+row('Vague atteinte',(G.phase||1)+' / 3'):'')+(n===4?row('Acte atteint',(G.phase||1)+' / 3'):'')+(n===5?row('Fils rompus',(G.boss?G.boss.cut:0)+' / 5'):'')+(n===9?row('Pantins libérés',G.freed||0)+row('Rois recousus',G.crowned||0)+row('Cabines fermées',(G.cabinsClosed||0)+' / 6'):'')+(n===21?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Choix',G.sw&&G.sw.mode==='libre'?'Libre':'Lesté')+row('Baudroies coulées',G.baudKills||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===22?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Ondes encaissées',G.ringHits||0)+row('Baudroies coulées',G.baudKills||0)+row('Crypte',store.get('s22_crypte',false)?'ouverte':'—'):'')+(n===20?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Avalés renvoyés',G.ouvKills||0)+row('Perles noires',nPearls()+' / 3')+row('Harpon',store.get('lootharpon',false)?'trouvé':'—')+row('Coffres ouverts',G.chestsOpened||0):'')+(n===19&&G.sw?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Choix',G.sw.mode==='libre'?'Libre':'Lesté')+row('Hippocampes démontés',G.sharkKills||0)+row('Méduses éteintes',G.medKills||0)+row('Nuages d\'encre',G.nInk||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===17&&G.sw?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Choix',G.sw.mode==='libre'?'Libre':'Lesté')+row('Câbles coupés',G.ch?G.ch.cables.filter(c=>c.cut).length+' / 4':'0 / 4')+row('Requins coulés',G.sharkKills||0)+row('Crabes taillés',G.crabKills||0)+row('Scaphandriers',G.scaphKills||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===16&&G.sw?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Choix',G.sw.mode==='libre'?'Libre':'Lesté')+row('Yeux de la Figure de proue',((store.get('oeil1',false)?1:0)+(store.get('oeil2',false)?1:0))+' / 2')+row('Perle noire',store.get('noire1',false)?'trouvée':'—')+row('Crabes taillés',G.crabKills||0)+row('Murènes décousues',G.murKills||0):'')+(n===15&&G.sw?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Choix',G.sw.mode==='libre'?'Libre':'Lesté')+row('Appâts libérés',(G.freed||0)+' / '+(G.baits?G.baits.length:12))+row('Requins coulés',G.sharkKills||0)+row('Pêché',(G.catches||0)+' fois'):'')+(n===12&&G.st12?row('Applaudimètre',G.st12.applau.toLocaleString('fr-FR'))+row('Meilleur enchaînement',G.st12.best.toLocaleString('fr-FR'))+row('Multiplicateur max','×'+G.st12.maxMult)+row('Figures',G.st12.tricks)+row('Défis du petit',G.defis.filter(d=>d.done).length+' / '+G.defis.length)+row('Boutons dorés',(G.nBtn||0)+' / '+BUTTONS12.length)+row('Tyroliennes',G.st12.zips):'')+(n===38?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Retombées du ballon',G.nFalls38||0)+row('Enveloppe au plus bas',Math.round(G.envMin??100)+' %')+row('Corneilles abattues',G.nCrows||0):'')+(n===37?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Retours au palier',G.nFalls37||0)+row('Plaques arrachées',G.colo?G.colo.plates.filter(p=>!p.on).length:0)+row('Braseros rallumés',G.nBraz||0):'')+(n===35?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Roses de givre brisées',G.nRoses||0)+row('Braseros rallumés',G.nBraz||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===36?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Fils fondus',(G.dame?G.dame.broken.filter(b=>b).length:0)+' / 4')+row('Fois gelé',G.nFrozen||0):'')+(n===34?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Cœurs de givre fondus',(G.nHearts||0)+' / 3')+row('Braseros rallumés',G.nBraz||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===33?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Plaques de glace',G.nCrust||0)+row('Bonshommes de neige',G.snowKills||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n>=28&&n<=32?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Jets de la Pompe',G.nSpray||0)+row('Croûtes de lave',G.nCrust||0)+(n===30?row('Prisonniers sauvés',(G.saved||0)+' / 5'):'')+(n===31?row('Chauves-souris',G.batKills||0)+row('Coups encaissés',G.hitsTaken31||0):'')+(n===32?row('Fours refermés',(G.foursShut||0)+' / 7'):'')+row('Coffres ouverts',G.chestsOpened||0):'')+(n===26?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Requins coulés',G.sharkKills||0)+row('Crabes taillés',G.crabKills||0)+row('Murènes décousues',G.murKills||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===27?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Naufrageurs',G.nauKills||0)+row('Chutes à la mer',G.falls||0)+row('Grappins',G.nGrap||0)+row('Coffres ouverts',G.chestsOpened||0):'')+(n===24?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Billes de verre',nBilles24()+' / '+BILLES24.length)+row('Grappins',G.nGrap||0)+row('Chutes',G.falls||0):'')+(n===25?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Boîtes à musique fermées',G.boxesShut||0)+row('Endormi',(G.slept||0)+' fois')+row('Grappins',G.nGrap||0):'')+(n===13?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Yeux rouges utilisés',G.nEyes||0)+row('Grappins',G.nGrap||0)+row('Chutes',G.falls||0):'')+(n===11?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Chutes dans les rebuts',G.falls||0)+row('Doubles sauts',G.nDouble||0):'')+(n===10?row('Points de vie restants',(win?Math.ceil(G.hp):0)+' / '+HP_MAX)+row('Dégâts subis',G.dmgTaken||0):'')+(n===8?row('Glaces brisées',G.mirrorHits||0)+row('Tirs sur ton reflet',G.selfHits||0)+row('Vague atteinte',(G.w8||0)+1+' / 3'):'')+(n===7?row('Têtes arrachées',G.rips||0)+row('Remontés',G.revives||0)+row('Écrasés',G.bagKills||0)+row('Vague atteinte',(G.w7||0)+1+' / 3'):'')+(n===6?row('Pantins manipulés',G.pupKills||0)+row('Écrasés',G.bagKills||0)+row('Passerelle atteinte',(G.plat||0)+1+' / 3'):'');
   $('#again').textContent = win ? 'Rejouer' : (n===1 ? 'Retenter l\'épreuve' : 'Retenter');
   $('#again').onclick = (win || n!==1) ? ()=>startLevel(n) : restartTrial;
   if(cheat) $('#osub').textContent += '  (Menu de triche utilisé : étoiles et records non enregistrés.)';
@@ -16364,6 +16819,7 @@ function update(dt){
     if(G.level===14 && G.state==='play'){ updateL14(dt); updateHUD(); }
     if(G.level===12 && G.state==='play'){ if(!G.cine){ updJump(dt); if(!G.grap && !G.zip) updateMovement(dt); } updateL12(dt, dt); updateHUD(); }
     for(const [lv,fn,st] of [[28,updateL28,'greve'],[29,updateL29,'fournee'],[30,updateL30,'boss'],[32,updateL32,'boss'],[33,updateL33,'lac']]) if(G.level===lv && G.state==='play'){ if(!G.cine){ updJump(dt); if(!G.grap) updateMovement(dt); } fn(G['l'+lv]===st||G['l'+lv]==='chaines'?pd:dt, dt); updateHUD(); }
+    if(G.level===38 && G.state==='play'){ if(!G.cine) updateMovement(dt); updateL38(G.l38==='cerf'?pd:dt, dt); updateHUD(); }
     if(G.level===37 && G.state==='play'){ if(!G.cine){ updJump(dt); if(!G.grap) updateMovement(dt); } updateL37(['trois','avalanche'].includes(G.l37)?pd:dt, dt); updateHUD(); }
     if(G.level===35 && G.state==='play'){ if(!G.cine){ updJump(dt); if(!G.grap) updateMovement(dt); } updateL35(['jardin','bassin','pav'].includes(G.l35)?pd:dt, dt); updateHUD(); }
     if(G.level===36 && G.state==='play'){ if(!G.cine){ updJump(dt); if(!G.grap) updateMovement(dt); } updateL36(G.l36==='boss'?pd:dt, dt); updateHUD(); }
@@ -16447,6 +16903,7 @@ function render(){
   if(G.level===35) buildL35Extras();
   if(G.level===36) buildL36Extras();
   if(G.level===37) buildL37Extras();
+  if(G.level===38) buildL38Extras();
   drawFlameFx();
   if(G.level===27) buildL27Extras();
   if(G.level===25) buildL25Extras();
@@ -16600,6 +17057,7 @@ function render(){
   if(G.level===35) l35Points(put);
   if(G.level===36) l36Points(put);
   if(G.level===37) l37Points(put);
+  if(G.level===38) l38Points(put);
   if(G.level===27) l27Points(put);
   if(G.level===25) l25Points(put);
   if(G.level===14) l14Points(put);
@@ -16754,10 +17212,10 @@ function modJumpFinal(){ G.souf.offY=-3; G.sHP=0; G.crit && (G.crit.remove=true)
   G.zone=3; G.zmin=L_ZONES[3].z0; G.zmax=L_ZONES[3].z1; cam.pos=[0,1.6,-48.9]; setLogeKey(3); G.introDone=true; G.l10='go3'; hideTip(); }
 function buildModLevels(){
   const L=$('#mLevels'); L.innerHTML='';
-  const list=[[1,'Lever de rideau'],[2,'Coulisses'],[3,'Sous la scène'],[4,'Le Parterre'],[5,'L\'Arène'],[6,'Acte I'],[7,'Acte II'],[8,'Acte III'],[9,'Acte IV'],[10,'Acte V'],[10.1,'Acte V · Critique'],[10.2,'Acte V · Impresario'],[10.3,'Acte V · Marionnettiste'],[11,'Rafistoleur · Réveil'],[11.1,'Rafistoleur · Atelier'],[12,'Rafistoleur · Chambre'],[24,'Rafistoleur · Combles'],[24.1,'Combles · Charpente'],[25,'Rafistoleur · Lingerie'],[25.1,'Lingerie · Nourrice'],[13,'Rafistoleur · Yeux'],[13.1,'Rafistoleur · Oculiste'],[14,'Mer · Plongée'],[15,'Mer · Appâts'],[15.1,'Mer · Cloche'],[16,'Mer · Épave'],[16.1,'Épave · Forge'],[16.2,'Épave · Pont'],[17,'Mer · Forêt'],[17.1,'Forêt · Clairière'],[17.2,'Forêt · Chalut'],[18,'Mer · Conserverie'],[26,'Mer · Port'],[26.1,'Port · Quai'],[26.2,'Port · Estacade'],[27,'Mer · Phare'],[27.1,'Phare · Parvis'],[27.2,'Phare · Galerie'],[19,'Mer · Récif'],[19.1,'Récif · Salle'],[21,'Mer · Fonds'],[21.1,'Fonds · Terrasse'],[21.2,'Fonds · Fond'],[22,'Mer · Cloche'],[22.1,'Cloche · Arène'],[20,'Mer · Baleine'],[20.1,'Baleine · Côtes'],[20.2,'Baleine · Cœur'],[28,'Fournaise · Grève'],[28.1,'Grève · Rivière'],[28.2,'Grève · Camp'],[29,'Fournaise · Fonderie'],[29.1,'Fonderie · Pilons'],[29.3,'Fonderie · Vestiaire'],[30,'Fournaise · Supplices'],[30.1,'Supplices · Chaînes'],[30.2,'Supplices · Bourreau'],[31,'Fournaise · Coulée'],[32,'Fournaise · Cœur'],[32.1,'Cœur · Fondeur'],[33,'Glace · Lac gelé'],[33.1,'Lac · Le lac'],[33.2,'Lac · Le pont'],[34,'Glace · Palais'],[34.1,'Palais · Salle de bal'],[34.2,'Palais · Autre rive'],[34.3,'Palais · Antichambre'],[35,'Glace · Jardins'],[35.1,'Jardins · Labyrinthe'],[35.2,'Jardins · Bassin'],[35.3,'Jardins · Pavillon'],[36,'Glace · Patinoire'],[37,'Glace · Pic'],[37.1,'Pic · Paroi'],[37.2,'Pic · Vent'],[37.3,'Pic · Corniche'],[37.4,'Pic · Sommet']];
+  const list=[[1,'Lever de rideau'],[2,'Coulisses'],[3,'Sous la scène'],[4,'Le Parterre'],[5,'L\'Arène'],[6,'Acte I'],[7,'Acte II'],[8,'Acte III'],[9,'Acte IV'],[10,'Acte V'],[10.1,'Acte V · Critique'],[10.2,'Acte V · Impresario'],[10.3,'Acte V · Marionnettiste'],[11,'Rafistoleur · Réveil'],[11.1,'Rafistoleur · Atelier'],[12,'Rafistoleur · Chambre'],[24,'Rafistoleur · Combles'],[24.1,'Combles · Charpente'],[25,'Rafistoleur · Lingerie'],[25.1,'Lingerie · Nourrice'],[13,'Rafistoleur · Yeux'],[13.1,'Rafistoleur · Oculiste'],[14,'Mer · Plongée'],[15,'Mer · Appâts'],[15.1,'Mer · Cloche'],[16,'Mer · Épave'],[16.1,'Épave · Forge'],[16.2,'Épave · Pont'],[17,'Mer · Forêt'],[17.1,'Forêt · Clairière'],[17.2,'Forêt · Chalut'],[18,'Mer · Conserverie'],[26,'Mer · Port'],[26.1,'Port · Quai'],[26.2,'Port · Estacade'],[27,'Mer · Phare'],[27.1,'Phare · Parvis'],[27.2,'Phare · Galerie'],[19,'Mer · Récif'],[19.1,'Récif · Salle'],[21,'Mer · Fonds'],[21.1,'Fonds · Terrasse'],[21.2,'Fonds · Fond'],[22,'Mer · Cloche'],[22.1,'Cloche · Arène'],[20,'Mer · Baleine'],[20.1,'Baleine · Côtes'],[20.2,'Baleine · Cœur'],[28,'Fournaise · Grève'],[28.1,'Grève · Rivière'],[28.2,'Grève · Camp'],[29,'Fournaise · Fonderie'],[29.1,'Fonderie · Pilons'],[29.3,'Fonderie · Vestiaire'],[30,'Fournaise · Supplices'],[30.1,'Supplices · Chaînes'],[30.2,'Supplices · Bourreau'],[31,'Fournaise · Coulée'],[32,'Fournaise · Cœur'],[32.1,'Cœur · Fondeur'],[33,'Glace · Lac gelé'],[33.1,'Lac · Le lac'],[33.2,'Lac · Le pont'],[34,'Glace · Palais'],[34.1,'Palais · Salle de bal'],[34.2,'Palais · Autre rive'],[34.3,'Palais · Antichambre'],[35,'Glace · Jardins'],[35.1,'Jardins · Labyrinthe'],[35.2,'Jardins · Bassin'],[35.3,'Jardins · Pavillon'],[36,'Glace · Patinoire'],[37,'Glace · Pic'],[37.1,'Pic · Paroi'],[37.2,'Pic · Vent'],[37.3,'Pic · Corniche'],[37.4,'Pic · Sommet'],[38,'Cintres · Montgolfière'],[38.1,'Montgolfière · Nuages'],[38.2,'Montgolfière · Herses'],[38.3,'Montgolfière · Cerf-volant']];
   for(const [n,t] of list){ const b=document.createElement('button'); b.textContent=t;
     b.onclick=()=>{ modUsed(); G.hard = n>=6; MOD.open=false; $('#mod').classList.add('hidden'); $('#title').classList.add('hidden'); $('#menu').classList.add('hidden'); $('#pause').classList.add('hidden');
-      if(n>=28){ const lv=Math.floor(n), ck=Math.round((n-lv)*10); ({28:ck28Set,29:ck29Set,30:ck30Set,31:()=>0,32:ck32Set,33:ck33Set,34:ck34Set,35:ck35Set,36:()=>0,37:ck37Set})[lv](ck); store.set('lootpompe',true); startLevel(lv); }
+      if(n>=28){ const lv=Math.floor(n), ck=Math.round((n-lv)*10); ({28:ck28Set,29:ck29Set,30:ck30Set,31:()=>0,32:ck32Set,33:ck33Set,34:ck34Set,35:ck35Set,36:()=>0,37:ck37Set,38:ck38Set})[lv](ck); store.set('lootpompe',true); startLevel(lv); }
       else if(n>=27 && n<28){ ck27Set(Math.round((n-27)*10)); startLevel(27); }
       else if(n>=26 && n<27){ ck26Set(Math.round((n-26)*10)); startLevel(26); }
       else if(n>=25){ ck25Set(Math.round((n-25)*10)); startLevel(25); }
@@ -16896,5 +17354,7 @@ $('#cdgo').addEventListener('click',e=>{ e.preventDefault(); e.stopPropagation()
 $('#kbpanel').addEventListener('click',e=>e.stopPropagation()); $('#kbpanel').addEventListener('mousedown',e=>e.stopPropagation());
 $('#kbclose').onclick=e=>{ e.stopPropagation(); closeKB(); };
 $('#kbreset').onclick=e=>{ e.stopPropagation(); KBIND={}; try{ localStorage.removeItem(KB_KEY); }catch(er){} keys.clear(); kbRender(); };
-window.PANTINS = {startPic, ck37Set, ck37Get, G37_BOXES, FRIABLE37, HOOKS37, BRAZ37, CK37, coloHit, miniHit, get minis(){return G.minis;}, get colo(){return G.colo;}, startJardins, startPatinoire, ck35Set, ck35Get, G35_BOXES, SERRE35, HAIEF35, VERR35, HOOKS35, BRAZ35, BRAZ36, dameHit, filMelt, dameNodes, use35, HAND_SKINS, GUN_SKINS, applyRewards, get roses(){return G.roses;}, get dame(){return G.dame;}, castInput, fireInput, flameCombo, comboTick, CMB_NAMES, get fprj(){return G.fprj;}, bobine, useBTarget, startPalais, ck34Set, ck34Get, G34_BOXES, RIDEAU34, GATE34, BRAZ34, HEART34, PRIS34, LUS34, HOOKS34, boucleOn, boucleHas, fil34, lightBraz34, heartHit, use34, get shards(){return G.shards;}, codeEnter, openCodes, closeCodes, CODES, CODEON, codeRefresh, startLac, ck33Set, ck33Get, G33_BOXES, CASCADE33, PORTE33, BRAZ33, HOOKS33, lightBraz, get snow(){return G.snow;}, get sballs(){return G.sballs;}, startGreve, startFonderie, startSupplices, startCoulee, startCoeur, ck28Set, ck29Set, ck30Set, ck32Set, ck28Get, ck29Get, ck30Get, ck32Get, pompeKey, addCrust, cartJump, F28_BOXES, F29_BOXES, F30_BOXES, F32_BOXES, FANON28, PORTE28, GRILLE29, PORTEC30, PORTEB30, TREUILS30, ISL32, FOURS32, get fon(){return G.fon;}, get bou(){return G.bou;}, get cart(){return G.cart;}, startPort, startPhare, ck26Set, ck26Get, ck27Set, ck27Get, get gar(){return G.gar;}, get thr(){return G.thr;}, PO_BOXES, PH_BOXES, CAB26, CHAIN26, TRAPPE26, HOOKS27, turnCab26, startCombles, startLingerie, ck24Set, ck24Get, ck25Set, ck25Get, get nou(){return G.nou;}, CO_BOXES, LI_BOXES, GATE24, PORTE25, HOOKS24, HOOKS25, BILLES24, MBOX25, openKB, closeKB, kbMap, get KBIND(){return KBIND;}, KB_ACTS, startFonds, startCloche, ck21Set, ck21Get, ck22Set, ck22Get, get son(){return G.son;}, get baud(){return G.baud;}, get rings(){return G.rings;}, CROUTE21, PORTE21, GRILLE22, CARILLON22, GF_BOXES, CB_BOXES, checkTrophies, setMenuTab, TROPHIES, trHas, applyRewards, jukePlay, menuStage, applyMenuStage, partReveal, get MENU_ST(){return MENU_ST;}, startBaleine, ck20Set, ck20Get, get bf(){return G.bf;}, get fb(){return G.fb;}, OEIL20, BRIS20, FANON20, startRecif, ck19Set, ck19Get, inkKey, get ml(){return G.ml;}, get meds(){return G.meds;}, RIDEAU19, TABLEAU19, BOCAL19, PLANCHES19, GRILLE19, startConserverie, coeurKey, get ouv(){return G.ouv;}, get cm(){return G.cm;}, ETAGERE18, PLANCHE18, GRILLE18, PRESSES18, startForet, ck17Set, ck17Get, FO_BOXES, PORTE17, ENTREE17, get ch(){return G.ch;}, get scaph(){return G.scaph;}, openSac, closeSac, giveLoot, invGet, tryInteract, CHESTS, WPICKS, GA_BIBLIO, GA_PLANCHES, setWeapon, get WPNNOW(){return WPN;}, startGalion, ck16Set, ck16Get, tryF16, GA_BOXES, GA_TRAPPE, GA_FISSURE, get crabs(){return G.crabs;}, get mur(){return G.mur;}, startChamp, pickMode, ck15Set, ck15Get, get sw(){return G.sw;}, get sharks(){return G.sharks;}, get baits(){return G.baits;}, SEA_BOXES, startMer, get m14(){return G.m14;}, bossWin13, get fin(){return G.fin;}, aimedZip, startZip, addTrick, bankChain, get st12(){return G.st12;}, ZIPS12, MULTS12, startChambre, startCabinet, startGrapple, grapRelease, activateEyes, aimedHook, tryKey12, tryJar13, ck12Set, ck13Set, ck12Get, ck13Get, CH_BOXES, OC_BOXES, HOOKS12, KEY12, BUTTONS12, O_DOORB, get pp(){return G.pp;}, get ocu(){return G.ocu;}, VOX, voxSay, voxStop, VOICE_PROF, jump, startClinique, ck11Get, ck11Set, get rafi(){return G.rafi;}, CL_BOXES, clGround, takeLoot, get hp(){return G.hp;}, startLoge, ck10Get, ck10Set, l10Shot, get t10(){return G.t10;}, get souf(){return G.souf;}, get crit(){return G.crit;}, get impr(){return G.impr;}, tryCostume, startReload, wearCostume, get ammo(){return G.ammo;}, get sb(){return G.sb;}, bossDamage, useBTarget, talk, dlgEnter, get DLG(){return DLG;}, MOD, toggleMod, MIRRORS, get ghostRec(){return ghostRec;}, mirrorShot, throwScissors, get scis(){return G.scis;}, fire, setWeapon, openVestiaire, get WPN(){return WPN;}, needles, get SLOT(){return SLOT;}, enterSlot, newSlot, showTitle, slotInfo, openSlots, bobine, PLATS, get hooks(){return G.hooks;}, get bags(){return G.bags;}, get threads(){return G.threads;}, get boss(){return G.boss;},get strings(){return G.strings;},startCine,hitString,rayPeek,Music,isWatched,startWave4,floorAt,isLit,startWave3,keys,MV,startPhase2,startPhase3,THREAT,VMC,toMenu,get SC(){return SC;},advance(s){manual=true;for(let t=0;t<s;t+=1/60){update(1/60);}render();updateFloaters(s);}, auto(){manual=false;}, G,bodies,cam,shoot,startLevel,next,spawn,gotoStep,get steps(){return STEPS;}};
+window.PANTINS = {startMont, ck38Set, ck38Get, CK38, cerfHit, use38, spawnCrow, get bal(){return G.bal;}, get cerf(){return G.cerf;}, startPic, ck37Set, ck37Get, G37_BOXES, FRIABLE37, HOOKS37, BRAZ37, CK37, coloHit, miniHit, get minis(){return G.minis;}, get colo(){return G.colo;}, startJardins, startPatinoire, ck35Set, ck35Get, G35_BOXES, SERRE35, HAIEF35, VERR35, HOOKS35, BRAZ35, BRAZ36, dameHit, filMelt, dameNodes, use35, HAND_SKINS, GUN_SKINS, applyRewards, get roses(){return G.roses;}, get dame(){return G.dame;}, castInput, fireInput, flameCombo, comboTick, CMB_NAMES, get fprj(){return G.fprj;}, bobine, useBTarget, startPalais, ck34Set, ck34Get, G34_BOXES, RIDEAU34, GATE34, BRAZ34, HEART34, PRIS34, LUS34, HOOKS34, boucleOn, boucleHas, fil34, lightBraz34, heartHit, use34, get shards(){return G.shards;}, codeEnter, openCodes, closeCodes, CODES, CODEON, codeRefresh, startLac, ck33Set, ck33Get, G33_BOXES, CASCADE33, PORTE33, BRAZ33, HOOKS33, lightBraz, get snow(){return G.snow;}, get sballs(){return G.sballs;}, startGreve, startFonderie, startSupplices, startCoulee, startCoeur, ck28Set, ck29Set, ck30Set, ck32Set, ck28Get, ck29Get, ck30Get, ck32Get, pompeKey, addCrust, cartJump, F28_BOXES, F29_BOXES, F30_BOXES, F32_BOXES, FANON28, PORTE28, GRILLE29, PORTEC30, PORTEB30, TREUILS30, ISL32, FOURS32, get fon(){return G.fon;}, get bou(){return G.bou;}, get cart(){return G.cart;}, startPort, startPhare, ck26Set, ck26Get, ck27Set, ck27Get, get gar(){return G.gar;}, get thr(){return G.thr;}, PO_BOXES, PH_BOXES, CAB26, CHAIN26, TRAPPE26, HOOKS27, turnCab26, startCombles, startLingerie, ck24Set, ck24Get, ck25Set, ck25Get, get nou(){return G.nou;}, CO_BOXES, LI_BOXES, GATE24, PORTE25, HOOKS24, HOOKS25, BILLES24, MBOX25, openKB, closeKB, kbMap, get KBIND(){return KBIND;}, KB_ACTS, startFonds, startCloche, ck21Set, ck21Get, ck22Set, ck22Get, get son(){return G.son;}, get baud(){return G.baud;}, get rings(){return G.rings;}, CROUTE21, PORTE21, GRILLE22, CARILLON22, GF_BOXES, CB_BOXES, checkTrophies, setMenuTab, TROPHIES, trHas, applyRewards, jukePlay, menuStage, applyMenuStage, partReveal, get MENU_ST(){return MENU_ST;}, startBaleine, ck20Set, ck20Get, get bf(){return G.bf;}, get fb(){return G.fb;}, OEIL20, BRIS20, FANON20, startRecif, ck19Set, ck19Get, inkKey, get ml(){return G.ml;}, get meds(){return G.meds;}, RIDEAU19, TABLEAU19, BOCAL19, PLANCHES19, GRILLE19, startConserverie, coeurKey, get ouv(){return G.ouv;}, get cm(){return G.cm;}, ETAGERE18, PLANCHE18, GRILLE18, PRESSES18, startForet, ck17Set, ck17Get, FO_BOXES, PORTE17, ENTREE17, get ch(){return G.ch;}, get scaph(){return G.scaph;}, openSac, closeSac, giveLoot, invGet, tryInteract, CHESTS, WPICKS, GA_BIBLIO, GA_PLANCHES, setWeapon, get WPNNOW(){return WPN;}, startGalion, ck16Set, ck16Get, tryF16, GA_BOXES, GA_TRAPPE, GA_FISSURE, get crabs(){return G.crabs;}, get mur(){return G.mur;}, startChamp, pickMode, ck15Set, ck15Get, get sw(){return G.sw;}, get sharks(){return G.sharks;}, get baits(){return G.baits;}, SEA_BOXES, startMer, get m14(){return G.m14;}, bossWin13, get fin(){return G.fin;}, aimedZip, startZip, addTrick, bankChain, get st12(){return G.st12;}, ZIPS12, MULTS12, startChambre, startCabinet, startGrapple, grapRelease, activateEyes, aimedHook, tryKey12, tryJar13, ck12Set, ck13Set, ck12Get, ck13Get, CH_BOXES, OC_BOXES, HOOKS12, KEY12, BUTTONS12, O_DOORB, get pp(){return G.pp;}, get ocu(){return G.ocu;}, VOX, voxSay, voxStop, VOICE_PROF, jump, startClinique, ck11Get, ck11Set, get rafi(){return G.rafi;}, CL_BOXES, clGround, takeLoot, get hp(){return G.hp;}, startLoge, ck10Get, ck10Set, l10Shot, get t10(){return G.t10;}, get souf(){return G.souf;}, get crit(){return G.crit;}, get impr(){return G.impr;}, tryCostume, startReload, wearCostume, get ammo(){return G.ammo;}, get sb(){return G.sb;}, bossDamage, useBTarget, talk, dlgEnter, get DLG(){return DLG;}, MOD, toggleMod, MIRRORS, get ghostRec(){return ghostRec;}, mirrorShot, throwScissors, get scis(){return G.scis;}, fire, setWeapon, openVestiaire, get WPN(){return WPN;}, needles, get SLOT(){return SLOT;}, enterSlot, newSlot, showTitle, slotInfo, openSlots, bobine, PLATS, get hooks(){return G.hooks;}, get bags(){return G.bags;}, get threads(){return G.threads;}, get boss(){return G.boss;},get strings(){return G.strings;},startCine,hitString,rayPeek,Music,isWatched,startWave4,floorAt,isLit,startWave3,keys,MV,startPhase2,startPhase3,THREAT,VMC,toMenu,get SC(){return SC;},advance(s){manual=true;for(let t=0;t<s;t+=1/60){update(1/60);}render();updateFloaters(s);}, auto(){manual=false;}, G,bodies,cam,shoot,startLevel,next,spawn,gotoStep,get steps(){return STEPS;}};
 </script>
+</body>
+</html>

@@ -1,10 +1,21 @@
 {
-  "version": "1.0.2",
-  "date": "2026-10-29",
+  "version": "1.1.0",
+  "date": "2026-10-30",
   "file": "game/pantins.html",
-  "sha256": "67427bbdbfd08a54c2ffa154fd721a0b0ee1de7c1d06c54aeac6aeb302069442",
-  "size": 1593477,
+  "sha256": "36b494fca3e10d84a28a825bbcb4e2960718008f00bb023d23305d96e4d96137",
+  "size": 1642075,
   "notes": [
+    {
+      "version": "1.1.0",
+      "date": "2026-10-30",
+      "cats": [
+        "maps",
+        "bugs"
+      ],
+      "bugs": [
+        "Même avec Mèche dans la paume, le froid faisait perdre des points de vie : sa flamme te protège maintenant du froid ambiant."
+      ]
+    },
     {
       "version": "1.1.1",
       "date": "2026-10-30",
