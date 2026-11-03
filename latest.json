@@ -13,7 +13,22 @@
         "bugs"
       ],
       "bugs": [
-        "Les notes de mise à jour ne savaient afficher que des maps, des armes ou des bugs : elles annoncent maintenant aussi les nouvelles langues."
+        "Les notes de mise à jour ne savaient afficher que des maps, des armes ou des bugs : elles annoncent maintenant aussi les nouvelles langues. Le lanceur est traduit lui aussi, et sa langue suit celle du jeu."
+      ],
+      "bugs_en": [
+        "Patch notes could only show maps, weapons or bugs: they now also announce new languages. The launcher is translated too, and its language follows the game's."
+      ],
+      "bugs_es": [
+        "Las notas de la versión solo podían mostrar mapas, armas o errores: ahora también anuncian los nuevos idiomas. El lanzador también está traducido, y su idioma sigue al del juego."
+      ],
+      "bugs_de": [
+        "Die Update-Notizen konnten nur Karten, Waffen oder Fehler zeigen: Jetzt kündigen sie auch neue Sprachen an. Auch der Launcher ist übersetzt, und seine Sprache folgt der des Spiels."
+      ],
+      "bugs_it": [
+        "Le note di aggiornamento potevano mostrare solo mappe, armi o bug: ora annunciano anche le nuove lingue. Anche il launcher è tradotto, e la sua lingua segue quella del gioco."
+      ],
+      "bugs_ar": [
+        "كانت ملاحظات التحديث تعرض الخرائط والأسلحة والأخطاء فقط: صارت تُعلن أيضًا عن اللغات الجديدة. والمشغّل مترجم أيضًا، ولغته تتبع لغة اللعبة."
       ]
     },
     {
@@ -27,6 +42,31 @@
         "Au Récif-Cabaret, le niveau plantait à cause d'un lustre mal dessiné : il se charge de nouveau normalement.",
         "Dans l'Épave du galion, parler à Lin, le mousse, lançait une conversation d'un autre niveau : il retrouve ses propres répliques.",
         "Dans les touches, « Retour arrière » s'affichait comme « Retour »."
+      ],
+      "bugs_en": [
+        "At the Cabaret Reef, the level crashed because of a badly drawn chandelier: it loads normally again.",
+        "In the Galleon Wreck, talking to Lin, the cabin boy, started a conversation from another level: he has his own lines back.",
+        "In the controls, “Backspace” was shown as “Back”."
+      ],
+      "bugs_es": [
+        "En el Arrecife-Cabaret, el nivel se bloqueaba por una lámpara mal dibujada: vuelve a cargar con normalidad.",
+        "En el Pecio del galeón, hablar con Lin, el grumete, iniciaba una conversación de otro nivel: ha recuperado sus propias réplicas.",
+        "En las teclas, «Retroceso» se mostraba como «Volver»."
+      ],
+      "bugs_de": [
+        "Im Kabarett-Riff stürzte das Level wegen eines falsch gezeichneten Kronleuchters ab: Es lädt wieder normal.",
+        "Im Galeonenwrack startete ein Gespräch mit Lin, dem Schiffsjungen, einen Dialog aus einem anderen Level: Er hat wieder seine eigenen Zeilen.",
+        "Bei den Tasten wurde „Rücktaste“ als „Zurück“ angezeigt."
+      ],
+      "bugs_it": [
+        "Alla Barriera-Cabaret, il livello si bloccava per colpa di un lampadario disegnato male: ora si carica di nuovo normalmente.",
+        "Nel Relitto del galeone, parlare con Lin, il mozzo, avviava una conversazione di un altro livello: ha ritrovato le sue battute.",
+        "Nei tasti, «Backspace» veniva mostrato come «Indietro»."
+      ],
+      "bugs_ar": [
+        "في شِعب الملهى، كان المستوى يتعطّل بسبب ثريا مرسومة بشكل خاطئ: يُحمَّل الآن بشكل طبيعي.",
+        "في حطام الغليون، كان التحدّث إلى لين، صبي السفينة، يطلق حوارًا من مستوى آخر: استعاد حواراته الخاصة.",
+        "في المفاتيح، كان «Backspace» يظهر على أنه «رجوع»."
       ]
     },
     {
@@ -140,13 +180,13 @@
     "files": [
       {
         "name": "main.js",
-        "sha256": "bea064f42cedb6959bb73fa0747d7028e243e0f338cc57650ddad971ac58bdb3",
-        "size": 18599
+        "sha256": "7293cf0fc5922ca027357a85ccd1527fc098906d666eb2b810b87cdb72ad1595",
+        "size": 18916
       },
       {
         "name": "lanceur.html",
-        "sha256": "224ee6ad0662fbce61ed17895921355fc8605f299471305b9eedd61a7dbc2c40",
-        "size": 32123
+        "sha256": "c4a10e63b43886b2d82cd13526b14ea48f9e931d6ef46cc628bf2175b604d91b",
+        "size": 48911
       },
       {
         "name": "preload-lanceur.js",
@@ -155,8 +195,8 @@
       },
       {
         "name": "preload-jeu.js",
-        "sha256": "cfc5f4c6dad9368687ab435a083bae3f6d9fd7a2b332592a45deedf347317f18",
-        "size": 262
+        "sha256": "3c4a037a62fdcbd6fdb0f7b127a44e2561e8cdb52960e6c8447332e41172db37",
+        "size": 631
       },
       {
         "name": "icone.png",

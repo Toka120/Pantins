@@ -30,7 +30,8 @@ function installed(){
     return { version: local.version, notes: local.notes || [], file: path.join(GAME_DIR, 'pantins.html') };
   return { version: bundled.version, notes: bundled.notes || [], file: path.join(BUNDLED_DIR, 'pantins.html') };
 }
-const DEF_OPT = { gfx: 'haut', fullscreen: true, auto: true };
+const DEF_OPT = { gfx: 'haut', fullscreen: true, auto: true, lang: null };
+const LANGS = ['fr','en','es','de','it','ar'];
 const options = () => Object.assign({}, DEF_OPT, readJSON(OPT_FILE, {}));
 const saveOptions = o => { try { fs.writeFileSync(OPT_FILE, JSON.stringify(Object.assign(options(), o))); } catch (e) {} };
 
@@ -213,7 +214,9 @@ function play(){
   let closing = false;
   game.on('close', e => {   // on garde le réglage graphique choisi en jeu
     if (closing) return; e.preventDefault(); closing = true;
-    game.webContents.executeJavaScript("localStorage.getItem('pantins_gfx')").then(v => { try { const g = JSON.parse(v); if (['bas','moyen','haut'].includes(g)) saveOptions({ gfx: g }); } catch (_) {} })
+    game.webContents.executeJavaScript("[localStorage.getItem('pantins_gfx'),localStorage.getItem('pantins_lang')]").then(([v, l]) => {
+      try { const g = JSON.parse(v); if (['bas','moyen','haut'].includes(g)) saveOptions({ gfx: g }); } catch (_) {}
+      try { const L = JSON.parse(l); if (LANGS.includes(L)) saveOptions({ lang: L }); } catch (_) {} })   // et la langue choisie en jeu
       .catch(() => {}).finally(() => game.destroy());
   });
   game.on('closed', () => { game = null; if (launcher && !launcher.isDestroyed()) { launcher.show(); launcher.webContents.send('back'); } });
@@ -245,6 +248,7 @@ app.whenReady().then(() => {
   ipcMain.on('minimize', () => launcher && launcher.minimize());
   ipcMain.on('close', () => app.quit());
   ipcMain.on('gfx', e => { e.returnValue = options().gfx; });
+  ipcMain.on('lang', e => { e.returnValue = options().lang || null; });
   try { ensureShortcuts(options(), false); } catch (e) { journal('raccourcis : ' + (e.stack || e)); }
   createLauncher();
 });

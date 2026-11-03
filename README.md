@@ -37,6 +37,7 @@ Au premier lancement, Windows peut afficher « Windows a protégé votre ordinat
 - **Mises à jour automatiques.** À chaque démarrage, le lanceur regarde s'il existe une nouvelle version. Si oui, il la télécharge (environ 1,5 Mo) et vérifie que le fichier est intact avant de l'installer.
 - **Sans internet**, tu joues à la dernière version déjà installée.
 - **Notes de mise à jour.** Chaque version y est listée. Clique sur « Corrections de bugs » pour voir ce qui a été réparé. Le reste, à toi de le trouver.
+- **Langues.** Le jeu et le lanceur existent en français, anglais, espagnol, allemand, italien et arabe. La langue se choisit au premier lancement, puis dans Options (lanceur) ou Paramètres (jeu) : les deux restent synchronisés.
 - **Options.** Tu y règles les graphismes, le plein écran au démarrage et l'installation automatique. Le bouton *Réinstaller le jeu* sert en cas de problème.
 
 Tes sauvegardes restent sur ton ordinateur et ne bougent pas pendant les mises à jour.

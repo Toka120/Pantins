@@ -6,7 +6,7 @@ Nouvelle version du jeu :
 Nouvelle version du lanceur (après avoir changé la version dans lanceur/package.json) :
   python outils/publier.py lanceur --bug "Un bug du lanceur corrigé."
 
-Catégories possibles : langues, maps, armes, bugs. Seuls les bugs sont détaillés aux joueurs.
+Catégories possibles : langues, maps, armes, bugs. Seuls les bugs sont détaillés aux joueurs. Les notes peuvent être traduites à la main : champs bugs_en, bugs_es, bugs_de, bugs_it, bugs_ar dans latest.json.
 Ensuite : git add -A && git commit && git push. Les lanceurs installés voient la mise à jour au prochain contrôle.
 """
 import argparse, datetime, hashlib, json, shutil, pathlib

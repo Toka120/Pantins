@@ -126,6 +126,16 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--gold2);outline-offs
 .demo button{padding:4px 10px;border:1px solid rgba(217,179,106,.25);background:none;border-radius:2px;cursor:pointer;color:var(--dim);font-size:12px}
 .demo button[aria-pressed="true"]{color:var(--gold2);border-color:var(--gold)}
 
+#lang{flex-wrap:wrap}
+#lpick{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(ellipse at 50% 30%,#2a0a0d,#0b0605 72%)}
+#lpick .lpbox{max-width:620px;width:100%;text-align:center;display:grid;gap:18px}
+#lpick h2{margin:0;font-size:52px;letter-spacing:.3em;padding-left:.3em;color:var(--gold2);font-weight:400}
+#lpick p{margin:0;font-size:14px;line-height:1.7;color:var(--gold);opacity:.85}
+#lpick .lpg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+#lpick .lpg button{padding:13px 8px;font:inherit;font-size:20px;color:var(--cream,#f3e6cf);background:rgba(217,179,106,.06);border:1px solid rgba(217,179,106,.45);border-radius:2px;cursor:pointer}
+#lpick .lpg button:hover{background:rgba(217,179,106,.22)}
+body.rtl .notes,body.rtl .status,body.rtl .brand{direction:rtl}
+body.rtl *{letter-spacing:0!important}
 @media (max-width:720px){
   .main{grid-template-columns:1fr}
   .stage{min-height:300px}
@@ -154,6 +164,11 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--gold2);outline-offs
       <div class="pane" id="pane-dev" role="tabpanel" aria-labelledby="tab-dev" hidden><div id="devbar" hidden><button type="button" class="small" id="b-write">✎ Écrire une info</button><span id="devst"></span></div><div id="deved" hidden></div><div id="devs"></div></div>
       <div class="pane" id="pane-opt" role="tabpanel" aria-labelledby="tab-opt" hidden>
         <div class="opt">
+          <div>
+            <h3>Langue</h3>
+            <div class="seg wrap" id="lang"></div>
+            <p>Le jeu et le lanceur s'affichent dans cette langue.</p>
+          </div>
           <div>
             <h3>Graphismes</h3>
             <div class="seg" id="gfx"><button type="button" data-v="bas" aria-pressed="false">Bas</button><button type="button" data-v="moyen" aria-pressed="false">Moyen</button><button type="button" data-v="haut" aria-pressed="true">Haut</button></div>
@@ -203,41 +218,46 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--gold2);outline-offs
 (()=>{
 const $=s=>document.querySelector(s), L=window.lanceur;
 const btn=$('#btn'), st1=$('#st1'), st2=$('#st2'), dot=$('#dot'), prog=$('#prog'), bar=$('#bar');
+const LANGS=['fr','en','es','de','it','ar'], LNAMES={fr:'Français',en:'English',es:'Español',de:'Deutsch',it:'Italiano',ar:'العربية'};
+const TR={"Réduire": ["Minimise", "Minimizar", "Minimieren", "Riduci", "تصغير"], "Fermer": ["Close", "Cerrar", "Schließen", "Chiudi", "إغلاق"], "Un jeu de réflexes au théâtre": ["A reflex game at the theatre", "Un juego de reflejos en el teatro", "Ein Reflexspiel im Theater", "Un gioco di riflessi a teatro", "لعبة ردود فعل في المسرح"], "Notes de mise à jour": ["Patch notes", "Notas de la versión", "Update-Notizen", "Note di aggiornamento", "ملاحظات التحديث"], "Infos du dev": ["Dev news", "Noticias del dev", "Infos vom Entwickler", "Notizie dello sviluppatore", "أخبار المطوّر"], "Options": ["Options", "Opciones", "Optionen", "Opzioni", "الخيارات"], "Le reste se découvre sur scène.": ["The rest is discovered on stage.", "El resto se descubre en escena.", "Der Rest zeigt sich auf der Bühne.", "Il resto si scopre in scena.", "والباقي يُكتشف على الخشبة."], "Langue": ["Language", "Idioma", "Sprache", "Lingua", "اللغة"], "Le jeu et le lanceur s'affichent dans cette langue.": ["The game and the launcher are shown in this language.", "El juego y el lanzador se muestran en este idioma.", "Spiel und Launcher werden in dieser Sprache angezeigt.", "Il gioco e il launcher sono mostrati in questa lingua.", "تُعرض اللعبة والمشغّل بهذه اللغة."], "Choisis ta langue": ["Choose your language", "Elige tu idioma", "Wähle deine Sprache", "Scegli la tua lingua", "اختر لغتك"], "Graphismes": ["Graphics", "Gráficos", "Grafik", "Grafica", "الرسوميات"], "Bas": ["Low", "Bajo", "Niedrig", "Basso", "منخفض"], "Moyen": ["Medium", "Medio", "Mittel", "Medio", "متوسط"], "Haut": ["High", "Alto", "Hoch", "Alto", "مرتفع"], "Pour les petits PC : image plus douce, sans ombres, moins de lumières et d'effets.": ["For small PCs: softer image, no shadows, fewer lights and effects.", "Para PC modestos: imagen más suave, sin sombras, menos luces y efectos.", "Für schwache PCs: weicheres Bild, keine Schatten, weniger Licht und Effekte.", "Per i PC piccoli: immagine più morbida, senza ombre, meno luci ed effetti.", "للحواسيب الضعيفة: صورة أنعم، بلا ظلال، وأضواء ومؤثّرات أقل."], "Ombres simplifiées, résolution normale.": ["Simplified shadows, normal resolution.", "Sombras simplificadas, resolución normal.", "Vereinfachte Schatten, normale Auflösung.", "Ombre semplificate, risoluzione normale.", "ظلال مبسّطة، دقّة عادية."], "Tout au maximum : ombres douces et haute résolution.": ["Everything maxed out: soft shadows and high resolution.", "Todo al máximo: sombras suaves y alta resolución.", "Alles auf Maximum: weiche Schatten und hohe Auflösung.", "Tutto al massimo: ombre morbide e alta risoluzione.", "كل شيء إلى الحدّ الأقصى: ظلال ناعمة ودقّة عالية."], "Démarrage": ["Startup", "Inicio", "Start", "Avvio", "التشغيل"], "Lancer en plein écran": ["Launch in full screen", "Iniciar en pantalla completa", "Im Vollbild starten", "Avvia a schermo intero", "التشغيل بملء الشاشة"], "Installer les mises à jour automatiquement": ["Install updates automatically", "Instalar las actualizaciones automáticamente", "Updates automatisch installieren", "Installa gli aggiornamenti automaticamente", "تثبيت التحديثات تلقائيًا"], "Raccourcis": ["Shortcuts", "Accesos directos", "Verknüpfungen", "Collegamenti", "الاختصارات"], "Créer les raccourcis": ["Create shortcuts", "Crear los accesos directos", "Verknüpfungen erstellen", "Crea i collegamenti", "إنشاء الاختصارات"], "Ajoute Pantins sur le Bureau et dans le menu Démarrer, pour le lancer depuis la recherche Windows.": ["Adds Pantins to the Desktop and the Start menu, so you can launch it from Windows search.", "Añade Pantins al Escritorio y al menú Inicio, para abrirlo desde la búsqueda de Windows.", "Fügt Pantins dem Desktop und dem Startmenü hinzu, damit du es über die Windows-Suche starten kannst.", "Aggiunge Pantins al Desktop e al menu Start, per avviarlo dalla ricerca di Windows.", "يضيف Pantins إلى سطح المكتب وقائمة ابدأ، لتشغيله من بحث Windows."], "Le jeu": ["The game", "El juego", "Das Spiel", "Il gioco", "اللعبة"], "Réinstaller le jeu": ["Reinstall the game", "Reinstalar el juego", "Spiel neu installieren", "Reinstalla il gioco", "إعادة تثبيت اللعبة"], "Retélécharge la dernière version si le jeu ne se lance plus. Tes sauvegardes ne sont pas touchées.": ["Downloads the latest version again if the game no longer starts. Your saves are not affected.", "Vuelve a descargar la última versión si el juego ya no arranca. Tus partidas guardadas no se tocan.", "Lädt die neueste Version erneut herunter, wenn das Spiel nicht mehr startet. Deine Spielstände bleiben erhalten.", "Riscarica l'ultima versione se il gioco non si avvia più. I tuoi salvataggi non vengono toccati.", "يعيد تنزيل آخر إصدار إن لم تعد اللعبة تعمل. لا تُمسّ ملفات حفظك."], "Vérification des mises à jour…": ["Checking for updates…", "Buscando actualizaciones…", "Suche nach Updates…", "Controllo degli aggiornamenti…", "جارٍ البحث عن تحديثات…"], "Jouer": ["Play", "Jugar", "Spielen", "Gioca", "العب"], "Nouvelles langues": ["New languages", "Nuevos idiomas", "Neue Sprachen", "Nuove lingue", "لغات جديدة"], "Nouvelles maps": ["New maps", "Nuevos mapas", "Neue Karten", "Nuove mappe", "خرائط جديدة"], "Nouvelles armes": ["New weapons", "Nuevas armas", "Neue Waffen", "Nuove armi", "أسلحة جديدة"], "Corrections de bugs": ["Bug fixes", "Correcciones de errores", "Fehlerbehebungen", "Correzioni di bug", "إصلاح الأخطاء"], "À télécharger": ["To download", "Por descargar", "Zum Herunterladen", "Da scaricare", "للتنزيل"], "Installée": ["Installed", "Instalada", "Installiert", "Installata", "مثبّتة"], "Lanceur": ["Launcher", "Lanzador", "Launcher", "Launcher", "المشغّل"], "Pantins · lanceur v{0}": ["Pantins · launcher v{0}", "Pantins · lanzador v{0}", "Pantins · Launcher v{0}", "Pantins · launcher v{0}", "Pantins · المشغّل v{0}"], "Jeu v{0} · lanceur v{1}": ["Game v{0} · launcher v{1}", "Juego v{0} · lanzador v{1}", "Spiel v{0} · Launcher v{1}", "Gioco v{0} · launcher v{1}", "اللعبة v{0} · المشغّل v{1}"], "Mise à jour disponible": ["Update available", "Actualización disponible", "Update verfügbar", "Aggiornamento disponibile", "تحديث متاح"], "Le lanceur va se mettre à jour, puis redémarrer": ["The launcher will update, then restart", "El lanzador se actualizará y luego se reiniciará", "Der Launcher aktualisiert sich und startet dann neu", "Il launcher si aggiornerà, poi si riavvierà", "سيُحدَّث المشغّل ثم يُعاد تشغيله"], "Mettre à jour": ["Update", "Actualizar", "Aktualisieren", "Aggiorna", "تحديث"], "Mise à jour disponible : v{0}": ["Update available: v{0}", "Actualización disponible: v{0}", "Update verfügbar: v{0}", "Aggiornamento disponibile: v{0}", "تحديث متاح: v{0}"], "Version installée v{0} · téléchargement {1}": ["Installed version v{0} · download {1}", "Versión instalada v{0} · descarga {1}", "Installierte Version v{0} · Download {1}", "Versione installata v{0} · download {1}", "الإصدار المثبّت v{0} · التنزيل {1}"], "Pantins est à jour": ["Pantins is up to date", "Pantins está al día", "Pantins ist aktuell", "Pantins è aggiornato", "Pantins محدّث"], "Version installée v{0}": ["Installed version v{0}", "Versión instalada v{0}", "Installierte Version v{0}", "Versione installata v{0}", "الإصدار المثبّت v{0}"], "Pas de connexion": ["No connection", "Sin conexión", "Keine Verbindung", "Nessuna connessione", "لا اتصال"], "Version installée v{0} · tu peux jouer, les mises à jour attendront": ["Installed version v{0} · you can play, updates will wait", "Versión instalada v{0} · puedes jugar, las actualizaciones esperarán", "Installierte Version v{0} · du kannst spielen, die Updates warten", "Versione installata v{0} · puoi giocare, gli aggiornamenti aspetteranno", "الإصدار المثبّت v{0} · يمكنك اللعب، والتحديثات ستنتظر"], "Dézippe d'abord le dossier Pantins": ["Unzip the Pantins folder first", "Descomprime primero la carpeta Pantins", "Entpacke zuerst den Pantins-Ordner", "Decomprimi prima la cartella Pantins", "فكّ ضغط مجلّد Pantins أولًا"], "Tu lances le jeu depuis le zip : extrais tout le dossier, puis ouvre Pantins.exe.": ["You're launching the game from the zip: extract the whole folder, then open Pantins.exe.", "Estás abriendo el juego desde el zip: extrae toda la carpeta y luego abre Pantins.exe.", "Du startest das Spiel aus dem Zip: Entpacke den ganzen Ordner und öffne dann Pantins.exe.", "Stai avviando il gioco dallo zip: estrai tutta la cartella, poi apri Pantins.exe.", "أنت تشغّل اللعبة من الملف المضغوط: استخرج المجلّد كله، ثم افتح Pantins.exe."], "Téléchargement": ["Downloading", "Descargando", "Herunterladen", "Download", "جارٍ التنزيل"], "Mise à jour installée": ["Update installed", "Actualización instalada", "Update installiert", "Aggiornamento installato", "تم تثبيت التحديث"], "La mise à jour a échoué": ["The update failed", "La actualización ha fallado", "Das Update ist fehlgeschlagen", "L'aggiornamento non è riuscito", "فشل التحديث"], "Redémarrage du lanceur…": ["Restarting the launcher…", "Reiniciando el lanzador…", "Launcher wird neu gestartet…", "Riavvio del launcher…", "جارٍ إعادة تشغيل المشغّل…"], "Redémarrage": ["Restarting", "Reiniciando", "Neustart", "Riavvio", "إعادة التشغيل"], "{0} sur {1}": ["{0} of {1}", "{0} de {1}", "{0} von {1}", "{0} di {1}", "{0} من {1}"], "Lever de rideau…": ["Curtain up…", "Se alza el telón…", "Vorhang auf…", "Si alza il sipario…", "يرتفع الستار…"], "Création…": ["Creating…", "Creando…", "Wird erstellt…", "Creazione…", "جارٍ الإنشاء…"], "Dézippe d'abord le dossier Pantins : les raccourcis ne peuvent pas pointer vers le zip.": ["Unzip the Pantins folder first: shortcuts can't point to the zip.", "Descomprime primero la carpeta Pantins: los accesos directos no pueden apuntar al zip.", "Entpacke zuerst den Pantins-Ordner: Verknüpfungen können nicht auf das Zip zeigen.", "Decomprimi prima la cartella Pantins: i collegamenti non possono puntare allo zip.", "فكّ ضغط مجلّد Pantins أولًا: لا يمكن أن تشير الاختصارات إلى الملف المضغوط."], "Les raccourcis ne se créent que sous Windows.": ["Shortcuts can only be created on Windows.", "Los accesos directos solo se crean en Windows.", "Verknüpfungen lassen sich nur unter Windows erstellen.", "I collegamenti si creano solo su Windows.", "لا تُنشأ الاختصارات إلا على Windows."], "Impossible de créer les raccourcis : ": ["Couldn't create the shortcuts: ", "No se pudieron crear los accesos directos: ", "Verknüpfungen konnten nicht erstellt werden: ", "Impossibile creare i collegamenti: ", "تعذّر إنشاء الاختصارات: "], "Bureau : fait": ["Desktop: done", "Escritorio: hecho", "Desktop: erledigt", "Desktop: fatto", "سطح المكتب: تمّ"], "Bureau : échec": ["Desktop: failed", "Escritorio: error", "Desktop: fehlgeschlagen", "Desktop: non riuscito", "سطح المكتب: فشل"], "menu Démarrer : fait": ["Start menu: done", "menú Inicio: hecho", "Startmenü: erledigt", "menu Start: fatto", "قائمة ابدأ: تمّ"], "menu Démarrer : échec": ["Start menu: failed", "menú Inicio: error", "Startmenü: fehlgeschlagen", "menu Start: non riuscito", "قائمة ابدأ: فشل"], " (détails dans journal.txt, dossier %APPDATA%\\Pantins).": [" (details in journal.txt, folder %APPDATA%\\Pantins).", " (detalles en journal.txt, carpeta %APPDATA%\\Pantins).", " (Details in journal.txt, Ordner %APPDATA%\\Pantins).", " (dettagli in journal.txt, cartella %APPDATA%\\Pantins).", " (التفاصيل في journal.txt، المجلّد %APPDATA%\\Pantins)."], "Pas encore d'infos du développeur.": ["No news from the developer yet.", "Todavía no hay noticias del desarrollador.", "Noch keine Infos vom Entwickler.", "Ancora nessuna notizia dallo sviluppatore.", "لا أخبار من المطوّر بعد."], "Mo": ["MB", "MB", "MB", "MB", "م.ب"]}; let LG='fr';
+// traductions du lanceur : le texte français sert de clé ; {0}, {1}… sont remplacés
+const tt=(s,...a)=>{ const r=LG==='fr'?s:((TR[s]||[])[LANGS.indexOf(LG)-1]||s); return r.replace(/\{(\d+)\}/g,(m,i)=>a[+i]); };
 const CAT={langues:'Nouvelles langues',maps:'Nouvelles maps',armes:'Nouvelles armes',bugs:'Corrections de bugs'};
 const MOIS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
-const fdate=d=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||''); return m?`${+m[3]} ${MOIS[+m[2]-1]} ${m[1]}`:''; };
-const mo=n=>(n/1048576).toFixed(1).replace('.',',')+' Mo';
+const fdate=d=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||''); if(!m) return ''; if(LG!=='fr'){ try{ return new Date(+m[1],+m[2]-1,+m[3]).toLocaleDateString(LG,{day:'numeric',month:'short',year:'numeric'}); }catch(e){} } return `${+m[3]} ${MOIS[+m[2]-1]} ${m[1]}`; };
+const mo=n=>{ const v=(n/1048576).toFixed(1); return (LG==='en'?v:v.replace('.',','))+' '+tt('Mo'); };
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let S={installed:'0.0.0',options:{}}, info=null, mode='play', busy=false;
 function renderNotes(notes,inst,latest){
   $('#rels').innerHTML=(notes||[]).map(n=>{
-    const NEW='<span class="chip new">À télécharger</span>', INS='<span class="chip inst">Installée</span>';
+    const NEW=`<span class="chip new">${tt('À télécharger')}</span>`, INS=`<span class="chip inst">${tt('Installée')}</span>`;
     const chip = n.lanceur
       ? (info && info.launcherUpdate===n.version ? NEW : n.version===S.launcher ? INS : '')
       : (n.version===inst ? INS : (latest && n.version===latest && latest!==inst ? NEW : ''));
-    const cats=(n.cats||[]).map(c=> c==='bugs' && (n.bugs||[]).length
-      ? `<li class="bug"><details><summary>${CAT.bugs}</summary><ul class="fix">${n.bugs.map(b=>`<li>${esc(b)}</li>`).join('')}</ul></details></li>`
-      : `<li>${esc(CAT[c]||c)}</li>`).join('');
-    return `<div class="rel"><div class="h"><span class="v">${n.lanceur?'Lanceur ':''}v${esc(n.version)}</span>${chip}<span class="d">${fdate(n.date)}</span></div><ul class="cats">${cats}</ul></div>`;
+    const bugs=n['bugs_'+LG]||n.bugs||[];   // les notes peuvent être traduites (bugs_en, bugs_es…), sinon en français
+    const cats=(n.cats||[]).map(c=> c==='bugs' && bugs.length
+      ? `<li class="bug"><details><summary>${tt(CAT.bugs)}</summary><ul class="fix">${bugs.map(b=>`<li>${esc(b)}</li>`).join('')}</ul></details></li>`
+      : `<li>${esc(CAT[c]?tt(CAT[c]):c)}</li>`).join('');
+    return `<div class="rel"><div class="h"><span class="v">${n.lanceur?tt('Lanceur')+' ':''}v${esc(n.version)}</span>${chip}<span class="d">${fdate(n.date)}</span></div><ul class="cats">${cats}</ul></div>`;
   }).join('');
 }
 function show(){
-  document.querySelector('.bar span').textContent='Pantins · lanceur v'+S.launcher;
-  prog.hidden=true; btn.disabled=false; $('#vinfo').textContent=`Jeu v${S.installed} · lanceur v${S.launcher}`;
-  if(info && info.launcherUpdate){ mode='launcher'; dot.className='dot warn'; st1.textContent='Mise à jour disponible';
-    st2.textContent=`Le lanceur va se mettre à jour, puis redémarrer`; btn.className='play upd'; btn.textContent='Mettre à jour'; }
-  else if(info && info.available){ mode='update'; dot.className='dot warn'; st1.textContent=`Mise à jour disponible : v${info.latest}`;
-    st2.textContent=`Version installée v${S.installed} · téléchargement ${mo(info.size||0)}`; btn.className='play upd'; btn.textContent='Mettre à jour'; }
-  else { mode='play'; btn.className='play'; btn.textContent='Jouer';
-    if(info && info.online){ dot.className='dot'; st1.textContent='Pantins est à jour'; st2.textContent=`Version installée v${S.installed}`; }
-    else { dot.className='dot off'; st1.textContent='Pas de connexion'; st2.textContent=`Version installée v${S.installed} · tu peux jouer, les mises à jour attendront`; } }
+  document.querySelector('.bar span').textContent=tt('Pantins · lanceur v{0}',S.launcher);
+  prog.hidden=true; btn.disabled=false; $('#vinfo').textContent=tt('Jeu v{0} · lanceur v{1}',S.installed,S.launcher);
+  if(info && info.launcherUpdate){ mode='launcher'; dot.className='dot warn'; st1.textContent=tt('Mise à jour disponible');
+    st2.textContent=tt('Le lanceur va se mettre à jour, puis redémarrer'); btn.className='play upd'; btn.textContent=tt('Mettre à jour'); }
+  else if(info && info.available){ mode='update'; dot.className='dot warn'; st1.textContent=tt('Mise à jour disponible : v{0}',info.latest);
+    st2.textContent=tt('Version installée v{0} · téléchargement {1}',S.installed,mo(info.size||0)); btn.className='play upd'; btn.textContent=tt('Mettre à jour'); }
+  else { mode='play'; btn.className='play'; btn.textContent=tt('Jouer');
+    if(info && info.online){ dot.className='dot'; st1.textContent=tt('Pantins est à jour'); st2.textContent=tt('Version installée v{0}',S.installed); }
+    else { dot.className='dot off'; st1.textContent=tt('Pas de connexion'); st2.textContent=tt('Version installée v{0} · tu peux jouer, les mises à jour attendront',S.installed); } }
   renderNotes(info?info.notes:S.notes, S.installed, info&&info.latest);
-  if(S.inZip){ dot.className='dot warn'; st1.textContent='Dézippe d\'abord le dossier Pantins'; st2.textContent='Tu lances le jeu depuis le zip : extrais tout le dossier, puis ouvre Pantins.exe.'; }
+  if(S.inZip){ dot.className='dot warn'; st1.textContent=tt('Dézippe d\'abord le dossier Pantins'); st2.textContent=tt('Tu lances le jeu depuis le zip : extrais tout le dossier, puis ouvre Pantins.exe.'); }
 }
 let lastCheck=0;
 async function refresh(quiet){
   if(busy) return; lastCheck=Date.now();
-  if(!quiet){ dot.className='dot off'; st1.textContent='Vérification des mises à jour…'; }
+  if(!quiet){ dot.className='dot off'; st1.textContent=tt('Vérification des mises à jour…'); }
   S=await L.state(); setGfx(S.options.gfx,false); $('#opt-fs').checked=!!S.options.fullscreen; $('#opt-auto').checked=!!S.options.auto;
   const r=await L.check(); if(busy) return;
   if(quiet && !r.online && info && info.online) return;   // une coupure passagère ne change rien à l'écran
@@ -246,30 +266,30 @@ async function refresh(quiet){
 }
 const errMsg=e=>String(e.message||e).replace(/^Error invoking remote method '\w+': (Error: )?/,'');
 async function doUpdate(){
-  if(busy) return; busy=true; btn.disabled=true; btn.textContent='Téléchargement'; prog.hidden=false; bar.style.width='0';
-  try{ const r=await L.update(); S.installed=r.installed; info.available=false; show(); st1.textContent='Mise à jour installée'; }
-  catch(e){ show(); dot.className='dot warn'; st1.innerHTML='<span class="err">La mise à jour a échoué</span>'; st2.textContent=errMsg(e); }
+  if(busy) return; busy=true; btn.disabled=true; btn.textContent=tt('Téléchargement'); prog.hidden=false; bar.style.width='0';
+  try{ const r=await L.update(); S.installed=r.installed; info.available=false; show(); st1.textContent=tt('Mise à jour installée'); }
+  catch(e){ show(); dot.className='dot warn'; st1.innerHTML=`<span class="err">${tt('La mise à jour a échoué')}</span>`; st2.textContent=errMsg(e); }
   busy=false;
 }
 async function doLauncher(){
-  if(busy) return; busy=true; btn.disabled=true; btn.textContent='Téléchargement'; prog.hidden=false; bar.style.width='0';
-  try{ await L.updateLauncher(); st1.textContent='Mise à jour installée'; st2.textContent='Redémarrage du lanceur…'; btn.textContent='Redémarrage'; }
-  catch(e){ busy=false; show(); dot.className='dot warn'; st1.innerHTML='<span class="err">La mise à jour a échoué</span>'; st2.textContent=errMsg(e); }
+  if(busy) return; busy=true; btn.disabled=true; btn.textContent=tt('Téléchargement'); prog.hidden=false; bar.style.width='0';
+  try{ await L.updateLauncher(); st1.textContent=tt('Mise à jour installée'); st2.textContent=tt('Redémarrage du lanceur…'); btn.textContent=tt('Redémarrage'); }
+  catch(e){ busy=false; show(); dot.className='dot warn'; st1.innerHTML=`<span class="err">${tt('La mise à jour a échoué')}</span>`; st2.textContent=errMsg(e); }
 }
 // tant que le lanceur est ouvert, il revérifie toutes les 5 minutes, et quand on revient sur sa fenêtre
 setInterval(()=>{ if(!document.hidden) refresh(true); }, 5*60*1000);
 addEventListener('focus',()=>{ if(Date.now()-lastCheck>60*1000) refresh(true); });
-L.onProgress(p=>{ const f=p.total?Math.min(1,p.got/p.total):0; bar.style.width=(f*100)+'%'; st2.textContent=`${mo(p.got)} sur ${mo(p.total)}`; });
-L.onBack(()=>refresh());
-btn.addEventListener('click',()=>{ if(mode==='launcher') doLauncher(); else if(mode==='update') doUpdate(); else { btn.disabled=true; btn.textContent='Lever de rideau…'; L.play(); setTimeout(()=>{ btn.disabled=false; btn.textContent='Jouer'; },2500); } });
+L.onProgress(p=>{ const f=p.total?Math.min(1,p.got/p.total):0; bar.style.width=(f*100)+'%'; st2.textContent=tt('{0} sur {1}',mo(p.got),mo(p.total)); });
+L.onBack(async()=>{ const s2=await L.state(); if((s2.options.lang||'fr')!==LG && s2.options.lang){ location.reload(); return; } refresh(); });   // langue changée en jeu : le lanceur suit
+btn.addEventListener('click',()=>{ if(mode==='launcher') doLauncher(); else if(mode==='update') doUpdate(); else { btn.disabled=true; btn.textContent=tt('Lever de rideau…'); L.play(); setTimeout(()=>{ btn.disabled=false; btn.textContent=tt('Jouer'); },2500); } });
 $('#b-min').addEventListener('click',()=>L.minimize()); $('#b-close').addEventListener('click',()=>L.close());
 $('#b-reinst').addEventListener('click',async()=>{ $('#b-reinst').disabled=true; info=await L.reinstall(); S=await L.state(); show(); $('#b-reinst').disabled=false; if(info.available) doUpdate(); });
-$('#b-sc').addEventListener('click',async()=>{ const b=$('#b-sc'), m=$('#sc-msg'); b.disabled=true; m.textContent='Création…';
+$('#b-sc').addEventListener('click',async()=>{ const b=$('#b-sc'), m=$('#sc-msg'); b.disabled=true; m.textContent=tt('Création…');
   const r=await L.shortcuts(); b.disabled=false;
-  if(r.skipped==='zip') m.textContent='Dézippe d\'abord le dossier Pantins : les raccourcis ne peuvent pas pointer vers le zip.';
-  else if(r.skipped) m.textContent='Les raccourcis ne se créent que sous Windows.';
-  else if(r.error) m.textContent='Impossible de créer les raccourcis : '+r.error;
-  else m.textContent=(r.desk?'Bureau : fait':'Bureau : échec')+' · '+(r.start?'menu Démarrer : fait':'menu Démarrer : échec')+(r.desk&&r.start?'.':' (détails dans journal.txt, dossier %APPDATA%\\Pantins).');
+  if(r.skipped==='zip') m.textContent=tt('Dézippe d\'abord le dossier Pantins : les raccourcis ne peuvent pas pointer vers le zip.');
+  else if(r.skipped) m.textContent=tt('Les raccourcis ne se créent que sous Windows.');
+  else if(r.error) m.textContent=tt('Impossible de créer les raccourcis : ')+r.error;
+  else m.textContent=tt(r.desk?'Bureau : fait':'Bureau : échec')+' · '+tt(r.start?'menu Démarrer : fait':'menu Démarrer : échec')+(r.desk&&r.start?'.':tt(' (détails dans journal.txt, dossier %APPDATA%\\Pantins).'));
 });
 $('#opt-fs').addEventListener('change',e=>L.options({fullscreen:e.target.checked}));
 $('#opt-auto').addEventListener('change',e=>L.options({auto:e.target.checked}));
@@ -291,7 +311,7 @@ function renderDev(text){
   $('#devs').innerHTML = P.blocks.length ? P.blocks.map((B,i)=>{ const [date,title]=splitH(B.h);
       const paras=B.body.replace(/<!--[\s\S]*?-->/g,'').trim().split(/\n\s*\n/).filter(x=>x.trim()).map(x=>`<p>${devFmt(x.trim()).replace(/\n/g,'<br>')}</p>`).join('');
       return `<div class="dev">${date?`<span class="dd">${esc(date)}</span>`:''}${title?`<h4>${devFmt(title)}</h4>`:''}${paras}${DEV?`<div class="devact"><button type="button" data-ed="${i}">Modifier</button><button type="button" data-del="${i}">Supprimer</button></div>`:''}</div>`; }).join('')
-    : '<p class="devnone">Pas encore d\'infos du développeur.</p>';
+    : `<p class="devnone">${tt('Pas encore d\'infos du développeur.')}</p>`;
   $('#devs').querySelectorAll('[data-ed]').forEach(b=>b.onclick=()=>openEditor(+b.dataset.ed));
   $('#devs').querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>delInfo(+b.dataset.del, b));
   devHash = P.blocks.length ? hashOf(devJoin({head:'',blocks:P.blocks})) : '';
@@ -336,9 +356,22 @@ $('#b-write').addEventListener('click',()=>openEditor(null));
 devRefresh();
 function devSeen(){ if(!devHash) return; try{ localStorage.setItem('infosVues',devHash); }catch(e){} $('#pip').hidden=true; }
 const GD={bas:'Pour les petits PC : image plus douce, sans ombres, moins de lumières et d\'effets.',moyen:'Ombres simplifiées, résolution normale.',haut:'Tout au maximum : ombres douces et haute résolution.'};
-function setGfx(v,save=true){ if(!GD[v]) v='haut'; document.querySelectorAll('#gfx button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v)); $('#gfx-desc').textContent=GD[v]; if(save) L.options({gfx:v}); }
+function setGfx(v,save=true){ if(!GD[v]) v='haut'; document.querySelectorAll('#gfx button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.v===v)); $('#gfx-desc').textContent=tt(GD[v]); if(save) L.options({gfx:v}); }
 document.querySelectorAll('#gfx button').forEach(b=>b.addEventListener('click',()=>setGfx(b.dataset.v)));
-refresh();
+// la langue : choisie au premier lancement, puis dans Options ; le jeu prend la même
+function applyLang(){
+  document.documentElement.lang=LG; document.body.classList.toggle('rtl',LG==='ar');
+  if(LG!=='fr'){ const W=document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); const ns=[]; while(W.nextNode()) ns.push(W.currentNode);
+    for(const n of ns){ if(n.parentNode && /^(SCRIPT|STYLE)$/.test(n.parentNode.nodeName)) continue; const k=n.nodeValue.replace(/\s+/g,' ').trim(); if(!k||!TR[k]) continue; const m=n.nodeValue.match(/^(\s*)[\s\S]*?(\s*)$/); n.nodeValue=m[1]+tt(k)+m[2]; }
+    for(const el of document.querySelectorAll('[title],[aria-label]')) for(const at of ['title','aria-label']){ const v=el.getAttribute(at); if(v && TR[v]) el.setAttribute(at,tt(v)); } }
+  const box=$('#lang'); box.innerHTML=LANGS.map(k=>`<button type="button" data-v="${k}" lang="${k}" aria-pressed="${k===LG}">${LNAMES[k]}</button>`).join('');
+  box.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>chooseLang(b.dataset.v)));
+}
+async function chooseLang(k){ await L.options({lang:k}); if(k!==LG) location.reload(); else { const o=$('#lpick'); if(o) o.remove(); } }
+function langPicker(){ const o=document.createElement('div'); o.id='lpick';
+  o.innerHTML=`<div class="lpbox"><h2>PANTINS</h2><p>Choisis ta langue · Choose your language · Elige tu idioma · Wähle deine Sprache · Scegli la tua lingua · اختر لغتك</p><div class="lpg">${LANGS.map(k=>`<button type="button" data-v="${k}" lang="${k}">${LNAMES[k]}</button>`).join('')}</div></div>`;
+  document.body.appendChild(o); o.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>chooseLang(b.dataset.v))); }
+(async()=>{ try{ const s0=await L.state(); LG=LANGS.includes(s0.options.lang)?s0.options.lang:'fr'; applyLang(); if(!s0.options.lang) langPicker(); }catch(e){} refresh(); })();
 // le pantin sous le projecteur
 const cv=$('#puppet'), cx=cv.getContext('2d'); const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function size(){ const r=cv.getBoundingClientRect(), d=Math.min(devicePixelRatio||1,2); cv.width=r.width*d; cv.height=r.height*d; cx.setTransform(d,0,0,d,0,0); }
