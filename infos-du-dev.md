@@ -15,7 +15,7 @@
 
 ## 3 nov. 2026 — Langage
 Mise à jour sur les langages cet après midi
-7 lagues ajoutées
+6 lagues ajoutées
 
 ## 3 nov. 2026 — Bienvenue dans les coulisses
 C'est ici que je posterai les nouvelles de **Pantins** : ce qui arrive bientôt, ce sur quoi je travaille, et parfois un indice.
