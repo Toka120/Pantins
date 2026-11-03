@@ -1,10 +1,18 @@
 {
-  "version": "1.4.0",
+  "version": "1.5.0",
   "date": "2026-11-03",
   "file": "game/pantins.html",
-  "sha256": "5207084113c036537a976cd343935117badd59dc640f6157c7919591a7457392",
-  "size": 2969911,
+  "sha256": "50ba4d357345dd49ce4dd4990ad1b84509c4a5871f2c01076b2df86b3bc64ff5",
+  "size": 3070189,
   "notes": [
+    {
+      "version": "1.5.0",
+      "date": "2026-11-03",
+      "cats": [
+        "maps"
+      ],
+      "bugs": []
+    },
     {
       "version": "1.4.0",
       "date": "2026-11-03",
