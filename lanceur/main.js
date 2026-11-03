@@ -200,6 +200,39 @@ function createLauncher(){
   launcher.webContents.setWindowOpenHandler(({ url }) => { if (/^https:\/\//.test(url)) shell.openExternal(url); return { action: 'deny' }; });
   launcher.loadFile(path.join(BASE, 'lanceur.html'));
 }
+// ---- Discord : « Joue à Pantins » sur le profil des joueurs (Rich Presence), sans bibliothèque ----
+// On parle directement à l'application Discord ouverte sur le PC (tube local discord-ipc-N). Si Discord est fermé : rien.
+const DISCORD_ID = '1567307303651381248', DISCORD_URL = 'https://github.com/Toka120/Pantins';
+const DTR = {
+  menu: {fr:'Dans le lanceur', en:'In the launcher', es:'En el lanzador', de:'Im Launcher', it:'Nel launcher', ar:'في المشغّل'},
+  jeu:  {fr:'Au théâtre', en:'At the theatre', es:'En el teatro', de:'Im Theater', it:'A teatro', ar:'في المسرح'},
+  btn:  {fr:'Télécharger Pantins', en:'Get Pantins', es:'Descargar Pantins', de:'Pantins holen', it:'Scarica Pantins', ar:'نزّل Pantins'} };
+const Discord = { sock: null, ready: false, want: null, t0: Date.now(), retry: null, buf: Buffer.alloc(0),
+  pipe(i){ if (process.platform === 'win32') return '\\\\?\\pipe\\discord-ipc-' + i;
+    return path.join(process.env.XDG_RUNTIME_DIR || process.env.TMPDIR || process.env.TMP || '/tmp', 'discord-ipc-' + i); },
+  send(op, obj){ if (!this.sock) return; const d = Buffer.from(JSON.stringify(obj)), h = Buffer.alloc(8); h.writeInt32LE(op, 0); h.writeInt32LE(d.length, 4); try { this.sock.write(Buffer.concat([h, d])); } catch (e) {} },
+  connect(i = 0){
+    if (this.sock) return; if (i > 9) { this.later(); return; }
+    const s = require('net').createConnection(this.pipe(i));
+    s.once('error', () => { s.destroy(); this.connect(i + 1); });
+    s.once('connect', () => { this.sock = s; s.removeAllListeners('error'); s.on('error', () => {});
+      s.on('close', () => { this.sock = null; this.ready = false; this.buf = Buffer.alloc(0); this.later(); });
+      s.on('data', b => this.data(b)); this.send(0, { v: 1, client_id: DISCORD_ID }); });
+  },
+  later(){ clearTimeout(this.retry); this.retry = setTimeout(() => this.connect(0), 30000); },
+  data(b){ this.buf = Buffer.concat([this.buf, b]);
+    while (this.buf.length >= 8) { const op = this.buf.readInt32LE(0), n = this.buf.readInt32LE(4); if (this.buf.length < 8 + n) break;
+      let m = {}; try { m = JSON.parse(this.buf.slice(8, 8 + n).toString()); } catch (e) {} this.buf = this.buf.slice(8 + n);
+      if (op === 1 && m.evt === 'READY') { this.ready = true; this.apply(); }
+      else if (op === 1 && m.evt === 'ERROR') journal('discord : ' + JSON.stringify(m.data || m));
+      else if (op === 2) { try { this.sock.destroy(); } catch (e) {} }
+      else if (op === 3) this.send(4, m); } },
+  set(where, restart){ if (restart) this.t0 = Date.now(); this.want = where; this.apply(); },
+  apply(){ if (!this.ready || !this.want) return; const L = options().lang || 'fr', T = k => DTR[k][L] || DTR[k].fr;
+    this.send(1, { cmd: 'SET_ACTIVITY', nonce: String(Date.now()), args: { pid: process.pid, activity: {
+      details: T(this.want), timestamps: { start: Math.floor(this.t0 / 1000) },
+      assets: { large_image: 'logo', large_text: 'Pantins' }, buttons: [{ label: T('btn'), url: DISCORD_URL }] } } }); }
+};
 function play(){
   if (game) { game.focus(); return; }
   const o = options();
@@ -219,8 +252,9 @@ function play(){
       try { const L = JSON.parse(l); if (LANGS.includes(L)) saveOptions({ lang: L }); } catch (_) {} })   // et la langue choisie en jeu
       .catch(() => {}).finally(() => game.destroy());
   });
-  game.on('closed', () => { game = null; if (launcher && !launcher.isDestroyed()) { launcher.show(); launcher.webContents.send('back'); } });
+  game.on('closed', () => { game = null; Discord.set('menu', true); if (launcher && !launcher.isDestroyed()) { launcher.show(); launcher.webContents.send('back'); } });
   game.loadURL('pantins://jeu/index.html');
+  Discord.set('jeu', true);
 }
 
 app.whenReady().then(() => {
@@ -238,7 +272,7 @@ app.whenReady().then(() => {
   ipcMain.handle('update', e => update(BrowserWindow.fromWebContents(e.sender)));
   ipcMain.handle('updateLauncher', e => updateLauncher(BrowserWindow.fromWebContents(e.sender)));
   ipcMain.handle('reinstall', async () => { try { fs.rmSync(GAME_DIR, { recursive: true, force: true }); } catch (e) {} return check(); });
-  ipcMain.handle('options', (e, o) => { saveOptions(o); return options(); });
+  ipcMain.handle('options', (e, o) => { saveOptions(o); Discord.apply(); return options(); });
   ipcMain.handle('devState', () => ({ on: !!devToken() }));
   ipcMain.handle('devSetToken', async (e, t) => { t = String(t || '').trim(); if (!t) return { ok: false, err: 'Colle d\'abord ta clé.' };
     try { const c = await devCheck(t); if (c.ok) devSave(t); return c; } catch (err) { return { ok: false, err: 'Pas de connexion avec GitHub.' }; } });
@@ -250,6 +284,6 @@ app.whenReady().then(() => {
   ipcMain.on('gfx', e => { e.returnValue = options().gfx; });
   ipcMain.on('lang', e => { e.returnValue = options().lang || null; });
   try { ensureShortcuts(options(), false); } catch (e) { journal('raccourcis : ' + (e.stack || e)); }
-  createLauncher();
+  createLauncher(); Discord.set('menu'); Discord.connect();
 });
 app.on('window-all-closed', () => app.quit());
