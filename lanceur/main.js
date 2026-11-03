@@ -40,8 +40,14 @@ async function fetchTimeout(url, ms){
   finally { clearTimeout(t); }
 }
 let LATEST = null;
+// les infos du dev : un fichier texte du dépôt, gardé en copie pour le jeu hors ligne
+async function infosDev(){
+  const f = path.join(DATA, 'infos-du-dev.md');
+  try { const r = await fetchTimeout(UPDATE_BASE + 'infos-du-dev.md', 9000); if (r.ok) { const t = await r.text(); try { fs.writeFileSync(f, t); } catch (e) {} return t; } } catch (e) {}
+  try { return fs.readFileSync(f, 'utf8'); } catch (e) { return ''; }
+}
 async function check(){
-  const inst = installed();
+  const inst = installed(), infos = await infosDev();
   try {
     const r = await fetchTimeout(UPDATE_BASE + 'latest.json', 9000);
     if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -50,9 +56,9 @@ async function check(){
     const lnew = !!(L && L.version && cmp(L.version, LAUNCHER_VERSION) > 0 && !fs.existsSync(path.join(ldir, 'refuse-' + L.version)));
     return { online: true, installed: inst.version, latest: LATEST.version, size: LATEST.size,
              available: cmp(LATEST.version, inst.version) > 0, notes: LATEST.notes || inst.notes,
-             launcherUpdate: lnew ? L.version : null, launcherSize: lnew ? L.files.reduce((t, f) => t + (f.size || 0), 0) : 0 };
+             launcherUpdate: lnew ? L.version : null, launcherSize: lnew ? L.files.reduce((t, f) => t + (f.size || 0), 0) : 0, infos };
   } catch (e) {
-    return { online: false, installed: inst.version, available: false, notes: inst.notes, error: String(e.message || e) };
+    return { online: false, installed: inst.version, available: false, notes: inst.notes, error: String(e.message || e), infos };
   }
 }
 async function update(win){

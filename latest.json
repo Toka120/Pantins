@@ -6,6 +6,17 @@
   "size": 1642075,
   "notes": [
     {
+      "version": "1.1.2",
+      "date": "2026-11-03",
+      "lanceur": true,
+      "cats": [
+        "bugs"
+      ],
+      "bugs": [
+        "Il n'y avait aucun moyen d'avoir des nouvelles du développeur : elles arrivent maintenant dans l'onglet « Infos du dev »."
+      ]
+    },
+    {
       "version": "1.1.0",
       "date": "2026-10-30",
       "cats": [
@@ -89,18 +100,18 @@
     }
   ],
   "lanceur": {
-    "version": "1.1.1",
+    "version": "1.1.2",
     "path": "lanceur/",
     "files": [
       {
         "name": "main.js",
-        "sha256": "fc948b9a45f2f21a755d0254f4f8fe5762861f96d9495507a7ff2d6af17b5435",
-        "size": 14047
+        "sha256": "e6f151314bdf8a078299ebaff2c76a09af114f28b0424afaff160b0e0dd54162",
+        "size": 14511
       },
       {
         "name": "lanceur.html",
-        "sha256": "1c7a437c330c3cdd918d5fb452fe63f9cd49b981a83e52750a669e44efba456f",
-        "size": 22111
+        "sha256": "6e2278bed693b8105de2e4418c9487922603dfbae45c37cbd1c5451789296e67",
+        "size": 25230
       },
       {
         "name": "preload-lanceur.js",
@@ -119,7 +130,7 @@
       },
       {
         "name": "package.json",
-        "sha256": "ca15083ed854f4a4984981b180500099ea76e9cb4d0de6bfbc21bab7d81e3ffd",
+        "sha256": "16010d4d9475bfe5915d6e8c32f607a975f7d66d2044db388bdf3059b356bf77",
         "size": 170
       }
     ]
