@@ -6,6 +6,17 @@
   "size": 1642075,
   "notes": [
     {
+      "version": "1.1.3",
+      "date": "2026-11-03",
+      "lanceur": true,
+      "cats": [
+        "bugs"
+      ],
+      "bugs": [
+        "Le développeur devait passer par GitHub pour écrire ses infos : il peut maintenant les écrire, les modifier et les supprimer depuis le lanceur."
+      ]
+    },
+    {
       "version": "1.1.2",
       "date": "2026-11-03",
       "lanceur": true,
@@ -100,23 +111,23 @@
     }
   ],
   "lanceur": {
-    "version": "1.1.2",
+    "version": "1.1.3",
     "path": "lanceur/",
     "files": [
       {
         "name": "main.js",
-        "sha256": "e6f151314bdf8a078299ebaff2c76a09af114f28b0424afaff160b0e0dd54162",
-        "size": 14511
+        "sha256": "bea064f42cedb6959bb73fa0747d7028e243e0f338cc57650ddad971ac58bdb3",
+        "size": 18599
       },
       {
         "name": "lanceur.html",
-        "sha256": "6e2278bed693b8105de2e4418c9487922603dfbae45c37cbd1c5451789296e67",
-        "size": 25230
+        "sha256": "c56e919d721a954206cd63c52b04a82a812d451c6c85275eaf9373522df314b5",
+        "size": 32095
       },
       {
         "name": "preload-lanceur.js",
-        "sha256": "1f9586d1fb1534253b9eee6e5b9332fc2532d981cff713473e5e9e8f17ede66f",
-        "size": 701
+        "sha256": "57e9564f5e979883952d66e6795fff56ea3fbba4f628f310ce48e641af790ca1",
+        "size": 923
       },
       {
         "name": "preload-jeu.js",
@@ -130,7 +141,7 @@
       },
       {
         "name": "package.json",
-        "sha256": "16010d4d9475bfe5915d6e8c32f607a975f7d66d2044db388bdf3059b356bf77",
+        "sha256": "1b204d7c33802527f047b05ef3e88a7e9f7b33741e1319b732bf452fb3cee9c7",
         "size": 170
       }
     ]

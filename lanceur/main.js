@@ -1,5 +1,5 @@
 /* Lanceur de Pantins : vérifie les mises à jour sur GitHub, les installe, puis ouvre le jeu. */
-const { app, BrowserWindow, ipcMain, protocol, net, shell, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, protocol, net, shell, Menu, safeStorage } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
@@ -41,8 +41,43 @@ async function fetchTimeout(url, ms){
 }
 let LATEST = null;
 // les infos du dev : un fichier texte du dépôt, gardé en copie pour le jeu hors ligne
+/* ---------------- le mode développeur : écrire les infos du dev depuis le lanceur ----------------
+   La clé GitHub (un jeton à accès limité au dépôt) reste sur ce PC, chiffrée par Windows. Les joueurs n'en ont pas. */
+const GH_API = process.env.PANTINS_GH_API || 'https://api.github.com', GH_REPO = 'Toka120/Pantins', INFOS_PATH = 'infos-du-dev.md';
+const devFile = () => path.join(DATA, 'dev.bin');
+function devToken(){ try { const b = fs.readFileSync(devFile()); if (b[0] === 0x7b) return JSON.parse(b.toString()).t; return safeStorage.decryptString(b); } catch (e) { return null; } }
+function devSave(t){ if (safeStorage.isEncryptionAvailable()) fs.writeFileSync(devFile(), safeStorage.encryptString(t)); else fs.writeFileSync(devFile(), JSON.stringify({ t })); }
+async function gh(method, p, token, body){
+  const r = await net.fetch(GH_API + p, { method, cache: 'no-store', headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', 'User-Agent': 'Pantins-lanceur', ...(body ? { 'Content-Type': 'application/json' } : {}) }, body: body ? JSON.stringify(body) : undefined });
+  let j = null; try { j = await r.json(); } catch (e) {}
+  return { ok: r.ok, status: r.status, j };
+}
+const ghMsg = (r) => r.status === 401 ? 'La clé est refusée (expirée ou mal copiée).' : r.status === 403 ? 'La clé n\'a pas le droit d\'écrire dans le dépôt Pantins.' : r.status === 404 ? 'Dépôt introuvable avec cette clé : vérifie qu\'elle donne accès à Toka120/Pantins.' : r.status === 409 ? 'Le fichier a changé entre-temps : réessaie.' : 'GitHub a répondu ' + r.status + (r.j && r.j.message ? ' (' + r.j.message + ')' : '') + '.';
+async function devCheck(token){
+  const r = await gh('GET', '/repos/' + GH_REPO, token);
+  if (!r.ok) return { ok: false, err: ghMsg(r) };
+  if (!r.j || !r.j.permissions || !r.j.permissions.push) return { ok: false, err: 'Cette clé peut lire le dépôt mais pas y écrire. Donne-lui « Contents : Read and write ».' };
+  return { ok: true, repo: r.j.full_name };
+}
+async function devRead(token){
+  const r = await gh('GET', '/repos/' + GH_REPO + '/contents/' + INFOS_PATH + '?ref=main', token);
+  if (r.status === 404) return { text: '', sha: null };
+  if (!r.ok) throw new Error(ghMsg(r));
+  return { text: Buffer.from(r.j.content || '', 'base64').toString('utf8'), sha: r.j.sha };
+}
+async function devPublish(text, what){
+  const token = devToken(); if (!token) throw new Error('Le mode développeur n\'est pas activé.');
+  for (let k = 0; k < 2; k++) {
+    const cur = await devRead(token);
+    const r = await gh('PUT', '/repos/' + GH_REPO + '/contents/' + INFOS_PATH, token, { message: 'Infos du dev : ' + (what || 'mise à jour'), content: Buffer.from(text, 'utf8').toString('base64'), branch: 'main', ...(cur.sha ? { sha: cur.sha } : {}) });
+    if (r.ok) { try { fs.writeFileSync(path.join(DATA, 'infos-du-dev.md'), text); } catch (e) {} journal('infos du dev publiées : ' + (what || '')); return { ok: true }; }
+    if (r.status !== 409 && r.status !== 422) throw new Error(ghMsg(r));
+  }
+  throw new Error('Le fichier a changé entre-temps : réessaie.');
+}
 async function infosDev(){
   const f = path.join(DATA, 'infos-du-dev.md');
+  const tk = devToken(); if (tk) { try { const d = await devRead(tk); try { fs.writeFileSync(f, d.text); } catch (e) {} return d.text; } catch (e) {} }   // le dev lit la version fraîche, sans le cache de GitHub
   try { const r = await fetchTimeout(UPDATE_BASE + 'infos-du-dev.md', 9000); if (r.ok) { const t = await r.text(); try { fs.writeFileSync(f, t); } catch (e) {} return t; } } catch (e) {}
   try { return fs.readFileSync(f, 'utf8'); } catch (e) { return ''; }
 }
@@ -201,6 +236,11 @@ app.whenReady().then(() => {
   ipcMain.handle('updateLauncher', e => updateLauncher(BrowserWindow.fromWebContents(e.sender)));
   ipcMain.handle('reinstall', async () => { try { fs.rmSync(GAME_DIR, { recursive: true, force: true }); } catch (e) {} return check(); });
   ipcMain.handle('options', (e, o) => { saveOptions(o); return options(); });
+  ipcMain.handle('devState', () => ({ on: !!devToken() }));
+  ipcMain.handle('devSetToken', async (e, t) => { t = String(t || '').trim(); if (!t) return { ok: false, err: 'Colle d\'abord ta clé.' };
+    try { const c = await devCheck(t); if (c.ok) devSave(t); return c; } catch (err) { return { ok: false, err: 'Pas de connexion avec GitHub.' }; } });
+  ipcMain.handle('devClear', () => { try { fs.rmSync(devFile(), { force: true }); } catch (e) {} return { on: false }; });
+  ipcMain.handle('devPublish', async (e, text, what) => { try { return await devPublish(String(text), String(what || '')); } catch (err) { return { ok: false, err: String(err.message || err) }; } });
   ipcMain.on('play', () => play());
   ipcMain.on('minimize', () => launcher && launcher.minimize());
   ipcMain.on('close', () => app.quit());
