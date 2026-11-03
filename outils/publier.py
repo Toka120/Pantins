@@ -6,7 +6,7 @@ Nouvelle version du jeu :
 Nouvelle version du lanceur (après avoir changé la version dans lanceur/package.json) :
   python outils/publier.py lanceur --bug "Un bug du lanceur corrigé."
 
-Catégories possibles : maps, armes, bugs. Seuls les bugs sont détaillés aux joueurs.
+Catégories possibles : langues, maps, armes, bugs. Seuls les bugs sont détaillés aux joueurs.
 Ensuite : git add -A && git commit && git push. Les lanceurs installés voient la mise à jour au prochain contrôle.
 """
 import argparse, datetime, hashlib, json, shutil, pathlib
@@ -45,7 +45,7 @@ if a.quoi == 'jeu':
     shutil.copyfile(a.fichier, dst)
     data = dst.read_bytes()
     cats = [c.strip() for c in a.cats.split(',') if c.strip()]
-    assert all(c in ('maps', 'armes', 'bugs') for c in cats), cats
+    assert all(c in ('langues', 'maps', 'armes', 'bugs') for c in cats), cats
     notes = [n for n in latest.get('notes', []) if n.get('lanceur') or n['version'] != a.version]
     notes.insert(0, {'version': a.version, 'date': a.date, 'cats': cats, 'bugs': a.bug})
     latest.update({'version': a.version, 'date': a.date, 'file': 'game/pantins.html',
@@ -55,7 +55,7 @@ latest['lanceur'] = manifeste_lanceur()
 if a.quoi == 'lanceur':
     v = latest['lanceur']['version']
     cats = [c.strip() for c in a.cats.split(',') if c.strip()]
-    assert all(c in ('maps', 'armes', 'bugs') for c in cats), cats
+    assert all(c in ('langues', 'maps', 'armes', 'bugs') for c in cats), cats
     notes = [n for n in latest.get('notes', []) if not (n.get('lanceur') and n['version'] == v)]
     notes.insert(0, {'version': v, 'date': a.date, 'lanceur': True, 'cats': cats, 'bugs': a.bug})
     latest['notes'] = notes

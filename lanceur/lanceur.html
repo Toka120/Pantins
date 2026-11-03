@@ -203,7 +203,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--gold2);outline-offs
 (()=>{
 const $=s=>document.querySelector(s), L=window.lanceur;
 const btn=$('#btn'), st1=$('#st1'), st2=$('#st2'), dot=$('#dot'), prog=$('#prog'), bar=$('#bar');
-const CAT={maps:'Nouvelles maps',armes:'Nouvelles armes',bugs:'Corrections de bugs'};
+const CAT={langues:'Nouvelles langues',maps:'Nouvelles maps',armes:'Nouvelles armes',bugs:'Corrections de bugs'};
 const MOIS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
 const fdate=d=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d||''); return m?`${+m[3]} ${MOIS[+m[2]-1]} ${m[1]}`:''; };
 const mo=n=>(n/1048576).toFixed(1).replace('.',',')+' Mo';

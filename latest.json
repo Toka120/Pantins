@@ -6,13 +6,24 @@
   "size": 2804960,
   "notes": [
     {
-      "version": "1.2.0",
+      "version": "1.1.4",
       "date": "2026-11-03",
+      "lanceur": true,
       "cats": [
         "bugs"
       ],
       "bugs": [
-        "Le jeu n'existait qu'en français : il est maintenant traduit en anglais, espagnol, allemand, italien et arabe. La langue se choisit au premier lancement, et à tout moment dans Paramètres.",
+        "Les notes de mise à jour ne savaient afficher que des maps, des armes ou des bugs : elles annoncent maintenant aussi les nouvelles langues."
+      ]
+    },
+    {
+      "version": "1.2.0",
+      "date": "2026-11-03",
+      "cats": [
+        "langues",
+        "bugs"
+      ],
+      "bugs": [
         "Au Récif-Cabaret, le niveau plantait à cause d'un lustre mal dessiné : il se charge de nouveau normalement.",
         "Dans l'Épave du galion, parler à Lin, le mousse, lançait une conversation d'un autre niveau : il retrouve ses propres répliques.",
         "Dans les touches, « Retour arrière » s'affichait comme « Retour »."
@@ -124,7 +135,7 @@
     }
   ],
   "lanceur": {
-    "version": "1.1.3",
+    "version": "1.1.4",
     "path": "lanceur/",
     "files": [
       {
@@ -134,8 +145,8 @@
       },
       {
         "name": "lanceur.html",
-        "sha256": "c56e919d721a954206cd63c52b04a82a812d451c6c85275eaf9373522df314b5",
-        "size": 32095
+        "sha256": "224ee6ad0662fbce61ed17895921355fc8605f299471305b9eedd61a7dbc2c40",
+        "size": 32123
       },
       {
         "name": "preload-lanceur.js",
@@ -154,7 +165,7 @@
       },
       {
         "name": "package.json",
-        "sha256": "1b204d7c33802527f047b05ef3e88a7e9f7b33741e1319b732bf452fb3cee9c7",
+        "sha256": "04c40475a9466ba391c5faf26c7f9ff8210b81e5d415082c16028e75b36f6226",
         "size": 170
       }
     ]
