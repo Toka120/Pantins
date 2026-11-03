@@ -231,7 +231,7 @@ const Discord = { sock: null, ready: false, want: null, t0: Date.now(), retry: n
   apply(){ if (!this.ready || !this.want) return; const L = options().lang || 'fr', T = k => DTR[k][L] || DTR[k].fr;
     this.send(1, { cmd: 'SET_ACTIVITY', nonce: String(Date.now()), args: { pid: process.pid, activity: {
       details: T(this.want), timestamps: { start: Math.floor(this.t0 / 1000) },
-      assets: { large_image: 'logo', large_text: 'Pantins' }, buttons: [{ label: T('btn'), url: DISCORD_URL }] } } }); }
+      assets: this.want === 'jeu' ? { large_image: 'theatre', large_text: T('jeu'), small_image: 'logo', small_text: 'Pantins' } : { large_image: 'logo', large_text: 'Pantins' }, buttons: [{ label: T('btn'), url: DISCORD_URL }] } } }); }
 };
 function play(){
   if (game) { game.focus(); return; }

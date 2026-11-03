@@ -6,6 +6,15 @@
   "size": 3070189,
   "notes": [
     {
+      "version": "1.1.6",
+      "date": "2026-11-04",
+      "lanceur": true,
+      "cats": [
+        "nouveautes"
+      ],
+      "bugs": []
+    },
+    {
       "version": "1.1.5",
       "date": "2026-11-03",
       "lanceur": true,
@@ -210,13 +219,13 @@
     }
   ],
   "lanceur": {
-    "version": "1.1.5",
+    "version": "1.1.6",
     "path": "lanceur/",
     "files": [
       {
         "name": "main.js",
-        "sha256": "c639770480814cd04670c0d901bcc907ad81de3ab406768e3a96421efa021b91",
-        "size": 22058
+        "sha256": "47b0f5279d8e1102b108931e5122c20e168f9704dc38555acf7272541ad31898",
+        "size": 22175
       },
       {
         "name": "lanceur.html",
@@ -240,7 +249,7 @@
       },
       {
         "name": "package.json",
-        "sha256": "eacb5bbd4d86bc1c327a9b25075fe3f8b83abb4edc5360b96aafe7aec51407a8",
+        "sha256": "87aacd3563d6c4b04b62178cb45c2ce6c2c702cbc275f1f0d3d923e8d3871d1c",
         "size": 170
       }
     ]
