@@ -108,3 +108,7 @@ Les lanceurs installés récupèrent la version au démarrage suivant.
 *Écrite et mise en scène par **Toks** · 2026*
 
 </div>
+
+---
+
+<sub>[Conditions générales d'utilisation](docs/conditions-utilisation.md)</sub>
