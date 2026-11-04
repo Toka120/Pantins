@@ -6,7 +6,7 @@ Bienvenue dans **Pantins**, un jeu de réflexes au théâtre. Ces conditions exp
 
 ## 1. Qui édite Pantins
 
-Pantins (le jeu et son lanceur) est créé et publié par **Toka120**, développeur indépendant, sur la page [github.com/Toka120/Pantins](https://github.com/Toka120/Pantins). Dans ce texte, « l'auteur » désigne Toka120, et « le jeu » désigne Pantins, son lanceur et leurs mises à jour.
+Pantins (le jeu et son lanceur) est créé et publié par **Toks** (Toka120 sur GitHub), développeur indépendant, sur la page [github.com/Toka120/Pantins](https://github.com/Toka120/Pantins). Dans ce texte, « l'auteur » désigne Toks, et « le jeu » désigne Pantins, son lanceur et leurs mises à jour.
 
 ## 2. Un jeu gratuit, pour un usage personnel
 
