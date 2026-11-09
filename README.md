@@ -10,6 +10,8 @@
 
 ### [⬇ Télécharger Pantins pour Windows](https://github.com/Toka120/Pantins/releases/latest)
 
+[![Téléchargements](https://img.shields.io/github/downloads/Toka120/Pantins/total?label=t%C3%A9l%C3%A9chargements&color=7d1219&style=for-the-badge)](https://github.com/Toka120/Pantins/releases)
+
 </div>
 
 ---
